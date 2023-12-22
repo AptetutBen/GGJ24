@@ -22,6 +22,10 @@ namespace noWeekend
 		public bool hideAfterDisable;
 		public bool useUnscaledTime;
 
+		private bool isActive;
+
+		public bool IsActive => isActive;
+
 		private List<CanvasRenderer> canvasRenderers;
 		private List<Image> images;
 
@@ -116,7 +120,9 @@ namespace noWeekend
         //Checks if a given ease action is the first of its type in a sequence
         private bool IsEaseActionFirstOfType(List<EaseAction> easeActions,EaseAction easeAction)
         {
-            EaseAction firstOfTypeAction = easeActions.Where(item => item.easeType == easeAction.easeType).Aggregate((min, next) => next.delay < min.delay ? next : min);
+			EaseAction[] actions = easeActions.Where(item => item.EaseActionType == easeAction.EaseActionType).ToArray();
+
+			EaseAction firstOfTypeAction = easeActions.Where(item => item.EaseActionType == easeAction.EaseActionType).OrderBy(item => item.delay).First();
 
             return easeAction == firstOfTypeAction;
 		}
@@ -124,7 +130,7 @@ namespace noWeekend
 		//Checks if a given ease action is the first of its type in a sequence
 		private bool IsEaseActionLastOfType(List<EaseAction> easeActions, EaseAction easeAction)
 		{
-			EaseAction lastOfTypeAction = easeActions.Where(item => item.easeType == easeAction.easeType).Aggregate((max, next) => next.delay + next.duration > max.delay + max.duration ? next : max);
+			EaseAction lastOfTypeAction = easeActions.Where(item => item.EaseActionType == easeAction.EaseActionType).Aggregate((max, next) => next.delay + next.duration > max.delay + max.duration ? next : max);
 
 			return easeAction == lastOfTypeAction;
 		}
@@ -294,6 +300,7 @@ namespace noWeekend
 			//Run any on complete Actions
 			onActivateCompleteAction?.Invoke();
 			onComplete?.Invoke();
+			isActive = true;
 		}
 
 		// -----------------------------------------------------------------
@@ -323,8 +330,10 @@ namespace noWeekend
 		//Deactivate Ease actions coroutine
 		public IEnumerator DeactivateCoroutine(Action onComplete = null)
 		{
-            //Get the length of the longest tween (including delay)
-            float longestTween = LongestDeactivateTween;
+			isActive = false;
+
+			//Get the length of the longest tween (including delay)
+			float longestTween = LongestDeactivateTween;
 
 			//Loop through each active tween 
 			float timer = 0;
