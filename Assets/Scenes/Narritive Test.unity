@@ -682,6 +682,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 572433974}
     m_Modifications:
+    - target: {fileID: 2324791572207992175, guid: 818c0591bed694eedabdefdbab66ee2c, type: 3}
+      propertyPath: m_Name
+      value: Narritave Panel Center
+      objectReference: {fileID: 0}
     - target: {fileID: 2947439325144809222, guid: 818c0591bed694eedabdefdbab66ee2c, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -700,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6499419679489895988, guid: 818c0591bed694eedabdefdbab66ee2c, type: 3}
       propertyPath: m_Name
-      value: Narritive Panel
+      value: Narrative Panel
       objectReference: {fileID: 0}
     - target: {fileID: 7397620736889988693, guid: 818c0591bed694eedabdefdbab66ee2c, type: 3}
       propertyPath: m_Pivot.x

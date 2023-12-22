@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using noWeekend;
 
-public class NarritivePanel : MonoBehaviour
+public class NarrativePanel : MonoBehaviour
 {
 	[Tooltip("Characters per Second")]
 	public float speed = 1;
