@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+	public static GameController instince; 
 	public AudioClip musicClip;
 	public GameObject pausePanel;
 	public OptionsPanel optionsPanel;
+	public List<Color> playerColours = new List<Color>();
+	private NetworkController networkController;
 
 	// Debug Options
 	[Space]
@@ -15,6 +18,7 @@ public class GameController : MonoBehaviour
 
 	private void Awake()
 	{
+		instince = this;
 
 #if !UNITY_EDITOR
 		Debug_Use_Debug = false;
@@ -27,9 +31,33 @@ public class GameController : MonoBehaviour
     {
         AudioManager.instance.SwitchMusicClip(musicClip);
 		pausePanel.SetActive(false);
+		networkController = NetworkController.instance;
+
+
+		Invoke("ConnectNetwork", 1);
+    }
+
+	private void ConnectNetwork()
+    {
+		switch (GameFlowController.gameMode)
+		{
+			case GameFlowController.GameMode.Client:
+				networkController.StartClient();
+				break;
+			case GameFlowController.GameMode.Host:
+				networkController.StartHost();
+				break;
+			case GameFlowController.GameMode.Server:
+				break;
+			case GameFlowController.GameMode.Solo:
+				networkController.StartHost();
+				break;
+			default:
+				break;
+		}
 	}
 
-	private void Update()
+    private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{

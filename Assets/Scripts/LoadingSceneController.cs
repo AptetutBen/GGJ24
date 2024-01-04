@@ -34,8 +34,8 @@ public class LoadingSceneController : MonoBehaviour
 			//Load in the new scene.
 			AsyncOperation loadLevel = SceneManager.LoadSceneAsync(GameFlowController.desiredSceneToLoad, LoadSceneMode.Additive);
 
-			// Show the loading graphics if requested
-			loadingGraphics.alpha = GameFlowController.loadUsingLoadingBar ? 1 : 0;
+            // Show the loading graphics if requested
+            loadingGraphics.alpha = GameFlowController.loadUsingLoadingBar ? 1 : 0;
 
 			// Wait until the level is loaded
 			while (!loadLevel.isDone)
@@ -47,6 +47,9 @@ public class LoadingSceneController : MonoBehaviour
 				}
 				yield return null;
 			}
+
+
+			SceneManager.SetActiveScene(SceneManager.GetSceneByName(GameFlowController.desiredSceneToLoad));
 
 			// Hide the loading graphics
 			loadingGraphics.alpha = 0;

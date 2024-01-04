@@ -11,12 +11,18 @@ public static class GameFlowController
 	But can be expanded to store the last scene the player was is in last time they were playing etc.
 	*/
 
+	public enum GameMode { Client, Host, Server, Solo}
+
+	public static GameMode gameMode = GameMode.Solo;
+	public static string ipAddress;
+	public static ushort host;
+
 	public static string desiredSceneToLoad;	// The next scene requested to load
 	public static string previousScene;	// The current scene that is loaded
 	public static bool loadUsingLoadingBar; // Sets if the loading screen should use a loading bar (for long loads)
 
 	// When called will switch scenes using the loading screen
-	public static void LoadScene(string sceneToLoad,bool useLoadingBar)
+	public static void LoadScene(string sceneToLoad,bool useLoadingBar = false)
 	{
 		// Gets the current scene name for later use
 		previousScene = SceneManager.GetActiveScene().name;
@@ -31,4 +37,17 @@ public static class GameFlowController
 		SceneManager.LoadSceneAsync("Loading Scene",LoadSceneMode.Additive);
 	}
 
+	public static void SetHost()
+    {
+		gameMode = GameMode.Host;
+		LoadScene("Main Game");
+	}
+
+	public static void SetClient(string address, ushort hostNumber)
+    {
+		gameMode = GameMode.Client;
+		ipAddress = address;
+		host = hostNumber;
+		LoadScene("Main Game");
+	}
 }
