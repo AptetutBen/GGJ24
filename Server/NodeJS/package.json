@@ -1,0 +1,21 @@
+{
+  "name": "com.luisvsm.ggj2024",
+  "version": "1.0.0",
+  "description": "NodeJS backend for whatever GGJ game we make",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node src/index.ts",
+    "install-distribution-packages":"cp package.json dist && cd dist && npm install --omit=dev",
+    "install-distribution-packages-windows":"copy package.json dist && cd dist && npm install --omit=dev",
+    "build-windows": "tsc && npm run install-distribution-packages-windows",
+    "build": "tsc && npm run install-distribution-packages"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
