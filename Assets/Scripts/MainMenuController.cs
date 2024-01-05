@@ -24,6 +24,19 @@ public class MainMenuController : MonoBehaviour
         AudioManager.instance.SwitchMusicClip(musicClip);
         networkController = NetworkController.instance;
         optionsPanel.Hide();
+        
+		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
+		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful)=>{
+			if(wasSuccessful){
+				Debug.Log("Connected to account server");
+			}else{
+				Debug.Log("Failed to connect to account server");
+			}
+		});
+	}
+
+	private void OnAccountServerStateChange(AccountServerState newState){
+		Debug.Log($"New account server state: {newState.ToString()}");
 	}
 
     // When the player presses the start button
