@@ -10,8 +10,9 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.Linq;
 using System;
+#if UNITY_EDITOR
 using ParrelSync;
-
+#endif
 public class NetworkController : MonoBehaviour
 {
     public static NetworkController instance;
@@ -103,7 +104,12 @@ public class NetworkController : MonoBehaviour
 
     public bool IsDefaultServer()
     {
-        return !ClonesManager.IsClone();
+#if UNITY_EDITOR
+    return !ClonesManager.IsClone();
+#else
+        return true;
+#endif
+
     }
 }
 
