@@ -33,12 +33,27 @@ public class GameController : MonoBehaviour
 		pausePanel.SetActive(false);
 		networkController = NetworkController.instance;
 
-
 		Invoke("ConnectNetwork", 1);
     }
 
 	private void ConnectNetwork()
     {
+		// For testing in editor 
+        if (!GameFlowController.loadedOtherScene)
+        {
+            if (!networkController.IsDefaultServer())
+            {
+				Debug.Log("Editor Loading Starting Client");
+				networkController.StartClient();
+			}
+            else
+            {
+				Debug.Log("Editor Loading Starting Host");
+				networkController.StartHost();
+			}
+			return;
+        }
+
 		switch (GameFlowController.gameMode)
 		{
 			case GameFlowController.GameMode.Client:

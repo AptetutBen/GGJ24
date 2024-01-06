@@ -11,6 +11,7 @@ public class NetworkConnectionPanel : MonoBehaviour
 {
     public TMP_InputField addressInputField;
     public TMP_InputField portInputField;
+    public TMP_InputField playerNameInputField;
 
     private void Start()
     {
@@ -30,6 +31,13 @@ public class NetworkConnectionPanel : MonoBehaviour
     {
         string ipAddress = addressInputField.text;
         string portString = portInputField.text;
+        string playerName = playerNameInputField.text;
+
+        if (string.IsNullOrEmpty(playerName))
+        {
+            Debug.LogError("Non Valid playerName");
+            return;
+        }
 
         ushort portShort;
 
@@ -45,7 +53,7 @@ public class NetworkConnectionPanel : MonoBehaviour
             return;
         }
 
-        GameFlowController.SetClient(ipAddress, portShort);
+        GameFlowController.SetClient(ipAddress, portShort, playerName);
     }
 
     private bool IsValidIpAddress(string ipAddress)

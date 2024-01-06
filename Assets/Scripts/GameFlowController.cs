@@ -16,10 +16,13 @@ public static class GameFlowController
 	public static GameMode gameMode = GameMode.Solo;
 	public static string ipAddress;
 	public static ushort host;
+	public static string playerName = "Test Player";
+	public static Color playerColor = Color.blue;
 
 	public static string desiredSceneToLoad;	// The next scene requested to load
 	public static string previousScene;	// The current scene that is loaded
 	public static bool loadUsingLoadingBar; // Sets if the loading screen should use a loading bar (for long loads)
+	public static bool loadedOtherScene;
 
 	// When called will switch scenes using the loading screen
 	public static void LoadScene(string sceneToLoad,bool useLoadingBar = false)
@@ -35,6 +38,9 @@ public static class GameFlowController
 
 		// Loads the loading scene which takes over the rest of the process
 		SceneManager.LoadSceneAsync("Loading Scene",LoadSceneMode.Additive);
+
+		loadedOtherScene = true;
+
 	}
 
 	public static void SetHost()
@@ -43,10 +49,11 @@ public static class GameFlowController
 		LoadScene("Main Game");
 	}
 
-	public static void SetClient(string address, ushort hostNumber)
+	public static void SetClient(string address, ushort hostNumber,string name)
     {
 		gameMode = GameMode.Client;
 		ipAddress = address;
+		playerName = name;
 		host = hostNumber;
 		LoadScene("Main Game");
 	}
