@@ -1,7 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Drawing;
 using Unity.Netcode;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class SpawnedNetworkObject : NetworkBehaviour
 {
@@ -12,20 +13,23 @@ public class SpawnedNetworkObject : NetworkBehaviour
 
     public SpriteRenderer spriteRenderer;
 
-    public void Initialise(NetworkPlayer owner)
+    public Color objectColour;
+
+    public void Initialise(NetworkPlayer owner,Color color)
     {
         this.owner = owner;
-        networkObject = GetComponent<NetworkObject>();
+		objectColour = color;
+		networkObject = GetComponent<NetworkObject>();
         networkObject.Spawn();
 
         StartCoroutine(timedDestory());
-        InitialiseClientRPC(Color.red);
+        InitialiseClientRPC();
         IEnumerator timedDestory()
         {
             yield return new WaitForSeconds(5);
             DestoryServerRPC();
         }
-    }
+	}
 
     [ServerRpc(RequireOwnership = false)]
     public void DestoryServerRPC()
@@ -34,8 +38,13 @@ public class SpawnedNetworkObject : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void InitialiseClientRPC(Color color)
+    public void InitialiseClientRPC()
     {
-        spriteRenderer.color = color;
-    }
+		spriteRenderer.color = objectColour;
+	}
+
+	public override void OnNetworkSpawn()
+	{
+		spriteRenderer.color = objectColour;
+	}
 }

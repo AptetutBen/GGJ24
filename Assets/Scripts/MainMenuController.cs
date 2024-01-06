@@ -12,8 +12,8 @@ public class MainMenuController : MonoBehaviour
      * 
      */
 
-    public WeekendTween buttonsPanelTween, networkPanelTween;
-
+    public WeekendTween buttonsPanelTween;
+    public NetworkConnectionPanel networkConnectionPanel;
     public AudioClip musicClip;
     public OptionsPanel optionsPanel;
     private NetworkController networkController;
@@ -55,19 +55,21 @@ public class MainMenuController : MonoBehaviour
 
     public void OnHostButtonPress()
     {
-        GameFlowController.SetHost();
-    }
+		buttonsPanelTween.Deactivate(
+			() => networkConnectionPanel.Show(true)
+		);
+	}
 
-    public void OnMultiplayerButtonPress()
+    public void OnClientButtonPress()
     {
         buttonsPanelTween.Deactivate(
-            () => networkPanelTween.Activate()
+            () => networkConnectionPanel.Show(false)
         );
     }
 
     public void OnExitMultiplayerButtonPress()
     {
-        networkPanelTween.Deactivate(
+		networkConnectionPanel.Hide(
             () => buttonsPanelTween.Activate()
         );
     }

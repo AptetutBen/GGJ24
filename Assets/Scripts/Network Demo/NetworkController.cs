@@ -27,7 +27,6 @@ public class NetworkController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(IsDefaultServer());
         if(instance != null)
         {
             Destroy(gameObject);
