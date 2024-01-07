@@ -11,6 +11,7 @@ public class SpawnedNetworkObject : NetworkBehaviour
     public NetworkPlayer Owner => owner;
 
     public SpriteRenderer spriteRenderer;
+    public float duration;
 
     public void Initialise(NetworkPlayer owner)
     {
@@ -37,5 +38,26 @@ public class SpawnedNetworkObject : NetworkBehaviour
     public void InitialiseClientRPC(Color color)
     {
         spriteRenderer.color = color;
+    }
+
+    public void Awake()
+    {
+        StartCoroutine(Play());
+    }
+
+    IEnumerator Play()
+    {
+        float timer = 0;
+
+        while (timer < 1)
+        {
+            timer += Time.deltaTime / duration;
+            spriteRenderer.material.SetFloat("_Value", timer);
+
+            Debug.Log(timer);
+            yield return null;
+        }
+
+        timer = 0;
     }
 }
