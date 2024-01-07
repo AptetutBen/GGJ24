@@ -44,11 +44,13 @@ public class GameController : MonoBehaviour
             if (!networkController.IsDefaultServer())
             {
 				Debug.Log("Editor Loading Starting Client");
+				GameFlowController.SetClientQuickStart();
 				networkController.StartClient();
 			}
             else
             {
 				Debug.Log("Editor Loading Starting Host");
+				GameFlowController.SetHostQuickStart();
 				networkController.StartHost();
 			}
 			return;

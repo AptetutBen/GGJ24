@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,10 +12,10 @@ public static class GameFlowController
 	public enum GameMode { Client, Host, Server, Solo}
 
 	public static GameMode gameMode = GameMode.Solo;
-	public static string ipAddress;
-	public static ushort host;
-	public static string playerName = "Test Player";
-	public static Color playerColor = Color.blue;
+	public static string ipAddress = "127.0.0.1";
+	public static ushort host = 7777;
+	public static string playerName = "Not Set Up";
+	public static Color playerColor = Color.red;
 
 	public static string desiredSceneToLoad;	// The next scene requested to load
 	public static string previousScene;	// The current scene that is loaded
@@ -43,18 +41,41 @@ public static class GameFlowController
 
 	}
 
-	public static void SetHost()
-    {
-		gameMode = GameMode.Host;
-		LoadScene("Main Game");
+
+	public static void SetHostQuickStart()
+	{
+		playerName = Tools.GenerateRandomName();
+		playerColor = Tools.RandomColour();
 	}
 
-	public static void SetClient(string address, ushort hostNumber,string name)
+	public static void SetHost(string name, Color color, bool startNetwork = true)
+    {
+		playerName = name;
+		playerColor = color;
+		gameMode = GameMode.Host;
+
+		if (startNetwork)
+		{
+			LoadScene("Main Game");
+		}
+	}
+
+	public static void SetClientQuickStart()
+	{
+		gameMode = GameMode.Client;
+		ipAddress = "127.0.0.1";
+		playerName = Tools.GenerateRandomName();
+		host = 7777;
+		playerColor = Tools.RandomColour();
+	}
+
+	public static void SetClient(string address, ushort hostNumber,string name,Color color)
     {
 		gameMode = GameMode.Client;
 		ipAddress = address;
 		playerName = name;
 		host = hostNumber;
+		playerColor = color;
 		LoadScene("Main Game");
 	}
 }

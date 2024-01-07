@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
+using System;
 using System.Text.RegularExpressions;
+using noWeekend;
 using TMPro;
 using UnityEngine;
 
@@ -11,34 +8,59 @@ public class NetworkConnectionPanel : MonoBehaviour
 {
     public TMP_InputField addressInputField;
     public TMP_InputField portInputField;
-    public TMP_InputField playerNameInputField;
+	public TMP_InputField playerNameInputField;
+    public TouchButton confirmButton;
+    public FlexibleColorPicker colourPicker;
+	public WeekendTween tween;
+    private bool isHost;
 
     private void Start()
     {
-        //addressInputField.text = networkController.IPAddress;
-        //portInputField.text = networkController.Port;
 #if UNITY_EDITOR
         addressInputField.text = "127.0.0.1";
 #endif
     }
 
-    public void OnHostButtonPress()
+    public void Show(bool isHost)
     {
-        GameFlowController.SetHost();
+        this.isHost = isHost;
+        addressInputField.gameObject.SetActive(!isHost);
+        portInputField.gameObject.SetActive(!isHost);
+
+        colourPicker.color = Tools.RandomColour();
+
+        confirmButton.UpdateText(isHost ? "Create" : "Connect");
+
+        if(playerNameInputField.text == "")
+        {
+            playerNameInputField.text = Tools.GenerateRandomName();
+		}
+
+		tween.Activate();
     }
+
+    public void Hide(Action andThen)
+    {
+		tween.Deactivate(andThen);
+	}
 
     public void OnConnectClientButtonPress()
     {
-        string ipAddress = addressInputField.text;
-        string portString = portInputField.text;
-        string playerName = playerNameInputField.text;
+		string playerName = playerNameInputField.text;
 
-        if (string.IsNullOrEmpty(playerName))
+		if (string.IsNullOrEmpty(playerName))
+		{
+            playerName = Tools.GenerateRandomName();
+		}
+
+        if (isHost)
         {
-            Debug.LogError("Non Valid playerName");
+            GameFlowController.SetHost(playerName, colourPicker.color);
             return;
-        }
+		}
 
+		string ipAddress = addressInputField.text;
+        string portString = portInputField.text;
         ushort portShort;
 
         if (!ushort.TryParse(portString, out portShort) || !IsValidPortNumber(portShort))
@@ -53,7 +75,7 @@ public class NetworkConnectionPanel : MonoBehaviour
             return;
         }
 
-        GameFlowController.SetClient(ipAddress, portShort, playerName);
+        GameFlowController.SetClient(ipAddress, portShort, playerName,colourPicker.color);
     }
 
     private bool IsValidIpAddress(string ipAddress)
@@ -68,4 +90,6 @@ public class NetworkConnectionPanel : MonoBehaviour
     {
         return port >= 1 && port <= 65535;
     }
+
+
 }
