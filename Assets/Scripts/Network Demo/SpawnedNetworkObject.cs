@@ -13,6 +13,8 @@ public class SpawnedNetworkObject : NetworkBehaviour
     public NetworkPlayer Owner => owner;
 
 	public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.white, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public SpriteRenderer spriteRenderer;
+    public float duration;
 
 	public SpriteRenderer spriteRenderer;
 
@@ -68,5 +70,33 @@ public class SpawnedNetworkObject : NetworkBehaviour
         networkObject.Despawn();
     }
 
+    [ClientRpc]
+    public void InitialiseClientRPC()
+    {
+        spriteRenderer.color = color;
+    }
+
+    public void Awake()
+    {
+        StartCoroutine(Play());
+    }
+
+    IEnumerator Play()
+    {
+        float timer = 0;
+
+        while (timer < 1)
+        {
+            timer += Time.deltaTime / duration;
+            spriteRenderer.material.SetFloat("_Value", timer);
+
+            Debug.Log(timer);
+            yield return null;
+        }
+
+        timer = 0;
+    }
+		spriteRenderer.color = objectColour;
+	}
 
 }
