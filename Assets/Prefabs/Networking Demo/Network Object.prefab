@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2409295188
+  GlobalObjectIdHash: 2548123915
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -118,4 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bd177a682a7403ebd328f25723c28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColour:
+    m_InternalValue: {r: 1, g: 1, b: 1, a: 1}
   spriteRenderer: {fileID: 7779546273108435598}

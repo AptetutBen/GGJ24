@@ -35,10 +35,9 @@ public class NetworkPlayer : NetworkBehaviour
 		playerNameText.color = playerColour.Value;
 	}
 
-
 	public override void OnNetworkSpawn()
     {
-        mainCamera = Camera.main;
+		mainCamera = Camera.main;
 
         if (IsOwner)
         {
@@ -94,7 +93,6 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
-
         if (Input.GetMouseButtonDown(0))
         {
             SpawnNetworkObjectServerRPC(GetMousePosition(), playerColour.Value);
@@ -104,9 +102,10 @@ public class NetworkPlayer : NetworkBehaviour
     [ServerRpc]
     private void SpawnNetworkObjectServerRPC(Vector3 position,Color color)
     {
-        SpawnedNetworkObject spawnObject = Instantiate(spawnObjectPrefab, position, Quaternion.identity);
-        spawnObject.Initialise(this, color);
-    }
+		SpawnedNetworkObject spawnObject = Instantiate(spawnObjectPrefab, position, Quaternion.identity);
+        spawnObject.GetComponent<NetworkObject>().Spawn();
+
+	}
 
     public void MoveCursor()
     {
