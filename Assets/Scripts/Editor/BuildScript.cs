@@ -166,7 +166,7 @@ public class BuildScript
     private static void stopLoggingErrors(){
         Application.logMessageReceived -= logMessage;
         if(errorOutput != ""){
-            System.IO.File.WriteAllText(@"./builds/lastbuild/errorOutput.txt", errorOutput);
+            System.IO.File.WriteAllText(@"./errorOutput.txt", errorOutput);
         }
     }
 }
