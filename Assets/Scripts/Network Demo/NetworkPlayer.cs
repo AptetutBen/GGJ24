@@ -104,6 +104,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
 		SpawnedNetworkObject spawnObject = Instantiate(spawnObjectPrefab, position, Quaternion.identity);
         spawnObject.GetComponent<NetworkObject>().Spawn();
+        spawnObject.playerColour.Value = color;
 
 	}
 

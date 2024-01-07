@@ -16,11 +16,10 @@ public class SpawnedNetworkObject : NetworkBehaviour
     public SpriteRenderer spriteRenderer;
     public float duration;
 
-	public SpriteRenderer spriteRenderer;
-
 	private void Awake()
 	{
 		playerColour.OnValueChanged += OnColourChanged;
+		StartCoroutine(Play());
 	}
 
 	private void OnColourChanged(Color prev, Color next) => spriteRenderer.color = next;
@@ -73,12 +72,7 @@ public class SpawnedNetworkObject : NetworkBehaviour
     [ClientRpc]
     public void InitialiseClientRPC()
     {
-        spriteRenderer.color = color;
-    }
-
-    public void Awake()
-    {
-        StartCoroutine(Play());
+        spriteRenderer.color = playerColour.Value;
     }
 
     IEnumerator Play()
@@ -93,10 +87,6 @@ public class SpawnedNetworkObject : NetworkBehaviour
             Debug.Log(timer);
             yield return null;
         }
-
-        timer = 0;
-    }
-		spriteRenderer.color = objectColour;
 	}
 
 }
