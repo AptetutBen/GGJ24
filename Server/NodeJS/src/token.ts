@@ -11,6 +11,8 @@ interface UserToken {
     data?: UserTokenData;
 }
 
+let jwtSecret = "ChangeToUseSecretManagerToStoreSecret"
+
 export class TokenManager {
 
     constructor() {}
@@ -20,10 +22,9 @@ export class TokenManager {
             valid:false
         }
 
-        // invalid token - synchronous
         try {
+            token.data = jwt.verify(inputToken, jwtSecret) as UserTokenData;
             token.valid = true
-            token.data = jwt.verify(inputToken, 'wrong-secret') as UserTokenData;
         } catch(err) {
             if (inputToken.length < 600){
                 console.log("Invalid token: " + inputToken.toString())
@@ -42,7 +43,7 @@ export class TokenManager {
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 48) // 48 hours
         }
 
-        return jwt.sign(newToken, 'ChangeToUseSecretManagerToStoreSecret');
+        return jwt.sign(newToken, jwtSecret);
     };
 }
 
