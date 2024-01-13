@@ -22,7 +22,7 @@ public class AccountServerSocketConnection
     NetworkStream openConnection = null;
     CancellationTokenSource cancelSource;
 
-    public async void ConnectToAccountServer(string sessionToken, Action<AccountServerState> onConnectionStateChange){
+    public void ConnectToAccountServer(string sessionToken, Action<AccountServerState> onConnectionStateChange){
         cancelSource = new CancellationTokenSource();
         Task task = Task.Run(() => ConnectToAccountServerTask(sessionToken, onConnectionStateChange, cancelSource.Token), cancelSource.Token);
     }
