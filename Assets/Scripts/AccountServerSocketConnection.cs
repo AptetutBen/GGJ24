@@ -59,17 +59,20 @@ public class AccountServerSocketConnection
                         nextMessageLength = BitConverter.ToUInt16(receiveBuffer, readPos);
                         // UnityEngine.Debug.Log($"nextMessageLength: {nextMessageLength}");
                         reconstructPos = 0;
-                        readPos += 2;
+                        readPos += 2; 
+                        received = received - 2; // We just read 2 bytes so we need to take 2 off received before the code below runs
                     }
 
                     // Either the expected message length or the number of bytes received, whichever is lower
                     bytesToRead = Mathf.Min(nextMessageLength - reconstructPos, received);
+                    if(bytesToRead == 0)
+                        break;
 
                     
                     // The message might be split over multiple receive reads
                     // Or we could have multiple messages in one receive read
                     // So copy the receieved bytes into a reconstruction buffer that we can use to reconstruct to handle those cases.
-                    UnityEngine.Debug.Log($"Copying {bytesToRead} to reconstructBuffer");
+                    // UnityEngine.Debug.Log($"Copying {bytesToRead} bytes to reconstructBuffer receiveBuffer[{readPos}] reconstructBuffer[{reconstructPos}]");
                     Array.Copy(receiveBuffer, readPos,  reconstructBuffer, reconstructPos, bytesToRead);
 
                     // Add the number of bytes that we just read into the reconstruction index position
