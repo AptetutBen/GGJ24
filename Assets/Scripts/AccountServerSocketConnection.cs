@@ -17,8 +17,8 @@ public class AccountServerSocketConnection
 
     }
 
-    byte[] receiveBuffer = new byte[1024];
-    byte[] reconstructBuffer = new byte[10240];
+    byte[] receiveBuffer = new byte[1024000];
+    byte[] reconstructBuffer = new byte[10240000]; // 10 megabytes
     NetworkStream openConnection = null;
     CancellationTokenSource cancelSource;
 
