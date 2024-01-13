@@ -48,7 +48,7 @@ public class AccountServerSocketConnection
             onConnectionStateChange(AccountServerState.Connected);
             while(received > 0 && infiniteLoopCatcherLol > 0){ 
                 // New message!
-                //UnityEngine.Debug.Log($"Got TCP message of length: {received}");
+                // UnityEngine.Debug.Log($"Got TCP message of length: {received}");
                 readPos = 0;
                 
                 while(readPos < received && infiniteLoopCatcherLol > 0){
@@ -165,5 +165,15 @@ public class AccountServerSocketConnection
         }
 
         return returnData;
+    }
+
+    public bool SendMessage(AccountServerRequest request){
+        if(openConnection == null)
+            return false;
+            
+        UnityEngine.Debug.Log("Sending messasge");
+        openConnection.Write(Encoding.ASCII.GetBytes(request.ToJSON()));
+
+        return true;
     }
 }

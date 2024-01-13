@@ -131,16 +131,58 @@ public class AccountServerManager : MonoBehaviour
     }
 
     void Update(){
-        if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
-            byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
-            if(dataFromAccountServer != null){
-                Debug.Log($"Message received: \"{Encoding.UTF8.GetString(dataFromAccountServer)}\"");
+    if(currentStateFromBackgroundThread != null){
+        ChangeState((AccountServerState) currentStateFromBackgroundThread);
+        currentStateFromBackgroundThread = null;
+    }
+
+    if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
+        byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
+        if(dataFromAccountServer != null){
+            // First two bytes are a uint16 to denote what type of message it is
+            // The rest of the message is JSON data of the message
+            UInt16 messageType = BitConverter.ToUInt16(dataFromAccountServer, 0);
+            string messageData = Encoding.UTF8.GetString(dataFromAccountServer, 2, dataFromAccountServer.Length - 2);
+            
+            AccountServerMessage message;
+            Debug.Log($"Message type {messageType} received: \"{messageData}\"");
+
+            switch ((MessageType) messageType){
+                case MessageType.UserInfo:
+                    message = JsonUtility.FromJson<MessasgeUserInfo>(messageData);
+                    break;
+
+                case MessageType.LobbyInfo:
+                    message = JsonUtility.FromJson<MessasgeLobbyInfo>(messageData);
+                    break;
+
+                default:
+                    Debug.Log($"Unknown message type {messageType} received: \"{messageData}\"");
+                    message = null;
+                    break;
+            }
+
+            if(message != null){
+                // TODO BEN: Put callback call here
             }
         }
+    }
+}
 
-        if(currentStateFromBackgroundThread != null){
-            ChangeState((AccountServerState) currentStateFromBackgroundThread);
-            currentStateFromBackgroundThread = null;
-        }
+    // TCP Communications Weeeewwwww :3
+    public bool JoinLobby(string lobbyID){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestJoinLobby(lobbyID));
+        return true;
+    }
+    
+    public bool LeaveLobby(){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestLeaveLobby());
+        return true;
     }
 }
