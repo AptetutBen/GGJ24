@@ -7,8 +7,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public enum MessageType{
-    UserInfo = 1,
-    LobbyInfo = 2
+    UserInfo        = 1,  // UserInfoMessasge
+    LobbyInfo       = 2,  // LobbyInfoMessasge
+    JoinLobby       = 3,  // (send back a LobbyInfo)
+    LeaveLobby      = 4,  // (send back a LobbyInfo)
+    KickPlayer      = 5,  // (send back a LobbyInfo)
+    UpdateUser      = 6,  // (1. submitting person get's a UserInfoMessasge)(2. everyone including you get's a LobbyInfo)
+    StartGame       = 7,  // Sent by the game client when it's ready (automatically or maybe when the player clicks start etc)
+    Ready           = 8,  // (1. submitting person get's a UserInfoMessasge)(2. everyone including you get's a LobbyInfo)
+    Chat            = 9,  // Sends back MessasgeChat to everyone
+    GameSettings    = 10, // 
+    ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
+    ServerInfo      = 12, // Eg where should the players join
 }
 
 public enum AccountServerState{
