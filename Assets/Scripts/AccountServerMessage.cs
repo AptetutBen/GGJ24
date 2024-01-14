@@ -1,24 +1,36 @@
 using UnityEngine;
-public class AccountServerMessage{
-
-}
+public class AccountServerMessage{}
 
 public struct UserData{
-
+    // TODO: Ben add things to this
+    // Allowed: String / floats / ints / bools
 }
 
 public struct GameSettings{
-
+    // TODO: Ben & Luis chat about what goes here
 }
 
 public class MessasgeUserInfo: AccountServerMessage{
-    public string userID; // Matched on the server side
+    public string userID; 
     public UserData userData;
+}
+
+public class MessasgeUserLobbyInfo: MessasgeUserInfo{
+    public bool ready;
+}
+
+public class MessasgeUserLobbyReady: AccountServerMessage{
+    public string userID;
+    public bool ready;
 }
 
 public class MessasgeLobbyInfo: AccountServerMessage{
     public string lobbyID;
-    public MessasgeUserInfo[] users; // First user in the array is the lobby owner
+    public MessasgeUserLobbyInfo[] users; // First user in the array is the lobby owner
+}
+
+public class MessasgeReady: AccountServerMessage{
+    public MessasgeUserLobbyReady[] users; // First user in the array is the lobby owner
 }
 
 public class MessasgeChat: AccountServerMessage{

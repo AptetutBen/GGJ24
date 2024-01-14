@@ -7,14 +7,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public enum MessageType{
-    UserInfo        = 1,  // UserInfoMessasge
-    LobbyInfo       = 2,  // LobbyInfoMessasge
+    UserInfo        = 1,  // MessasgeUserInfo
+    LobbyInfo       = 2,  // MessasgeLobbyInfo
     JoinLobby       = 3,  // (send back a LobbyInfo)
     LeaveLobby      = 4,  // (send back a LobbyInfo)
     KickPlayer      = 5,  // (send back a LobbyInfo)
-    UpdateUser      = 6,  // (1. submitting person get's a UserInfoMessasge)(2. everyone including you get's a LobbyInfo)
+    UpdateUser      = 6,  // (1. submitting person get's a MessasgeUserInfo)(2. everyone including you get's a LobbyInfo)
     StartGame       = 7,  // Sent by the game client when it's ready (automatically or maybe when the player clicks start etc)
-    Ready           = 8,  // (1. submitting person get's a UserInfoMessasge)(2. everyone including you get's a LobbyInfo)
+    Ready           = 8,  // everyone get's a MessasgeReady 
     Chat            = 9,  // Sends back MessasgeChat to everyone
     GameSettings    = 10, // 
     ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
@@ -155,6 +155,12 @@ public class AccountServerManager : MonoBehaviour
                 case MessageType.LobbyInfo:
                     message = JsonUtility.FromJson<MessasgeLobbyInfo>(messageData);
                     break;
+                case MessageType.Ready:
+                    message = JsonUtility.FromJson<MessasgeReady>(messageData);
+                    break;
+                case MessageType.Chat:
+                    message = JsonUtility.FromJson<MessasgeChat>(messageData);
+                    break;
 
                 default:
                     Debug.Log($"Unknown message type {messageType} received: \"{messageData}\"");
@@ -183,6 +189,46 @@ public class AccountServerManager : MonoBehaviour
             return false;
 
         socketConnection.SendMessage(new RequestLeaveLobby());
+        return true;
+    }
+
+    public bool KickPlayer(string userID){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestKickPlayer(userID));
+        return true;
+    }
+
+    public bool UpdateUser(UserData userData){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestUpdateUser(userData));
+        return true;
+    }
+
+    public bool Ready(bool ready){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestReady(ready));
+        return true;
+    }
+
+    public bool Chat(string chatData){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestChat(chatData));
+        return true;
+    }
+
+    public bool StartGame(){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestStartGame());
         return true;
     }
 }

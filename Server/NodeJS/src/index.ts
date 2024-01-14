@@ -15,12 +15,16 @@ interface LobbyUser {
 	userData: {[id: string]: string | number | boolean}
 	socket: net.Socket
 	lobby: Lobby
+	ready: boolean
 }
 
 interface userRequest{
-	type:MessageType
-	lobbyID?:string
-	userID?:string
+	type: MessageType
+	lobbyID?: string
+	userID?: string
+	userData?: {[id: string]: string | number | boolean}
+	ready?:boolean
+	chatData?:string
 }
 
 
@@ -94,7 +98,8 @@ function LobbyToSerialisable(lobby:Lobby){
 		lobbyToSend.users.push(
 			{
 				userID: lobby.users[i].userID,
-				userData: lobby.users[i].userData
+				userData: lobby.users[i].userData,
+				ready:  lobby.users[i].ready
 			}
 		);
 	}
@@ -102,7 +107,68 @@ function LobbyToSerialisable(lobby:Lobby){
 	return lobbyToSend;
 }
 
+function LobbyReadyToSerialisable(lobby:Lobby){
+	let lobbyToSend: {[id: string]:any} = {
+		lobbyID:lobby.id,
+		users:[]
+	}
 
+	for (let i = 0; i < lobby.users.length; i++) {
+		lobbyToSend.users.push(
+			{
+				userID: lobby.users[i].userID,
+				ready:  lobby.users[i].ready
+			}
+		);
+	}
+
+	return lobbyToSend;
+}
+
+function SendUserInfo(user: LobbyUser){
+	SendMessage(user, MessageType.UserInfo, {
+		userID:user.userID,
+		userData:user.userData
+	});
+}
+
+function SendLobbyInfo(lobby: Lobby){
+	let lobbySerialisable = LobbyToSerialisable(lobby);
+	for (let i = 0; i < lobby.users.length; i++) {
+		SendMessage(lobby.users[i], MessageType.LobbyInfo, lobbySerialisable);
+	}
+}
+
+function SendLobbyReady(lobby: Lobby){
+	let lobbySerialisable = LobbyReadyToSerialisable(lobby);
+	for (let i = 0; i < lobby.users.length; i++) {
+		SendMessage(lobby.users[i], MessageType.Ready, lobbySerialisable);
+	}
+}
+
+function SendChat(lobby: Lobby, chatData: string){
+	for (let i = 0; i < lobby.users.length; i++) {
+		SendMessage(lobby.users[i], MessageType.Chat, chatData);
+	}
+}
+
+// Make the kicked player join an empty lobby
+function KickPlayer(userToKick: string, user:LobbyUser){
+	// Check if the user is the lobby owner (position 0)
+	if(user.lobby.users[0] != user){
+		return;
+	}
+
+	// Check if the player who we're kicking is in the lobby
+	for (let i = 0; i < user.lobby.users.length; i++) {
+		const userToCkeck = user.lobby.users[i];
+		if(userToKick == userToCkeck.userID){
+			JoinEmptyLobby(userToCkeck);
+			console.log(`Kicked user ${userToKick} from lobby ${user.lobby.id} (${user.lobby.users.length} users in lobby now)`);
+			return;
+		}
+	}
+}
 
 function JoinLobby(lobbyIDToJoin: string, user:LobbyUser){
 	// Create a lobby if one doesn't exist
@@ -117,11 +183,9 @@ function JoinLobby(lobbyIDToJoin: string, user:LobbyUser){
 
 	LobbyList[lobbyIDToJoin].users.push(user);
 	user.lobby = LobbyList[lobbyIDToJoin];
+	user.ready = false;
 
-	let lobbySerialisable = LobbyToSerialisable(user.lobby);
-	for (let i = 0; i < user.lobby.users.length; i++) {
-		SendMessage(user.lobby.users[i], MessageType.LobbyInfo, lobbySerialisable);
-	}
+	SendLobbyInfo(user.lobby);
 
 	console.log(`User ${user.userID} joined lobby ${lobbyIDToJoin} (${LobbyList[lobbyIDToJoin].users.length} users in lobby now)`);
 }
@@ -143,10 +207,7 @@ function LeaveLobby(user:LobbyUser){
 			}
 		}
 
-		let lobbySerialisable = LobbyToSerialisable(user.lobby);
-		for (let i = 0; i < user.lobby.users.length; i++) {
-			SendMessage(user.lobby.users[i], MessageType.LobbyInfo, lobbySerialisable);
-		}
+		SendLobbyInfo(user.lobby);
 
 		console.log(`User ${user.userID} left lobby ${user.lobby.id} (${user.lobby.users.length} users in lobby now)`);
 	}
@@ -192,7 +253,8 @@ function HandleAnonymousMessage(socket:net.Socket, data:Buffer): LobbyUser | nul
 				lobby:{
 					id:"",
 					users:[]
-				}
+				},
+				ready: false
 			}
 		}else{
 			socket.end('goodbye');
@@ -220,7 +282,34 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 		case MessageType.LeaveLobby:
 			JoinEmptyLobby(user);
 			break;
-	
+		case MessageType.KickPlayer:
+			if(messageData.userID){
+				KickPlayer(messageData.userID.toString(), user);
+			}
+			break;
+		case MessageType.UpdateUser:
+			if(messageData.userData){
+				user.userData = messageData.userData;
+				
+				SendUserInfo(user)
+				SendLobbyInfo(user.lobby);
+			}
+			break;
+		case MessageType.Ready:
+			if(messageData.ready){
+				user.ready = messageData.ready;
+				SendLobbyReady(user.lobby);
+			}
+			break;
+		case MessageType.Chat:
+			if(messageData.chatData){
+				SendChat(user.lobby, messageData.chatData);
+			}
+			break;
+		
+		case MessageType.StartGame:
+			console.log("TODO: Send ServerStatus");
+			break;
 		default:
 			break;
 	}
@@ -255,7 +344,7 @@ const server = net.createServer((socket) => {
 				
 				lobbyUser = messageResult;
 				console.log("Sending MessageType.UserInfo");
-				SendMessage(lobbyUser, MessageType.UserInfo, {userID:lobbyUser.userID});
+				SendUserInfo(lobbyUser);
 				JoinEmptyLobby(lobbyUser);
 			}
 		}else if (lobbyUser.validated == true){
