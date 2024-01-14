@@ -46,7 +46,7 @@ public class AccountServerManager : MonoBehaviour
     }
 
 	private static AccountServerManager _instance; 
-    private string registerURL = "http://localhost:3000/server/account/guest";
+    private string registerURL = "https://ggj24.games.luisvsm.com/server/account/guest";
     public AccountServerState currentState;
     public AccountServerState? currentStateFromBackgroundThread;
     private AccountServerSocketConnection socketConnection = null;
