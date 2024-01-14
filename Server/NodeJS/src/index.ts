@@ -366,4 +366,6 @@ const server = net.createServer((socket) => {
 	console.error("Net Server error: ", err);
 });
 
-server.listen(7776, '127.0.0.1');
+let tcpPort = 7776;
+console.log(`TCP running at http://localhost:${tcpPort}`);
+server.listen(tcpPort, '127.0.0.1');

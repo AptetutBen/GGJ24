@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-service
+spec:
+  selector:
+    helios.service: ggj24-nodejs
+  type: LoadBalancer
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+    - name: lobby-port
+      protocol: TCP
+      port: 7776
+      targetPort: 7776
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ggj24-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      helios.service: ggj24-nodejs
+  template:
+    metadata:
+      labels:
+        helios.service: ggj24-nodejs
+        name: ggj24-nodejs
+    spec:
+      nodeSelector:
+        node-type: worker
+      containers:
+      - name: ggj24-nodejs
+        image: node:20
+        ports:
+        - containerPort: 3000
+        - containerPort: 7776
