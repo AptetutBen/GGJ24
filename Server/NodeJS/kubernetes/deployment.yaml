@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: registry-service
+  name: ggj24-nodejs-service
 spec:
   selector:
     helios.service: ggj24-nodejs
@@ -31,11 +31,9 @@ spec:
         helios.service: ggj24-nodejs
         name: ggj24-nodejs
     spec:
-      nodeSelector:
-        node-type: worker
       containers:
       - name: ggj24-nodejs
-        image: 127.0.0.1:ggj24/ggj24-nodejs:${gitHash}
+        image: 10.147.20.23:5000:ggj24/ggj24-nodejs:${gitHash}
         ports:
         - containerPort: 3000
         - containerPort: 7776

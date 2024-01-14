@@ -6,4 +6,4 @@ COPY dist /usr/src/app
 EXPOSE 3000/tcp
 EXPOSE 7776/tcp
 
-CMD "npm" "start"
+CMD "node" "index.js"
