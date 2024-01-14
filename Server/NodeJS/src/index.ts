@@ -368,4 +368,4 @@ const server = net.createServer((socket) => {
 
 let tcpPort = 7776;
 console.log(`TCP running at http://localhost:${tcpPort}`);
-server.listen(tcpPort, '127.0.0.1');
+server.listen(tcpPort, '0.0.0.0');
