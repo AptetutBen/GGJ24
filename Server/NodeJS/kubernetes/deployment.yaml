@@ -35,7 +35,7 @@ spec:
         node-type: worker
       containers:
       - name: ggj24-nodejs
-        image: node:20
+        image: 127.0.0.1:ggj24/ggj24-nodejs:${gitHash}
         ports:
         - containerPort: 3000
         - containerPort: 7776
