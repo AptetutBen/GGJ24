@@ -33,7 +33,27 @@ spec:
     spec:
       containers:
       - name: ggj24-nodejs
-        image: 10.147.20.23:5000:ggj24/ggj24-nodejs:${gitHash}
+        image: 10.147.20.23:5000/ggj24/ggj24-nodejs:${gitHash}
         ports:
         - containerPort: 3000
         - containerPort: 7776
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ggj24-nodejs
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: games
+spec:
+  rules:
+    - host: ggj24.games.luisvsm.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ggj24-nodejs
+                port:
+                  number: 3000
