@@ -7,6 +7,7 @@ public static class WeekendLogger
 	public enum LoggingLevel {All, Minimum, ErrorsOnly, Off}
 
 	public static string NETWORKING_SERVER_LOG_COLOUR = "#be7efc";
+	public static string LOBBY_LOG_COLOUR = "#FFBF00";
 
 	private static readonly int DEFAULT_SIZE = 12;
 
@@ -181,6 +182,44 @@ public static class WeekendLogger
 		if (IsEnabled && networkServerLoggingLevel != LoggingLevel.Off)
 		{
 			Debug.LogError(ApplyStyle($"<color=\"#c25033\">Network Server Error: </color> <color={NETWORKING_SERVER_LOG_COLOUR}>{message}</color>"));
+		}
+	}
+
+	#endregion
+
+	#region LogNetworkServer
+
+	private static LoggingLevel lobbyLoggingLevel = LoggingLevel.All;
+
+	public static void SetLobbyLoggingLevel(LoggingLevel loggingLevel)
+	{
+		lobbyLoggingLevel = loggingLevel;
+	}
+
+	// Normal Logging
+	public static void LogLobby(object message)
+	{
+		if (IsEnabled && lobbyLoggingLevel == LoggingLevel.All)
+		{
+			Debug.Log(ApplyStyle($"<color={LOBBY_LOG_COLOUR}>{message}</color>"));
+		}
+	}
+
+	// Warning Logging
+	public static void LogLobbyWarning(object message)
+	{
+		if (IsEnabled && (lobbyLoggingLevel == LoggingLevel.All || lobbyLoggingLevel == LoggingLevel.Minimum))
+		{
+			Debug.LogWarning(ApplyStyle($"<color=\"#c49029\">Lobby Warning: </color> <color={LOBBY_LOG_COLOUR}>{message}</color>"));
+		}
+	}
+
+	//Error Logging
+	public static void LogLobbyError(object message)
+	{
+		if (IsEnabled && lobbyLoggingLevel != LoggingLevel.Off)
+		{
+			Debug.LogError(ApplyStyle($"<color=\"#c25033\">Lobby Error: </color> <color={LOBBY_LOG_COLOUR}>{message}</color>"));
 		}
 	}
 

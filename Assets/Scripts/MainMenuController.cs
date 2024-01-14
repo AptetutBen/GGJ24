@@ -14,11 +14,14 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private NetworkConnectionPanel networkConnectionPanel;
 	[SerializeField] private NetworkErrorPanel networkErrorPanel;
 	[SerializeField] private ButtonsPanel buttonsPanel;
+	[SerializeField] private LobbyPanel lobbyPanel;
 
 	// Start is called before the first frame update
 	void Start()
     {
-        AudioManager.instance.SwitchMusicClip(musicClip);
+		lobbyPanel.Initalise();
+
+		AudioManager.instance.SwitchMusicClip(musicClip);
         optionsPanel.Hide();
         
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
@@ -66,7 +69,7 @@ public class MainMenuController : MonoBehaviour
 			if (wasSucessful)
 			{
 				WeekendLogger.LogNetworkServer("Connected to account server");
-				networkConnectionPanel.Show(false);
+				lobbyPanel.Show();
 			}
 			else
 			{

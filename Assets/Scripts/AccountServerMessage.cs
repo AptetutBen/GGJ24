@@ -10,12 +10,12 @@ public struct GameSettings{
     // TODO: Ben & Luis chat about what goes here
 }
 
-public class MessasgeUserInfo: AccountServerMessage{
+public class MessageUserInfo: AccountServerMessage{
     public string userID; 
     public UserData userData;
 }
 
-public class MessasgeUserLobbyInfo: MessasgeUserInfo{
+public class MessasgeUserLobbyInfo: MessageUserInfo{
     public bool ready;
 }
 
@@ -24,16 +24,16 @@ public class MessasgeUserLobbyReady: AccountServerMessage{
     public bool ready;
 }
 
-public class MessasgeLobbyInfo: AccountServerMessage{
+public class MessageLobbyInfo: AccountServerMessage{
     public string lobbyID;
     public MessasgeUserLobbyInfo[] users; // First user in the array is the lobby owner
 }
 
-public class MessasgeReady: AccountServerMessage{
+public class MessageReady: AccountServerMessage{
     public MessasgeUserLobbyReady[] users; // First user in the array is the lobby owner
 }
 
-public class MessasgeChat: AccountServerMessage{
+public class MessageChat: AccountServerMessage{
     public string userID;
     public string chatMessage;
 }

@@ -3,64 +3,98 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using noWeekend;
 
-public class LobbyPanel : NetworkBehaviour
+public class LobbyPanel : MonoBehaviour
 {
-    public TextMeshProUGUI addressText,addressShadowText;
-    public GameObject playerListPrefab;
-    public Transform playerListParent;
+	//[SerializeField] private TextMeshProUGUI addressText,addressShadowText;
+	//[SerializeField] private GameObject playerListPrefab;
+	//[SerializeField] private Transform playerListParent;
+	private bool isApplicationQuitting = false;
 
-    private Dictionary<NetworkPlayer, GameObject> lobbyListLookup = new Dictionary<NetworkPlayer, GameObject>();
+	[SerializeField] private WeekendTween tween;
+	[SerializeField] private Transform lobbyCodeParent;
+	[SerializeField] private GameObject[] lobbyIdIcons;
+	[SerializeField] private GameObject startButton;
 
-    // Start is called before the first frame update
-    void Start()
+	public void Initalise()
+	{
+		AccountServerManager.instance.RegisterRecieveMessageCallback(RecieveUserInfo, MessageType.UserInfo);
+		AccountServerManager.instance.RegisterRecieveMessageCallback(RecieveLobbyInfo, MessageType.LobbyInfo);
+	}
+
+    public void OnDisable()
     {
-        switch (GameFlowController.gameMode)
-        {
-            case GameFlowController.GameMode.Client:
-                break;
-            case GameFlowController.GameMode.Host:
-                SetUpHostLobby();
-                break;
-            case GameFlowController.GameMode.Server:
-                SetUpHostLobby();
-                break;
-            case GameFlowController.GameMode.Solo:
-                SetUpHostLobby();
-                break;
-            default:
-                break;
-        }
-    }
+		if (isApplicationQuitting) return;
 
-    private void SetUpHostLobby()
+		AccountServerManager.instance.UnregisterRecieveMessageCallback(RecieveUserInfo, MessageType.UserInfo);
+		AccountServerManager.instance.UnregisterRecieveMessageCallback(RecieveLobbyInfo, MessageType.LobbyInfo);
+	}
+
+    public void RecieveUserInfo(AccountServerMessage accountServerMessage)
     {
-        string ipAddress = NetworkController.instance.LocalIP;
-        addressText.text = ipAddress;
-        addressShadowText.text = ipAddress;
-    }
+        MessageUserInfo messageUserInfo = (MessageUserInfo)accountServerMessage;
 
-    public void AddPlayer(NetworkPlayer networkPlayer)
-    {
-        if (!IsServer)
-        {
-            return;
-        }
-        GameObject newListItem = Instantiate(playerListPrefab, playerListParent);
+        Debug.Log(messageUserInfo.userData);
+	}
 
-        lobbyListLookup[networkPlayer] = newListItem;
-    }
+	public void RecieveLobbyInfo(AccountServerMessage accountServerMessage)
+	{
+		MessageLobbyInfo messageLobbyInfo = (MessageLobbyInfo)accountServerMessage;
 
-    public void RemovePlayer(NetworkPlayer networkPlayer)
-    {
-        if (!lobbyListLookup.ContainsKey(networkPlayer))
-        {
-            Debug.LogError("Player not found in lobby lookup");
-            return;
-        }
+		Debug.Log(messageLobbyInfo.lobbyID);
 
-        Destroy(lobbyListLookup[networkPlayer]);
-        lobbyListLookup.Remove(networkPlayer);
-    }
+		foreach (Transform child in lobbyCodeParent)
+		{
+			Destroy(child.gameObject);
+		}
+
+		int lobbyID;
+
+		if(!int.TryParse(messageLobbyInfo.lobbyID,out lobbyID))
+		{
+			WeekendLogger.LogLobbyError($"Can't Parse lobby code to Int: {messageLobbyInfo.lobbyID}");
+		}
+
+		// Build lobby code
+		for (int i = 0; i < 4; i++)
+		{
+			int num = messageLobbyInfo.lobbyID[i] - '0';
+
+			Instantiate(GetIconPrefabFromNumber(num), lobbyCodeParent);
+		}
+	}
+
+	public void Show()
+	{
+		gameObject.SetActive(true);
+		tween.Activate();
+	}
+
+	public void Hide()
+	{
+		tween.Deactivate();
+	}
+
+	void OnApplicationQuit()
+	{
+		isApplicationQuitting = true;
+	}
+
+	//public void AddPlayer(NetworkPlayer networkPlayer)
+	//{
+	//    if (!IsServer)
+	//    {
+	//        return;
+	//    }
+	//    GameObject newListItem = Instantiate(playerListPrefab, playerListParent);
+
+	//    lobbyListLookup[networkPlayer] = newListItem;
+	//}
+
+	private GameObject GetIconPrefabFromNumber(int num)
+	{
+		return lobbyIdIcons[num];
+	}
 
 }

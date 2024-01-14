@@ -8,12 +8,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public enum MessageType{
-    UserInfo        = 1,  // MessasgeUserInfo
-    LobbyInfo       = 2,  // MessasgeLobbyInfo
+    UserInfo        = 1,  // MessageUserInfo
+    LobbyInfo       = 2,  // MessageLobbyInfo
     JoinLobby       = 3,  // (send back a LobbyInfo)
     LeaveLobby      = 4,  // (send back a LobbyInfo)
     KickPlayer      = 5,  // (send back a LobbyInfo)
-    UpdateUser      = 6,  // (1. submitting person get's a MessasgeUserInfo)(2. everyone including you get's a LobbyInfo)
+    UpdateUser      = 6,  // (1. submitting person get's a MessageUserInfo)(2. everyone including you get's a LobbyInfo)
     StartGame       = 7,  // Sent by the game client when it's ready (automatically or maybe when the player clicks start etc)
     Ready           = 8,  // everyone get's a MessasgeReady 
     Chat            = 9,  // Sends back MessasgeChat to everyone
@@ -46,7 +46,7 @@ public class AccountServerManager : MonoBehaviour
         }
     }
 
-    private static Dictionary<string, List<Action<string>>> networkEventCallback = new();
+    private static Dictionary<MessageType, List<Action<AccountServerMessage>>> messageCallbackLookup = new();
 
 	private static AccountServerManager _instance; 
     private string registerURL = "https://ggj24.games.luisvsm.com/server/account/guest";
@@ -88,38 +88,34 @@ public class AccountServerManager : MonoBehaviour
     }
 
     // Register for callbacks when a message of a certian type gets recieved
-    public void RegisterRecieveMessageCallback(Action<string> action, MessageType messageType)
+    public void RegisterRecieveMessageCallback(Action<AccountServerMessage> action, MessageType messageType)
     {
-        string messageTypeString = ((int)messageType).ToString();
-
 		//If there are no callbacks
-		if (!networkEventCallback.ContainsKey(messageTypeString))
+		if (!messageCallbackLookup.ContainsKey(messageType))
 		{
-			networkEventCallback[messageTypeString] = new List<Action<string>>();
+            messageCallbackLookup[messageType] = new();
 		}
 
-        if (networkEventCallback[messageTypeString].Contains(action))
+        if (messageCallbackLookup[messageType].Contains(action))
         {
             WeekendLogger.LogNetworkServer("RecieveData Callback Action is trying to be registered twice");
             return;
         }
 
-        networkEventCallback[messageTypeString].Add(action);
+        messageCallbackLookup[messageType].Add(action);
 	}
 
 	// UnRegister for message callbacks 
-	public void UnregisterRecieveMessageCallback(Action<string> action, MessageType messageType)
+	public void UnregisterRecieveMessageCallback(Action<AccountServerMessage> action, MessageType messageType)
 	{
-		string messageTypeString = ((int)messageType).ToString();
-
 		//If there are no callbacks
-		if (!networkEventCallback.ContainsKey(messageTypeString) || !networkEventCallback[messageTypeString].Contains(action))
+		if (!messageCallbackLookup.ContainsKey(messageType) || !messageCallbackLookup[messageType].Contains(action))
 		{
 			WeekendLogger.LogNetworkServer("RecieveData Callback Action is trying to be unregistered but isn't in the list");
             return;
 		}
 
-		networkEventCallback[messageTypeString].Remove(action);
+		messageCallbackLookup[messageType].Remove(action);
 	}
 
 	public void ConnectToAccountServer(Action<bool> onComplete){
@@ -177,27 +173,27 @@ public class AccountServerManager : MonoBehaviour
     if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
         byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
         if(dataFromAccountServer != null){
-            // First two bytes are a uint16 to denote what type of message it is
-            // The rest of the message is JSON data of the message
-            UInt16 messageType = BitConverter.ToUInt16(dataFromAccountServer, 0);
+			// First two bytes are a uint16 to denote what type of message it is
+			// The rest of the message is JSON data of the message
+			MessageType messageType = (MessageType)BitConverter.ToUInt16(dataFromAccountServer, 0);
             string messageData = Encoding.UTF8.GetString(dataFromAccountServer, 2, dataFromAccountServer.Length - 2);
             
             AccountServerMessage message;
-            Debug.Log($"Message type {messageType} received: \"{messageData}\"");
+            WeekendLogger.LogNetworkServer($"Message type {messageType} received: \"{messageData}\"");
 
-            switch ((MessageType) messageType){
+            switch (messageType){
                 case MessageType.UserInfo:
-                    message = JsonUtility.FromJson<MessasgeUserInfo>(messageData);
+                    message = JsonUtility.FromJson<MessageUserInfo>(messageData);
                     break;
 
                 case MessageType.LobbyInfo:
-                    message = JsonUtility.FromJson<MessasgeLobbyInfo>(messageData);
+                    message = JsonUtility.FromJson<MessageLobbyInfo>(messageData);
                     break;
                 case MessageType.Ready:
-                    message = JsonUtility.FromJson<MessasgeReady>(messageData);
+                    message = JsonUtility.FromJson<MessageReady>(messageData);
                     break;
                 case MessageType.Chat:
-                    message = JsonUtility.FromJson<MessasgeChat>(messageData);
+                    message = JsonUtility.FromJson<MessageChat>(messageData);
                     break;
 
                 default:
@@ -206,16 +202,13 @@ public class AccountServerManager : MonoBehaviour
                     break;
             }
 
-            if (networkEventCallback.ContainsKey(messageTypeId))
+			// If message is not null and the message callback lookup has registered callbacks, then do your thing
+			if (message != null && messageCallbackLookup.ContainsKey(messageType))
             {
-                foreach (Action<string> callback in networkEventCallback[messageTypeId])
+                foreach (Action<AccountServerMessage> callback in messageCallbackLookup[messageType])
                 {
-                    callback?.Invoke(data);
+                    callback?.Invoke(message);
                 }
-            }
-
-            if(message != null){
-                // TODO BEN: Put callback call here
             }
         }
     }
