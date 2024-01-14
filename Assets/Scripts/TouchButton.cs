@@ -25,7 +25,11 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 
 	private void Awake()
 	{
-		textStartPos = butonText.transform.localPosition;
+		if(butonText != null)
+		{
+			textStartPos = butonText.transform.localPosition;
+		}
+
 	}
 
 	public bool Enabled
@@ -101,7 +105,11 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 		background.sprite = buttonPressedImage;
 		AudioManager.instance.PlaySFX(clickSound);
 
-		butonText.transform.localPosition = TextDownPos;
+		if (butonText != null)
+		{
+			butonText.transform.localPosition = TextDownPos;
+		}
+
 		if (dropShadow != null)
 		{
 			dropShadow.effectDistance = new Vector2(shadowLengthIn, -shadowLengthIn);
@@ -112,7 +120,10 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 	{
 		background.sprite = buttonUnPressedImage;
 
-		butonText.transform.localPosition = textStartPos;
+		if(butonText != null)
+		{
+			butonText.transform.localPosition = textStartPos;
+		}
 
 		if (dropShadow != null)
 		{

@@ -1,50 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using noWeekend;
 using TMPro;
 using System.Text.RegularExpressions;
+using System;
 
 public class MainMenuController : MonoBehaviour
 {
-    /*
-     * Scene for the main menu
-     * 
-     */
+	[SerializeField] private AudioClip musicClip;
 
-    public WeekendTween buttonsPanelTween;
-    public NetworkConnectionPanel networkConnectionPanel;
-    public AudioClip musicClip;
-    public OptionsPanel optionsPanel;
-    private NetworkController networkController;
+    // Panels
+	[SerializeField] private OptionsPanel optionsPanel;
+	[SerializeField] private NetworkConnectionPanel networkConnectionPanel;
+	[SerializeField] private NetworkErrorPanel networkErrorPanel;
+	[SerializeField] private ButtonsPanel buttonsPanel;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
         AudioManager.instance.SwitchMusicClip(musicClip);
-        networkController = NetworkController.instance;
         optionsPanel.Hide();
         
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
-		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful)=>{
-			if(wasSuccessful){
-				Debug.Log("Connected to account server");
-			}else{
-				Debug.Log("Failed to connect to account server");
-			}
+
+	}
+
+
+    private void AttemptToConnectToAccountServer(Action<bool> andThen)
+    {
+		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful) => {
+			andThen?.Invoke(wasSuccessful);
 		});
 	}
 
-	private void OnAccountServerStateChange(AccountServerState newState){
-		Debug.Log($"New account server state: {newState.ToString()}");
+    private void OnCloseNetworkErrorPannel()
+    {
+		buttonsPanel.Show();
 	}
 
-    // When the player presses the start button
-    public void OnStartButtonPress()
-    {
-        // Load in the Main Game scene
-		GameFlowController.LoadScene("Main Game", false);
+	private void OnAccountServerStateChange(AccountServerState newState){
+
+		WeekendLogger.LogNetworkServer($"New account server state: {newState}");
 	}
+
+ //   // When the player presses the start button
+ //   public void OnStartButtonPress()
+ //   {
+ //       // Load in the Main Game scene
+	//	GameFlowController.LoadScene("Main Game", false);
+	//}
 
     // When the player presses the exit button
     public void OnExitButtonPress()
@@ -53,24 +57,34 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnHostButtonPress()
+    // Player Starts a game
+    public void OnStartGameButtonPress()
     {
-		buttonsPanelTween.Deactivate(
-			() => networkConnectionPanel.Show(true)
-		);
+		buttonsPanel.Hide();
+		AttemptToConnectToAccountServer((bool wasSucessful) =>
+		{
+			if (wasSucessful)
+			{
+				WeekendLogger.LogNetworkServer("Connected to account server");
+				networkConnectionPanel.Show(false);
+			}
+			else
+			{
+				WeekendLogger.LogNetworkServerError("Failed to connect to account server");
+				networkErrorPanel.Show("Failed to connect to account server", OnCloseNetworkErrorPannel);
+			}
+		});
 	}
 
-    public void OnClientButtonPress()
+    public void OnJoinFriendsButtonPress()
     {
-        buttonsPanelTween.Deactivate(
-            () => networkConnectionPanel.Show(false)
-        );
+
     }
 
     public void OnExitMultiplayerButtonPress()
     {
 		networkConnectionPanel.Hide(
-            () => buttonsPanelTween.Activate()
+            () => buttonsPanel.Show()
         );
     }
 

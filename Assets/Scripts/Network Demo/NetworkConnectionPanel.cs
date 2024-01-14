@@ -24,6 +24,7 @@ public class NetworkConnectionPanel : MonoBehaviour
     public void Show(bool isHost)
     {
         this.isHost = isHost;
+        gameObject.SetActive(true);
         addressInputField.gameObject.SetActive(!isHost);
         portInputField.gameObject.SetActive(!isHost);
 

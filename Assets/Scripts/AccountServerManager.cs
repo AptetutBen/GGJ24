@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -34,6 +35,8 @@ public class AccountServerManager : MonoBehaviour
             return _instance;
         }
     }
+
+    private static Dictionary<string, List<Action<string>>> networkEventCallback = new();
 
 	private static AccountServerManager _instance; 
     private string registerURL = "http://localhost:3000/server/account/guest";
@@ -74,7 +77,42 @@ public class AccountServerManager : MonoBehaviour
         onStateChange -= newOnChange;
     }
 
-    public void ConnectToAccountServer(Action<bool> onComplete){
+    // Register for callbacks when a message of a certian type gets recieved
+    public void RegisterRecieveMessageCallback(Action<string> action, MessageType messageType)
+    {
+        string messageTypeString = ((int)messageType).ToString();
+
+		//If there are no callbacks
+		if (!networkEventCallback.ContainsKey(messageTypeString))
+		{
+			networkEventCallback[messageTypeString] = new List<Action<string>>();
+		}
+
+        if (networkEventCallback[messageTypeString].Contains(action))
+        {
+            WeekendLogger.LogNetworkServer("RecieveData Callback Action is trying to be registered twice");
+            return;
+        }
+
+        networkEventCallback[messageTypeString].Add(action);
+	}
+
+	// UnRegister for message callbacks 
+	public void UnregisterRecieveMessageCallback(Action<string> action, MessageType messageType)
+	{
+		string messageTypeString = ((int)messageType).ToString();
+
+		//If there are no callbacks
+		if (!networkEventCallback.ContainsKey(messageTypeString) || !networkEventCallback[messageTypeString].Contains(action))
+		{
+			WeekendLogger.LogNetworkServer("RecieveData Callback Action is trying to be unregistered but isn't in the list");
+            return;
+		}
+
+		networkEventCallback[messageTypeString].Remove(action);
+	}
+
+	public void ConnectToAccountServer(Action<bool> onComplete){
         if(currentState == AccountServerState.NotConnected){
             ChangeState(AccountServerState.Authenticating);
             StartCoroutine(RegisterGuestAccount((wasSuccessful)=>{
@@ -104,13 +142,13 @@ public class AccountServerManager : MonoBehaviour
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    Debug.Log("Error: " + webRequest.error);
+                    WeekendLogger.LogNetworkServer("Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.ProtocolError:
-                    Debug.Log("HTTP Error: " + webRequest.error);
+					WeekendLogger.LogNetworkServer("HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    Debug.Log("Received: " + webRequest.downloadHandler.text);
+					WeekendLogger.LogNetworkServer("Received: " + webRequest.downloadHandler.text);
                     sessionToken = webRequest.downloadHandler.text;
                     wasSuccessful = true;
                     break;
@@ -124,7 +162,23 @@ public class AccountServerManager : MonoBehaviour
         if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
             byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
             if(dataFromAccountServer != null){
-                Debug.Log($"Message received: \"{Encoding.UTF8.GetString(dataFromAccountServer)}\"");
+
+                string message = Encoding.UTF8.GetString(dataFromAccountServer);
+                //{"type":1,"data":{"userID":"d7b431a5-a3e5-41ac-ba05-207a5dccc493"}}
+
+				Match m = Regex.Match(message, @"{""type"":(.*),""data"":(.*)}");
+				string messageTypeId = m.Groups[1].Value;
+				string data = m.Groups[2].Value;
+
+                if (networkEventCallback.ContainsKey(messageTypeId))
+                {
+                    foreach (Action<string> callback in networkEventCallback[messageTypeId])
+                    {
+                        callback?.Invoke(data);
+					}
+				}
+
+				WeekendLogger.LogNetworkServer($"Message received: \"{message}\"");
             }
         }
 

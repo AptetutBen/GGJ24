@@ -65,11 +65,11 @@ public class AccountServerSocketConnection
                     // Either the expected message length or the number of bytes received, whichever is lower
                     bytesToRead = Mathf.Min(nextMessageLength - reconstructPos, received);
 
-                    
-                    // The message might be split over multiple receive reads
-                    // Or we could have multiple messages in one receive read
-                    // So copy the receieved bytes into a reconstruction buffer that we can use to reconstruct to handle those cases.
-                    UnityEngine.Debug.Log($"Copying {bytesToRead} to reconstructBuffer");
+
+					// The message might be split over multiple receive reads
+					// Or we could have multiple messages in one receive read
+					// So copy the receieved bytes into a reconstruction buffer that we can use to reconstruct to handle those cases.
+					WeekendLogger.LogError($"Copying {bytesToRead} to reconstructBuffer");
                     Array.Copy(receiveBuffer, readPos,  reconstructBuffer, reconstructPos, bytesToRead);
 
                     // Add the number of bytes that we just read into the reconstruction index position
@@ -108,14 +108,14 @@ public class AccountServerSocketConnection
             // This exception happens if we use the cancellation token to
             // stop reading from the TCP stream before the server returns some data
             // (There's a blocked background thread until we receive data and this is how we kill that thread)
-            UnityEngine.Debug.Log(err);
+            WeekendLogger.LogNetworkServer(err);
         }catch(Exception err){
-            // Catch all error that should be investigated if it shows up
-            UnityEngine.Debug.LogWarning(err);
+			// Catch all error that should be investigated if it shows up
+			WeekendLogger.LogWarning(err);
         }
 
         if(infiniteLoopCatcherLol == 0){
-            UnityEngine.Debug.LogError("InfiniteLoop was caught");
+			WeekendLogger.LogError("InfiniteLoop was caught");
         }
 
         // Okay so we're done with the TCP connection at this point
@@ -126,7 +126,7 @@ public class AccountServerSocketConnection
         }
 
         CloseConnectionToAccountServer();
-        UnityEngine.Debug.Log("Connection to account server closed.");
+		WeekendLogger.LogNetworkServer("Connection to account server closed.");
         onConnectionStateChange(AccountServerState.NotConnected);
      }
 
