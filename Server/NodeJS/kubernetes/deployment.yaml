@@ -54,6 +54,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ggj24-nodejs
+                name: ggj24-nodejs-service
                 port:
                   number: 3000
