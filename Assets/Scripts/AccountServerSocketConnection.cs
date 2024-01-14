@@ -17,12 +17,12 @@ public class AccountServerSocketConnection
 
     }
 
-    byte[] receiveBuffer = new byte[1024];
-    byte[] reconstructBuffer = new byte[10240];
+    byte[] receiveBuffer = new byte[1024000];
+    byte[] reconstructBuffer = new byte[10240000]; // 10 megabytes
     NetworkStream openConnection = null;
     CancellationTokenSource cancelSource;
 
-    public async void ConnectToAccountServer(string sessionToken, Action<AccountServerState> onConnectionStateChange){
+    public void ConnectToAccountServer(string sessionToken, Action<AccountServerState> onConnectionStateChange){
         cancelSource = new CancellationTokenSource();
         Task task = Task.Run(() => ConnectToAccountServerTask(sessionToken, onConnectionStateChange, cancelSource.Token), cancelSource.Token);
     }
@@ -31,7 +31,8 @@ public class AccountServerSocketConnection
         
         onConnectionStateChange(AccountServerState.Connecting);
         using TcpClient client = new();
-        await client.ConnectAsync(IPAddress.Parse("127.0.0.1"), 7776);
+        IPAddress[] address = await Dns.GetHostAddressesAsync("ggj24.games.luisvsm.com");
+        await client.ConnectAsync(address, 7776);
         await using NetworkStream stream = client.GetStream();
         openConnection = stream;
 
@@ -48,7 +49,7 @@ public class AccountServerSocketConnection
             onConnectionStateChange(AccountServerState.Connected);
             while(received > 0 && infiniteLoopCatcherLol > 0){ 
                 // New message!
-                //UnityEngine.Debug.Log($"Got TCP message of length: {received}");
+                // UnityEngine.Debug.Log($"Got TCP message of length: {received}");
                 readPos = 0;
                 
                 while(readPos < received && infiniteLoopCatcherLol > 0){
@@ -59,17 +60,20 @@ public class AccountServerSocketConnection
                         nextMessageLength = BitConverter.ToUInt16(receiveBuffer, readPos);
                         // UnityEngine.Debug.Log($"nextMessageLength: {nextMessageLength}");
                         reconstructPos = 0;
-                        readPos += 2;
+                        readPos += 2; 
+                        received = received - 2; // We just read 2 bytes so we need to take 2 off received before the code below runs
                     }
 
                     // Either the expected message length or the number of bytes received, whichever is lower
                     bytesToRead = Mathf.Min(nextMessageLength - reconstructPos, received);
+                    if(bytesToRead == 0)
+                        break;
 
-
-					// The message might be split over multiple receive reads
-					// Or we could have multiple messages in one receive read
-					// So copy the receieved bytes into a reconstruction buffer that we can use to reconstruct to handle those cases.
-					WeekendLogger.LogError($"Copying {bytesToRead} to reconstructBuffer");
+                    
+                    // The message might be split over multiple receive reads
+                    // Or we could have multiple messages in one receive read
+                    // So copy the receieved bytes into a reconstruction buffer that we can use to reconstruct to handle those cases.
+                    // UnityEngine.Debug.Log($"Copying {bytesToRead} bytes to reconstructBuffer receiveBuffer[{readPos}] reconstructBuffer[{reconstructPos}]");
                     Array.Copy(receiveBuffer, readPos,  reconstructBuffer, reconstructPos, bytesToRead);
 
                     // Add the number of bytes that we just read into the reconstruction index position
@@ -162,5 +166,15 @@ public class AccountServerSocketConnection
         }
 
         return returnData;
+    }
+
+    public bool SendMessage(AccountServerRequest request){
+        if(openConnection == null)
+            return false;
+            
+        UnityEngine.Debug.Log("Sending messasge");
+        openConnection.Write(Encoding.ASCII.GetBytes(request.ToJSON()));
+
+        return true;
     }
 }

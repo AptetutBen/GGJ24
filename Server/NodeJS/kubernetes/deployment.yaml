@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ggj24-nodejs-service
+spec:
+  selector:
+    helios.service: ggj24-nodejs
+  type: LoadBalancer
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+    - name: lobby-port
+      protocol: TCP
+      port: 7776
+      targetPort: 7776
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ggj24-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      helios.service: ggj24-nodejs
+  template:
+    metadata:
+      labels:
+        helios.service: ggj24-nodejs
+        name: ggj24-nodejs
+    spec:
+      containers:
+      - name: ggj24-nodejs
+        image: 10.147.20.23:5000/ggj24/ggj24-nodejs:${gitHash}
+        ports:
+        - containerPort: 3000
+        - containerPort: 7776
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ggj24-nodejs
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: games
+spec:
+  rules:
+    - host: ggj24.games.luisvsm.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ggj24-nodejs-service
+                port:
+                  number: 3000

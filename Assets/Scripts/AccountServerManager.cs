@@ -8,8 +8,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public enum MessageType{
-    UserInfo = 1,
-    LobbyInfo = 2
+    UserInfo        = 1,  // MessasgeUserInfo
+    LobbyInfo       = 2,  // MessasgeLobbyInfo
+    JoinLobby       = 3,  // (send back a LobbyInfo)
+    LeaveLobby      = 4,  // (send back a LobbyInfo)
+    KickPlayer      = 5,  // (send back a LobbyInfo)
+    UpdateUser      = 6,  // (1. submitting person get's a MessasgeUserInfo)(2. everyone including you get's a LobbyInfo)
+    StartGame       = 7,  // Sent by the game client when it's ready (automatically or maybe when the player clicks start etc)
+    Ready           = 8,  // everyone get's a MessasgeReady 
+    Chat            = 9,  // Sends back MessasgeChat to everyone
+    GameSettings    = 10, // 
+    ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
+    ServerInfo      = 12, // Eg where should the players join
 }
 
 public enum AccountServerState{
@@ -39,7 +49,7 @@ public class AccountServerManager : MonoBehaviour
     private static Dictionary<string, List<Action<string>>> networkEventCallback = new();
 
 	private static AccountServerManager _instance; 
-    private string registerURL = "http://localhost:3000/server/account/guest";
+    private string registerURL = "https://ggj24.games.luisvsm.com/server/account/guest";
     public AccountServerState currentState;
     public AccountServerState? currentStateFromBackgroundThread;
     private AccountServerSocketConnection socketConnection = null;
@@ -159,32 +169,112 @@ public class AccountServerManager : MonoBehaviour
     }
 
     void Update(){
-        if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
-            byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
-            if(dataFromAccountServer != null){
+    if(currentStateFromBackgroundThread != null){
+        ChangeState((AccountServerState) currentStateFromBackgroundThread);
+        currentStateFromBackgroundThread = null;
+    }
 
-                string message = Encoding.UTF8.GetString(dataFromAccountServer);
-                //{"type":1,"data":{"userID":"d7b431a5-a3e5-41ac-ba05-207a5dccc493"}}
+    if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
+        byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
+        if(dataFromAccountServer != null){
+            // First two bytes are a uint16 to denote what type of message it is
+            // The rest of the message is JSON data of the message
+            UInt16 messageType = BitConverter.ToUInt16(dataFromAccountServer, 0);
+            string messageData = Encoding.UTF8.GetString(dataFromAccountServer, 2, dataFromAccountServer.Length - 2);
+            
+            AccountServerMessage message;
+            Debug.Log($"Message type {messageType} received: \"{messageData}\"");
 
-				Match m = Regex.Match(message, @"{""type"":(.*),""data"":(.*)}");
-				string messageTypeId = m.Groups[1].Value;
-				string data = m.Groups[2].Value;
+            switch ((MessageType) messageType){
+                case MessageType.UserInfo:
+                    message = JsonUtility.FromJson<MessasgeUserInfo>(messageData);
+                    break;
 
-                if (networkEventCallback.ContainsKey(messageTypeId))
+                case MessageType.LobbyInfo:
+                    message = JsonUtility.FromJson<MessasgeLobbyInfo>(messageData);
+                    break;
+                case MessageType.Ready:
+                    message = JsonUtility.FromJson<MessasgeReady>(messageData);
+                    break;
+                case MessageType.Chat:
+                    message = JsonUtility.FromJson<MessasgeChat>(messageData);
+                    break;
+
+                default:
+                    Debug.Log($"Unknown message type {messageType} received: \"{messageData}\"");
+                    message = null;
+                    break;
+            }
+
+            if (networkEventCallback.ContainsKey(messageTypeId))
+            {
+                foreach (Action<string> callback in networkEventCallback[messageTypeId])
                 {
-                    foreach (Action<string> callback in networkEventCallback[messageTypeId])
-                    {
-                        callback?.Invoke(data);
-					}
-				}
+                    callback?.Invoke(data);
+                }
+            }
 
-				WeekendLogger.LogNetworkServer($"Message received: \"{message}\"");
+            if(message != null){
+                // TODO BEN: Put callback call here
             }
         }
+    }
+}
 
-        if(currentStateFromBackgroundThread != null){
-            ChangeState((AccountServerState) currentStateFromBackgroundThread);
-            currentStateFromBackgroundThread = null;
-        }
+    // TCP Communications Weeeewwwww :3
+    public bool JoinLobby(string lobbyID){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestJoinLobby(lobbyID));
+        return true;
+    }
+    
+    public bool LeaveLobby(){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestLeaveLobby());
+        return true;
+    }
+
+    public bool KickPlayer(string userID){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestKickPlayer(userID));
+        return true;
+    }
+
+    public bool UpdateUser(UserData userData){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestUpdateUser(userData));
+        return true;
+    }
+
+    public bool Ready(bool ready){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestReady(ready));
+        return true;
+    }
+
+    public bool Chat(string chatData){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestChat(chatData));
+        return true;
+    }
+
+    public bool StartGame(){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestStartGame());
+        return true;
     }
 }
