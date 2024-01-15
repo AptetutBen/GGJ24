@@ -83,6 +83,11 @@ public class LobbyPanel : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
+		foreach (Transform child in playerListParent)
+		{
+			Destroy(child.gameObject);
+		}
+
 		playerListItemLookup = new();
 
 		foreach (MessageUserLobbyInfo user in messageLobbyInfo.users)

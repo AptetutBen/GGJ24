@@ -15,6 +15,7 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private NetworkErrorPanel networkErrorPanel;
 	[SerializeField] private ButtonsPanel buttonsPanel;
 	[SerializeField] private LobbyPanel lobbyPanel;
+	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
 
 	// Start is called before the first frame update
 	void Start()
@@ -61,7 +62,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     // Player Starts a game
-    public void OnStartGameButtonPress()
+    public void OnStartGameButtonPress(bool enterCode)
     {
 		buttonsPanel.Hide();
 		AttemptToConnectToAccountServer((bool wasSucessful, string message) =>
@@ -69,7 +70,14 @@ public class MainMenuController : MonoBehaviour
 			if (wasSucessful)
 			{
 				WeekendLogger.LogNetworkServer("Connected to account server");
-				lobbyPanel.Show();
+				if (enterCode)
+				{
+					joinLobbyPanel.Show();
+				}
+				else
+				{
+					lobbyPanel.Show();
+				}
 			}
 			else
 			{
@@ -79,10 +87,11 @@ public class MainMenuController : MonoBehaviour
 		});
 	}
 
-    public void OnJoinFriendsButtonPress()
+	public void JoinLobby(string lobbyCode)
     {
-
-    }
+		AccountServerManager.instance.JoinLobby(lobbyCode);
+		lobbyPanel.Show();
+	}
 
     public void OnExitMultiplayerButtonPress()
     {

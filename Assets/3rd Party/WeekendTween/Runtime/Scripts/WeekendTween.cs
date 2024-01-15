@@ -94,11 +94,19 @@ namespace noWeekend
 
 			foreach (CanvasRenderer cRenderers in canvasRenderers)
 			{
+				if(cRenderers == null)
+				{
+					continue;
+				}
 				cRenderers.cull = false;
 			}
 
 			foreach (Image image in images)
 			{
+				if (image == null)
+				{
+					continue;
+				}
 				image.enabled = true;
 			}
 
