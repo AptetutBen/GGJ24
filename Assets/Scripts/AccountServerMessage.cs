@@ -20,6 +20,7 @@ public class MessageUserLobbyInfo: MessageUserInfo{
     public bool ready;
 }
 
+[System.Serializable]
 public class MessageUserLobbyReady: AccountServerMessage{
     public string userID;
     public bool ready;
@@ -30,6 +31,7 @@ public class MessageLobbyInfo: AccountServerMessage{
     public MessageUserLobbyInfo[] users; // First user in the array is the lobby owner
 }
 
+[System.Serializable]
 public class MessageReady: AccountServerMessage{
     public MessageUserLobbyReady[] users; // First user in the array is the lobby owner
 }

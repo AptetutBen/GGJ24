@@ -6,13 +6,15 @@ using Coffee.UIExtensions;
 
 public class EmotePopup : MonoBehaviour
 {
-	[SerializeField] private UIParticle particles;
-
 	public void Initialise(Sprite sprite)
 	{
-		particles.material.SetColor("_Color", Color.red);
+		gameObject.GetComponent<ParticleSystemRenderer>().material.SetTexture("_MainTex", sprite.texture);
 
-		//particles.material.SetTexture("_MainTex",sprite.texture);
-		Destroy(gameObject, 2);
+		float ratio = sprite.rect.width / sprite.rect.height;
+
+		ParticleSystem ps = GetComponent<ParticleSystem>();
+		var main = ps.main;
+
+		main.startSizeX = ratio * 10;
 	}
 }

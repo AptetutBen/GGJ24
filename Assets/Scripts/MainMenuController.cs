@@ -26,7 +26,6 @@ public class MainMenuController : MonoBehaviour
         optionsPanel.Hide();
         
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
-
 	}
 
 
@@ -44,15 +43,8 @@ public class MainMenuController : MonoBehaviour
 
 	private void OnAccountServerStateChange(AccountServerState newState){
 
-		WeekendLogger.LogNetworkServer($"New account server state: {newState}");
+		WeekendLogger.LogLobby($"New account server state: {newState}");
 	}
-
- //   // When the player presses the start button
- //   public void OnStartButtonPress()
- //   {
- //       // Load in the Main Game scene
-	//	GameFlowController.LoadScene("Main Game", false);
-	//}
 
     // When the player presses the exit button
     public void OnExitButtonPress()

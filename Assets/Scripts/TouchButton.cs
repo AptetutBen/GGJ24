@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
@@ -19,17 +20,34 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 	[SerializeField] private float shadowLengthOut = 5;
 	[SerializeField] private float shadowLengthIn = 2;
 
-	private Vector3 textStartPos;
-	private Vector3 TextDownPos => textStartPos + Vector3.down * 3;
+	private Transform[] buttonItems;
+	private Dictionary<Transform, Vector3> buttonItemPositions;
+	private Vector3 itemDownPos = Vector3.down * 3;
 	private bool pointerHasLeft = false;
 
-	private void Awake()
+	private void Awake ()
 	{
-		if(butonText != null)
-		{
-			textStartPos = butonText.transform.localPosition;
-		}
+		buttonItems = GetComponentsInChildren<Transform>(true);
+		buttonItems = buttonItems.Where(item => item != transform).ToArray();
+		buttonItemPositions = new();
 
+		foreach (Transform item in buttonItems)
+		{
+			buttonItemPositions[item] = item.localPosition;
+		}
+	}
+
+	private void SetItemPositions(bool setUp)
+	{
+		foreach (Transform item in buttonItems)
+		{
+			SetPosition(item, setUp ? Vector3.zero: itemDownPos);
+		}
+	}
+
+	private void SetPosition(Transform item, Vector3 toPositoin)
+	{
+		item.localPosition = buttonItemPositions[item] + toPositoin;
 	}
 
 	public bool Enabled
@@ -105,10 +123,7 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 		background.sprite = buttonPressedImage;
 		AudioManager.instance.PlaySFX(clickSound);
 
-		if (butonText != null)
-		{
-			butonText.transform.localPosition = TextDownPos;
-		}
+		SetItemPositions(false);
 
 		if (dropShadow != null)
 		{
@@ -120,10 +135,7 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 	{
 		background.sprite = buttonUnPressedImage;
 
-		if(butonText != null)
-		{
-			butonText.transform.localPosition = textStartPos;
-		}
+		SetItemPositions(true);
 
 		if (dropShadow != null)
 		{
