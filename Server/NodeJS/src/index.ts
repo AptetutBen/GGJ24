@@ -273,6 +273,11 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 
 	console.log("messageData", messageData);
 
+	if(messageData.lobbyID != null){
+		const regex = /[^0-8]/g;
+		messageData.lobbyID = ("0000" + messageData.lobbyID).replace(regex, "").slice(-4);
+	}
+
 	switch (messageData.type) {
 		case MessageType.JoinLobby:
 			if(messageData.lobbyID){
