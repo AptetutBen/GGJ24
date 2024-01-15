@@ -146,9 +146,12 @@ function SendLobbyReady(lobby: Lobby){
 	}
 }
 
-function SendChat(lobby: Lobby, chatData: string){
-	for (let i = 0; i < lobby.users.length; i++) {
-		SendMessage(lobby.users[i], MessageType.Chat, chatData);
+function SendChat(user: LobbyUser, chatData: string){
+	for (let i = 0; i < user.lobby.users.length; i++) {
+		SendMessage(user.lobby.users[i], MessageType.Chat, {
+			userID: user.userID,
+			chatMessage: chatData
+		});
 	}
 }
 
@@ -273,6 +276,11 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 
 	console.log("messageData", messageData);
 
+	if(messageData.lobbyID != null){
+		const regex = /[^0-8]/g;
+		messageData.lobbyID = ("0000" + messageData.lobbyID).replace(regex, "").slice(-4);
+	}
+
 	switch (messageData.type) {
 		case MessageType.JoinLobby:
 			if(messageData.lobbyID){
@@ -303,7 +311,7 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 			break;
 		case MessageType.Chat:
 			if(messageData.chatData){
-				SendChat(user.lobby, messageData.chatData);
+				SendChat(user, messageData.chatData);
 			}
 			break;
 		
