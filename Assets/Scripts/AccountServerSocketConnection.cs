@@ -172,7 +172,7 @@ public class AccountServerSocketConnection
         if(openConnection == null)
             return false;
             
-        UnityEngine.Debug.Log("Sending messasge");
+        WeekendLogger.LogNetworkServer("Sending messasge");
         openConnection.Write(Encoding.ASCII.GetBytes(request.ToJSON()));
 
         return true;

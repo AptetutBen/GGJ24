@@ -118,101 +118,113 @@ public class AccountServerManager : MonoBehaviour
 		messageCallbackLookup[messageType].Remove(action);
 	}
 
-	public void ConnectToAccountServer(Action<bool> onComplete){
-        if(currentState == AccountServerState.NotConnected){
-            ChangeState(AccountServerState.Authenticating);
-            StartCoroutine(RegisterGuestAccount((wasSuccessful)=>{
-                if(wasSuccessful){
-                    // Do TCP connection
-                    socketConnection = new AccountServerSocketConnection();
-                    socketConnection.ConnectToAccountServer(sessionToken, ChangeStateBackgroundThread);
-                    onComplete(wasSuccessful);
-                }else{
-                    ChangeState(AccountServerState.NotConnected);
-                    onComplete(wasSuccessful);
-                }
-            }));
-        }
-    }
-     
-    IEnumerator RegisterGuestAccount(Action<bool> onComplete)
-    {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(registerURL))
-        {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
+	public void ConnectToAccountServer(Action<bool, string> onComplete)
+	{
+		if (currentState == AccountServerState.NotConnected)
+		{
+			ChangeState(AccountServerState.Authenticating);
+			StartCoroutine(RegisterGuestAccount((wasSuccessful, errorMessage) => {
+				if (wasSuccessful)
+				{
+					// Do TCP connection
+					socketConnection = new AccountServerSocketConnection();
+					socketConnection.ConnectToAccountServer(sessionToken, ChangeStateBackgroundThread);
+					onComplete(wasSuccessful, errorMessage);
+				}
+				else
+				{
+					ChangeState(AccountServerState.NotConnected);
+					onComplete(wasSuccessful, errorMessage);
+				}
+			}));
+		}
+	}
 
-            bool wasSuccessful = false;
+	IEnumerator RegisterGuestAccount(Action<bool, string> onComplete)
+	{
+		using (UnityWebRequest webRequest = UnityWebRequest.Get(registerURL))
+		{
+			// Request and wait for the desired page.
+			yield return webRequest.SendWebRequest();
 
-            switch (webRequest.result)
-            {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    WeekendLogger.LogNetworkServer("Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
+			bool wasSuccessful = false;
+			string error = "";
+
+			switch (webRequest.result)
+			{
+				case UnityWebRequest.Result.ConnectionError:
+				case UnityWebRequest.Result.DataProcessingError:
+					WeekendLogger.LogNetworkServer("Error: " + webRequest.error);
+                    error = webRequest.error;
+
+					break;
+				case UnityWebRequest.Result.ProtocolError:
 					WeekendLogger.LogNetworkServer("HTTP Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.Success:
+					error = webRequest.error;
+
+					break;
+				case UnityWebRequest.Result.Success:
 					WeekendLogger.LogNetworkServer("Received: " + webRequest.downloadHandler.text);
-                    sessionToken = webRequest.downloadHandler.text;
-                    wasSuccessful = true;
-                    break;
-            }
+					sessionToken = webRequest.downloadHandler.text;
+					wasSuccessful = true;
+					break;
+			}
 
-            onComplete(wasSuccessful);
+			onComplete(wasSuccessful, error);
+		}
+	}
+
+	void Update(){
+        if(currentStateFromBackgroundThread != null){
+            ChangeState((AccountServerState) currentStateFromBackgroundThread);
+            currentStateFromBackgroundThread = null;
         }
-    }
 
-    void Update(){
-    if(currentStateFromBackgroundThread != null){
-        ChangeState((AccountServerState) currentStateFromBackgroundThread);
-        currentStateFromBackgroundThread = null;
-    }
-
-    if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
-        byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
-        if(dataFromAccountServer != null){
-			// First two bytes are a uint16 to denote what type of message it is
-			// The rest of the message is JSON data of the message
-			MessageType messageType = (MessageType)BitConverter.ToUInt16(dataFromAccountServer, 0);
-            string messageData = Encoding.UTF8.GetString(dataFromAccountServer, 2, dataFromAccountServer.Length - 2);
+        if(socketConnection != null && socketConnection.ThereThingsToReadFromQueue()){
+            byte[] dataFromAccountServer = socketConnection.ReadFromQueue();
+            if(dataFromAccountServer != null){
+			    // First two bytes are a uint16 to denote what type of message it is
+			    // The rest of the message is JSON data of the message
+			    MessageType messageType = (MessageType)BitConverter.ToUInt16(dataFromAccountServer, 0);
+                string messageData = Encoding.UTF8.GetString(dataFromAccountServer, 2, dataFromAccountServer.Length - 2);
             
-            AccountServerMessage message;
-            WeekendLogger.LogNetworkServer($"Message type {messageType} received: \"{messageData}\"");
+                AccountServerMessage message;
+                WeekendLogger.LogNetworkServer($"Message type {messageType} received: \"{messageData}\"");
 
-            switch (messageType){
-                case MessageType.UserInfo:
-                    message = JsonUtility.FromJson<MessageUserInfo>(messageData);
-                    break;
 
-                case MessageType.LobbyInfo:
-                    message = JsonUtility.FromJson<MessageLobbyInfo>(messageData);
-                    break;
-                case MessageType.Ready:
-                    message = JsonUtility.FromJson<MessageReady>(messageData);
-                    break;
-                case MessageType.Chat:
-                    message = JsonUtility.FromJson<MessageChat>(messageData);
-                    break;
+				    switch (messageType)
+				    {
+					    case MessageType.UserInfo:
+						    message = JsonUtility.FromJson<MessageUserInfo>(messageData);
+						    break;
+					    case MessageType.LobbyInfo:
+						    message = JsonUtility.FromJson<MessageLobbyInfo>(messageData);
+						    break;
+					    case MessageType.Ready:
+						    message = JsonUtility.FromJson<MessageReady>(messageData);
+						    break;
+					    case MessageType.Chat:
+						    message = JsonUtility.FromJson<MessageChat>(messageData);
+						    break;
 
-                default:
-                    Debug.Log($"Unknown message type {messageType} received: \"{messageData}\"");
-                    message = null;
-                    break;
-            }
+					    default:
+						    WeekendLogger.LogNetworkServer($"Unknown message type {messageType} received: \"{messageData}\"");
+						    message = null;
+						    break;
+				    }
 
-			// If message is not null and the message callback lookup has registered callbacks, then do your thing
-			if (message != null && messageCallbackLookup.ContainsKey(messageType))
-            {
-                foreach (Action<AccountServerMessage> callback in messageCallbackLookup[messageType])
-                {
-                    callback?.Invoke(message);
-                }
-            }
+					// If message is not null and the message callback lookup has registered callbacks, then do your thing
+					if (message != null && messageCallbackLookup.ContainsKey(messageType))
+					{
+						foreach (Action<AccountServerMessage> callback in messageCallbackLookup[messageType])
+						{
+							callback?.Invoke(message);
+						}
+					}
+
+			}
         }
     }
-}
 
     // TCP Communications Weeeewwwww :3
     public bool JoinLobby(string lobbyID){

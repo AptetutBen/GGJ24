@@ -15,22 +15,23 @@ public class MessageUserInfo: AccountServerMessage{
     public UserData userData;
 }
 
-public class MessasgeUserLobbyInfo: MessageUserInfo{
+[System.Serializable]
+public class MessageUserLobbyInfo: MessageUserInfo{
     public bool ready;
 }
 
-public class MessasgeUserLobbyReady: AccountServerMessage{
+public class MessageUserLobbyReady: AccountServerMessage{
     public string userID;
     public bool ready;
 }
 
 public class MessageLobbyInfo: AccountServerMessage{
     public string lobbyID;
-    public MessasgeUserLobbyInfo[] users; // First user in the array is the lobby owner
+    public MessageUserLobbyInfo[] users; // First user in the array is the lobby owner
 }
 
 public class MessageReady: AccountServerMessage{
-    public MessasgeUserLobbyReady[] users; // First user in the array is the lobby owner
+    public MessageUserLobbyReady[] users; // First user in the array is the lobby owner
 }
 
 public class MessageChat: AccountServerMessage{

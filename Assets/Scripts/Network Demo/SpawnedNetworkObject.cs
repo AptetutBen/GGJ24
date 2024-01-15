@@ -7,14 +7,14 @@ using Color = UnityEngine.Color;
 
 public class SpawnedNetworkObject : NetworkBehaviour
 {
-     private NetworkPlayer owner;
-    private NetworkObject networkObject;
+	private NetworkPlayer owner;
+	private NetworkObject networkObject;
 
-    public NetworkPlayer Owner => owner;
+	public NetworkPlayer Owner => owner;
 
 	public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.white, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public SpriteRenderer spriteRenderer;
-    public float duration;
+	public SpriteRenderer spriteRenderer;
+	public float duration;
 
 	private void Awake()
 	{
@@ -48,45 +48,45 @@ public class SpawnedNetworkObject : NetworkBehaviour
 	}
 
 	//public void Initialise(NetworkPlayer owner,Color color)
- //   {
- //       this.owner = owner;
+	//   {
+	//       this.owner = owner;
 	//	objectColour = color;
 	//	networkObject = GetComponent<NetworkObject>();
- //       networkObject.Spawn();
+	//       networkObject.Spawn();
 
- //       StartCoroutine(timedDestory());
- //       InitialiseClientRPC();
- //       IEnumerator timedDestory()
- //       {
- //           yield return new WaitForSeconds(5);
- //           DestoryServerRPC();
- //       }
+	//       StartCoroutine(timedDestory());
+	//       InitialiseClientRPC();
+	//       IEnumerator timedDestory()
+	//       {
+	//           yield return new WaitForSeconds(5);
+	//           DestoryServerRPC();
+	//       }
 	//}
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DestoryServerRPC()
-    {
-        networkObject.Despawn();
-    }
+	[ServerRpc(RequireOwnership = false)]
+	public void DestoryServerRPC()
+	{
+		networkObject.Despawn();
+	}
 
-    [ClientRpc]
-    public void InitialiseClientRPC()
-    {
-        spriteRenderer.color = playerColour.Value;
-    }
+	[ClientRpc]
+	public void InitialiseClientRPC()
+	{
+		spriteRenderer.color = playerColour.Value;
+	}
 
-    IEnumerator Play()
-    {
-        float timer = 0;
+	IEnumerator Play()
+	{
+		float timer = 0;
 
-        while (timer < 1)
-        {
-            timer += Time.deltaTime / duration;
-            spriteRenderer.material.SetFloat("_Value", timer);
+		while (timer < 1)
+		{
+			timer += Time.deltaTime / duration;
+			spriteRenderer.material.SetFloat("_Value", timer);
 
-            Debug.Log(timer);
-            yield return null;
-        }
+			Debug.Log(timer);
+			yield return null;
+		}
 	}
 
 }

@@ -29,10 +29,10 @@ public class MainMenuController : MonoBehaviour
 	}
 
 
-    private void AttemptToConnectToAccountServer(Action<bool> andThen)
+    private void AttemptToConnectToAccountServer(Action<bool,string> andThen)
     {
-		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful) => {
-			andThen?.Invoke(wasSuccessful);
+		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful, message) => {
+			andThen?.Invoke(wasSuccessful,message);
 		});
 	}
 
@@ -64,7 +64,7 @@ public class MainMenuController : MonoBehaviour
     public void OnStartGameButtonPress()
     {
 		buttonsPanel.Hide();
-		AttemptToConnectToAccountServer((bool wasSucessful) =>
+		AttemptToConnectToAccountServer((bool wasSucessful, string message) =>
 		{
 			if (wasSucessful)
 			{
