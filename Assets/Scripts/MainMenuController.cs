@@ -58,8 +58,13 @@ public class MainMenuController : MonoBehaviour
 
 		if(newState == AccountServerState.Connected)
 		{
-			AccountServerManager.instance.UpdateUser(new UserData(playerPanel.GetName, playerPanel.GetColour));
+			SendPlayerData();
 		}
+	}
+
+	private void SendPlayerData()
+	{
+		AccountServerManager.instance.UpdateUser(new UserData(playerPanel.GetName, playerPanel.GetColour));
 	}
 
     // When the player presses the exit button
@@ -79,6 +84,7 @@ public class MainMenuController : MonoBehaviour
 		{
 			if (wasSucessful)
 			{
+				SendPlayerData();
 				WeekendLogger.LogNetworkServer("Connected to account server");
 				if (enterCode)
 				{
