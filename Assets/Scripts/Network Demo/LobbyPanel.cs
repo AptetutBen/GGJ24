@@ -26,7 +26,8 @@ public class LobbyPanel : MonoBehaviour
 	[SerializeField] private TouchButton startGameButton;
 
 	private Dictionary<string, PlayerListItemUI> playerListItemLookup = new();
-	private Dictionary<string, bool> readyPlayerLookup = new();
+	private bool AllPlayersReady;
+	private bool isReady;
 
 	private string myID;
 	private int currentLobbyId;
@@ -112,14 +113,7 @@ public class LobbyPanel : MonoBehaviour
 			MessageUserLobbyInfo user = messageLobbyInfo.users[i];
 			PlayerListItemUI newPlayer = Instantiate(playerListPrefab, playerListParent);
 			playerListItemLookup[user.userID] = newPlayer;
-			newPlayer.Initalise(user.userID, user.userData, i == 0, isLobbyOwner && user.userID != myID, KickPlayer);
-
-			// Set the player ready if they are already ready
-			if (readyPlayerLookup.ContainsKey(user.userID))
-			{
-				
-				newPlayer.SetReady(readyPlayerLookup[user.userID]);
-			}
+			newPlayer.Initalise(user.userID, user.userData, i == 0, isLobbyOwner && user.userID != myID, KickPlayer,user.ready);
 		}
 
 		// Set the state of the start game button
@@ -166,8 +160,6 @@ public class LobbyPanel : MonoBehaviour
 	{
 		MessageReady messageReady = (MessageReady)accountServerMessage;
 
-		readyPlayerLookup = new();
-
 		// Loop through each ready message and set 
 		foreach (MessageUserLobbyReady user in messageReady.users)
 		{
@@ -175,10 +167,15 @@ public class LobbyPanel : MonoBehaviour
 				WeekendLogger.LogLobbyError($"User not found: {user.userID}");
 				continue;
 			}
-
-			readyPlayerLookup[user.userID] = user.ready;
 			playerListItemLookup[user.userID].SetReady(user.ready);
+
+			if(user.userID == myID)
+			{
+				isReady = user.ready;
+			}
 		}
+
+		AllPlayersReady = messageReady.users.All(user => user.ready == true);
 
 		SetStartGameButtonState();
 	}
@@ -196,7 +193,7 @@ public class LobbyPanel : MonoBehaviour
 
 		startGameButton.gameObject.SetActive(true);
 
-		if (playerListItemLookup.Keys.Count >= Min_Connected_Players && playerListItemLookup.Values.All(item => item.IsReady))
+		if (playerListItemLookup.Keys.Count >= Min_Connected_Players && AllPlayersReady)
 		{
 			// Enable the start game button
 			startGameButton.Enabled = true;
@@ -238,7 +235,7 @@ public class LobbyPanel : MonoBehaviour
 
 	public void OnReadyButtonPress()
 	{
-		AccountServerManager.instance.Ready(true);
+		AccountServerManager.instance.Ready(!isReady);
 	}
 
 	public void OnStartGameButtonPress()

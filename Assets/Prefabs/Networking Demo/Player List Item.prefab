@@ -134,6 +134,129 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4043796621783710774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7822538035750039872}
+  - component: {fileID: 1519344347720409914}
+  - component: {fileID: 8944732564355922645}
+  - component: {fileID: 2804843789596483409}
+  m_Layer: 5
+  m_Name: Tick Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7822538035750039872
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4043796621783710774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109060031355108709}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2.9, y: 4.1087}
+  m_SizeDelta: {x: 42.274, y: 42.274}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1519344347720409914
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4043796621783710774}
+  m_CullTransparentMesh: 1
+--- !u!114 &8944732564355922645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4043796621783710774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.21857232, g: 0.745283, b: 0.17225882, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 608e3dbd4c6cb4625a890ee8ebeb477f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2804843789596483409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4043796621783710774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3b0b6bf1a82457cb480fd4d5ff3d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 7822538035750039872}
+  activateEaseActions:
+  - rid: 5999190890501111815
+  deactivateEaseActions:
+  - rid: 5999190890501111816
+  activateOnEnable: 0
+  initiliseActiveState: 1
+  hideOnEnable: 1
+  hideAfterDisable: 1
+  useUnscaledTime: 0
+  onActivateCompleteAction:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeactivateCompleteAction:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5999190890501111815
+      type: {class: ScaleEaseAction, ns: noWeekend, asm: noweekend.weekendtween.runtime}
+      data:
+        duration: 0.5
+        delay: 0
+        easeType: 1
+        fromScale: {x: 0, y: 0, z: 0}
+        toScale: {x: 1, y: 1, z: 1}
+    - rid: 5999190890501111816
+      type: {class: ScaleEaseAction, ns: noWeekend, asm: noweekend.weekendtween.runtime}
+      data:
+        duration: 0.5
+        delay: 0
+        easeType: 27
+        fromScale: {x: 1, y: 1, z: 1}
+        toScale: {x: 0, y: 0, z: 0}
 --- !u!1 &4079280893265792197
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +287,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7822538035750039872}
   m_Father: {fileID: 8710484890954929205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -328,7 +452,7 @@ GameObject:
   - component: {fileID: 8300847225344819026}
   - component: {fileID: 7303443269793922425}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Kick Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -487,6 +611,7 @@ MonoBehaviour:
   nameText: {fileID: 7551446486535428392}
   colourImage: {fileID: 3253625147679528961}
   kickButton: {fileID: 2385407412076621997}
+  tickImage: {fileID: 2804843789596483409}
 --- !u!1001 &1125016606937631025
 PrefabInstance:
   m_ObjectHideFlags: 0

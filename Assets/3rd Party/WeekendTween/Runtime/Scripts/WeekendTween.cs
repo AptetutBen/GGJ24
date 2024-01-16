@@ -257,17 +257,25 @@ namespace noWeekend
 		// -----------------------------------------------------------------
 		// Activate Eases
 
-		public void Activate() => Activate(null);
-
-		public void Activate(Action onComplete = null, float stopMotionStart = 0)
+		public void SetActivated()
 		{
-			Activate(onComplete);
+			//Finish all Tweens
+			StopAllTweens();
+
+			foreach (EaseAction easeAction in activateEaseActions)
+			{
+				if (IsEaseActionLastOfType(activateEaseActions, easeAction))
+				{
+					easeAction.SetEnd(targetTransform);
+				}
+			}
 		}
-		
+
         public void Activate(Action onComplete = null)
         {
 			StopAllTweens();
 			if (activateEaseActions.Count == 0)return;
+			
 			onActivateCoroutine = StartCoroutine(ActivateCoroutine(onComplete));
         }
 
@@ -314,14 +322,25 @@ namespace noWeekend
 		// -----------------------------------------------------------------
 		// Deactivate Eases
 
-		//Deactivate Ease actions 
-		public void Deactivate() => Deactivate(null);
 
-		public void Deactivate(Action onComplete = null, float stopMotionStart = 0)
+		public void SetDeactivated()
 		{
-			Deactivate(onComplete);
+			StopAllTweens();
+			//Finish all Tweens
+			foreach (EaseAction easeAction in deactivateEaseActions)
+			{
+				if (IsEaseActionLastOfType(deactivateEaseActions, easeAction))
+				{
+					easeAction.SetEnd(targetTransform);
+				}
+			}
+
+			if (hideAfterDisable)
+			{
+				Hide();
+			}
 		}
-		
+
 		//Deactivate Ease actions with callback
 		public void Deactivate(Action onComplete = null)
         {

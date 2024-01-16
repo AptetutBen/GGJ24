@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using noWeekend;
 
 public class PlayerListItemUI : MonoBehaviour
 {
@@ -12,13 +13,12 @@ public class PlayerListItemUI : MonoBehaviour
 	[SerializeField] TextMeshProUGUI nameText;
 	[SerializeField] Image colourImage;
 	[SerializeField] TouchButton kickButton;
+	[SerializeField] WeekendTween tickImage;
 
-	private bool isReady;
 	private string userId;
 	private Action<string> kickAction;
-	public bool IsReady => isReady;
 
-	public void Initalise(string userId, UserData userData, bool isOwner, bool showKick, Action<string> kickAction)
+	public void Initalise(string userId, UserData userData, bool isOwner, bool showKick, Action<string> kickAction, bool isReady)
 	{
 		crown.SetActive(isOwner);
 
@@ -43,11 +43,30 @@ public class PlayerListItemUI : MonoBehaviour
 		kickButton.gameObject.SetActive(showKick);
 		this.userId = userId;
 		this.kickAction = kickAction;
+
+		if (isReady)
+		{
+			tickImage.SetActivated();
+		}
 	}
 
 	public void SetReady(bool isReady)
 	{
-		this.isReady = isReady;
+		if (isReady)
+		{
+			if (!tickImage.IsActive)
+			{
+				tickImage.Activate();
+			}
+
+		}
+		else
+		{
+			if (tickImage.IsActive)
+			{
+				tickImage.Deactivate();
+			}
+		}
 	}
 
 	public void OnKickButtonPress()
