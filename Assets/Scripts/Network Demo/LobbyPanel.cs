@@ -39,6 +39,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
+		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
     public void OnDisable()
@@ -49,7 +50,14 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
+		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
+
+	private void ReceiveStartSession(AccountServerMessage accountServerMessage)
+	{
+		AccountServerManager.instance.StartSession(MainMenuController.instance.UserData);
+	}
+
 
 	// Receive User Info Message
 	public void ReceiveUserInfo(AccountServerMessage accountServerMessage)
@@ -86,12 +94,6 @@ public class LobbyPanel : MonoBehaviour
 	public void ReceiveLobbyInfo(AccountServerMessage accountServerMessage)
 	{
 		MessageLobbyInfo messageLobbyInfo = (MessageLobbyInfo)accountServerMessage;
-
-		// Remove old player list items
-		foreach (Transform child in lobbyCodeParent)
-		{
-			Destroy(child.gameObject);
-		}
 
 		foreach (Transform child in playerListParent)
 		{
@@ -134,6 +136,12 @@ public class LobbyPanel : MonoBehaviour
 		{
 			if(currentLobbyId != lobbyID)
 			{
+				// Remove old player list items
+				foreach (Transform child in lobbyCodeParent)
+				{
+					Destroy(child.gameObject);
+				}
+
 				// Build lobby code
 				for (int i = 0; i < 4; i++)
 				{

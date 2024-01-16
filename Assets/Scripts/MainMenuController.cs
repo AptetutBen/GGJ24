@@ -18,6 +18,14 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private LobbyPanel lobbyPanel;
 	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
 
+	public UserData UserData
+	{
+		get
+		{
+			return new UserData(playerPanel.GetName, playerPanel.GetColour);
+		}
+	}
+
 	private void Awake()
 	{
 		instance = this;
@@ -54,17 +62,7 @@ public class MainMenuController : MonoBehaviour
 
 	private void OnAccountServerStateChange(AccountServerState newState){
 
-		WeekendLogger.LogLobby($"New account server state: {newState}");
 
-		if(newState == AccountServerState.Connected)
-		{
-			SendPlayerData();
-		}
-	}
-
-	private void SendPlayerData()
-	{
-		AccountServerManager.instance.UpdateUser(new UserData(playerPanel.GetName, playerPanel.GetColour));
 	}
 
     // When the player presses the exit button
@@ -84,7 +82,6 @@ public class MainMenuController : MonoBehaviour
 		{
 			if (wasSucessful)
 			{
-				SendPlayerData();
 				WeekendLogger.LogNetworkServer("Connected to account server");
 				if (enterCode)
 				{
