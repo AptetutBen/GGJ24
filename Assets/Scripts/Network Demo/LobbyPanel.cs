@@ -10,7 +10,7 @@ using System.Linq;
 public class LobbyPanel : MonoBehaviour
 {
 	//[SerializeField] private TextMeshProUGUI addressText,addressShadowText;
-	private readonly int Min_Connected_Players = 2;
+	private readonly int Min_Connected_Players = 1;
 
 	[SerializeField] private PlayerListItemUI playerListPrefab;
 	[SerializeField] private Transform playerListParent;
@@ -64,8 +64,6 @@ public class LobbyPanel : MonoBehaviour
 	public void ReceiveUserInfo(AccountServerMessage accountServerMessage)
     {
         MessageUserInfo messageUserInfo = (MessageUserInfo)accountServerMessage;
-
-        WeekendLogger.LogLobby(messageUserInfo.userData);
 
 		myID = messageUserInfo.userID;
 	}

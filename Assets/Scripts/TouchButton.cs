@@ -58,6 +58,7 @@ public class TouchButton : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 			if (value)
 			{
 				interactabe = true;
+				background.color = Color.white;
 			}
 			else
 			{
