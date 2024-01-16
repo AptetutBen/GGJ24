@@ -224,6 +224,7 @@ function LeaveLobby(user:LobbyUser){
 		id:"",
 		users:[]
 	}
+	user.ready = false;
 }
 
 function CleanupUser(user:LobbyUser | null){
@@ -309,8 +310,8 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 			}
 			break;
 		case MessageType.Ready:
-			if(messageData.ready){
-				user.ready = messageData.ready;
+			if(messageData.ready != null){
+				user.ready = messageData.ready == true;
 				SendLobbyReady(user.lobby);
 			}
 			break;
