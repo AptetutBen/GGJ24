@@ -224,6 +224,7 @@ function LeaveLobby(user:LobbyUser){
 		id:"",
 		users:[]
 	}
+	user.ready = false;
 }
 
 function CleanupUser(user:LobbyUser | null){
