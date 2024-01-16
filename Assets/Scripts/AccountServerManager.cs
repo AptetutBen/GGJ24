@@ -54,6 +54,7 @@ public class AccountServerManager : MonoBehaviour
     public AccountServerState? currentStateFromBackgroundThread;
     private AccountServerSocketConnection socketConnection = null;
     private string sessionToken;
+    public bool IsConnected => currentState == AccountServerState.Connected;
 
 	private void Awake()
 	{
@@ -252,8 +253,9 @@ public class AccountServerManager : MonoBehaviour
     }
 
     public bool UpdateUser(UserData userData){
-        if(currentState != AccountServerState.Connected)
+		if (currentState != AccountServerState.Connected)
             return false;
+
 
         socketConnection.SendMessage(new RequestUpdateUser(userData));
         return true;

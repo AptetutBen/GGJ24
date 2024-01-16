@@ -29,6 +29,20 @@ public static class Tools
 		return new Color(rgb[0], rgb[1], rgb[2]);
 	}
 
+	// Function to convert Color to hex string
+	public static string ColorToHex(Color color)
+	{
+		// Convert each color component to its hexadecimal representation
+		int r = Mathf.RoundToInt(color.r * 255f);
+		int g = Mathf.RoundToInt(color.g * 255f);
+		int b = Mathf.RoundToInt(color.b * 255f);
+
+		// Combine components into a hex string
+		string hexString = string.Format("#{0:X2}{1:X2}{2:X2}", r, g, b);
+
+		return hexString;
+	}
+
 	public static string GenerateRandomName()
 	{
 		string[] descriptors = {

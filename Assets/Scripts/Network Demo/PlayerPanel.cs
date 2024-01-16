@@ -4,7 +4,7 @@ using noWeekend;
 using TMPro;
 using UnityEngine;
 
-public class NetworkConnectionPanel : MonoBehaviour
+public class PlayerPanel : MonoBehaviour
 {
     public TMP_InputField addressInputField;
     public TMP_InputField portInputField;
@@ -14,33 +14,40 @@ public class NetworkConnectionPanel : MonoBehaviour
 	public WeekendTween tween;
     private bool isHost;
 
-    private void Start()
+    public string GetName => playerNameInputField.text.Length == 0 ? Tools.GenerateRandomName() : playerNameInputField.text;
+    public string GetColour => Tools.ColorToHex(colourPicker.color);
+
+
+	private void Start()
     {
+        Show();
+		playerNameInputField.text = Tools.GenerateRandomName();
+		colourPicker.color = Tools.RandomColour();
 #if UNITY_EDITOR
         addressInputField.text = "127.0.0.1";
 #endif
-    }
+	}
 
-    public void Show(bool isHost)
+    public void Show()
     {
-        this.isHost = isHost;
         gameObject.SetActive(true);
-        addressInputField.gameObject.SetActive(!isHost);
-        portInputField.gameObject.SetActive(!isHost);
 
-        colourPicker.color = Tools.RandomColour();
+        //addressInputField.gameObject.SetActive(!isHost);
+        //portInputField.gameObject.SetActive(!isHost);
 
-        confirmButton.UpdateText(isHost ? "Create" : "Connect");
+        
+
+        //confirmButton.UpdateText(isHost ? "Create" : "Connect");
 
         if(playerNameInputField.text == "")
         {
-            playerNameInputField.text = Tools.GenerateRandomName();
+            
 		}
 
 		tween.Activate();
     }
 
-    public void Hide(Action andThen)
+    public void Hide(Action andThen = null)
     {
 		tween.Deactivate(andThen);
 	}

@@ -82,7 +82,7 @@ public class LobbyPanel : MonoBehaviour
 	}
 
 
-	// Receive Lobby Info Messge
+	// Receive Lobby Info Message
 	public void ReceiveLobbyInfo(AccountServerMessage accountServerMessage)
 	{
 		MessageLobbyInfo messageLobbyInfo = (MessageLobbyInfo)accountServerMessage;
@@ -110,7 +110,7 @@ public class LobbyPanel : MonoBehaviour
 			MessageUserLobbyInfo user = messageLobbyInfo.users[i];
 			PlayerListItemUI newPlayer = Instantiate(playerListPrefab, playerListParent);
 			playerListItemLookup[user.userID] = newPlayer;
-			newPlayer.Initalise(user.userID, "Player Name", Color.blue, i == 0, isLobbyOwner && user.userID != myID, KickPlayer);
+			newPlayer.Initalise(user.userID, user.userData, i == 0, isLobbyOwner && user.userID != myID, KickPlayer);
 
 			// Set the player ready if they are already ready
 			if (readyPlayerLookup.ContainsKey(user.userID))
@@ -247,6 +247,7 @@ public class LobbyPanel : MonoBehaviour
 	{
 		AccountServerManager.instance.LeaveLobby();
 
-		//TODO: hide lobby panel
+		MainMenuController.instance.ReturnToStart();
+		Hide();
 	}
 }

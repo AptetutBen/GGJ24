@@ -18,11 +18,28 @@ public class PlayerListItemUI : MonoBehaviour
 	private Action<string> kickAction;
 	public bool IsReady => isReady;
 
-	public void Initalise(string userId, string name, Color color, bool isOwner, bool showKick, Action<string> kickAction)
+	public void Initalise(string userId, UserData userData, bool isOwner, bool showKick, Action<string> kickAction)
 	{
 		crown.SetActive(isOwner);
-		colourImage.color = color;
-		nameText.text = name;
+
+		if(!string.IsNullOrEmpty(userData.name))
+		{
+			if (ColorUtility.TryParseHtmlString(userData.color, out Color parsedColor))
+			{
+				colourImage.color = parsedColor;
+			}
+			else
+			{
+				WeekendLogger.LogLobbyError($"Can't parse colour : {userData.color}");
+			}
+			nameText.text = userData.name;
+		}
+		else
+		{
+			colourImage.color = Color.black;
+			nameText.text = "New Player";
+		}
+
 		kickButton.gameObject.SetActive(showKick);
 		this.userId = userId;
 		this.kickAction = kickAction;

@@ -1,15 +1,26 @@
 using UnityEngine;
 public class AccountServerMessage{}
 
+[System.Serializable]
 public struct UserData{
     // TODO: Ben add things to this
     // Allowed: String / floats / ints / bools
+    public string name;
+    public string color;
+
+    public UserData(string name, string color)
+    {
+        this.name = name;
+        this.color = color;
+    }
 }
 
+[System.Serializable]
 public struct GameSettings{
     // TODO: Ben & Luis chat about what goes here
 }
 
+[System.Serializable]
 public class MessageUserInfo: AccountServerMessage{
     public string userID; 
     public UserData userData;

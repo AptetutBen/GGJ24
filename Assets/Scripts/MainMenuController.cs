@@ -7,15 +7,21 @@ using System;
 
 public class MainMenuController : MonoBehaviour
 {
+	public static MainMenuController instance;
 	[SerializeField] private AudioClip musicClip;
 
     // Panels
 	[SerializeField] private OptionsPanel optionsPanel;
-	[SerializeField] private NetworkConnectionPanel networkConnectionPanel;
+	[SerializeField] private PlayerPanel playerPanel;
 	[SerializeField] private NetworkErrorPanel networkErrorPanel;
 	[SerializeField] private ButtonsPanel buttonsPanel;
 	[SerializeField] private LobbyPanel lobbyPanel;
 	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
+
+	private void Awake()
+	{
+		instance = this;
+	}
 
 	// Start is called before the first frame update
 	void Start()
@@ -28,9 +34,14 @@ public class MainMenuController : MonoBehaviour
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
 	}
 
-
-    private void AttemptToConnectToAccountServer(Action<bool,string> andThen)
+	private void AttemptToConnectToAccountServer(Action<bool,string> andThen)
     {
+		if (AccountServerManager.instance.IsConnected)
+		{
+			andThen?.Invoke(true, "");
+			return;
+		}
+
 		AccountServerManager.instance.ConnectToAccountServer((wasSuccessful, message) => {
 			andThen?.Invoke(wasSuccessful,message);
 		});
@@ -44,6 +55,11 @@ public class MainMenuController : MonoBehaviour
 	private void OnAccountServerStateChange(AccountServerState newState){
 
 		WeekendLogger.LogLobby($"New account server state: {newState}");
+
+		if(newState == AccountServerState.Connected)
+		{
+			AccountServerManager.instance.UpdateUser(new UserData(playerPanel.GetName, playerPanel.GetColour));
+		}
 	}
 
     // When the player presses the exit button
@@ -56,7 +72,9 @@ public class MainMenuController : MonoBehaviour
     // Player Starts a game
     public void OnStartGameButtonPress(bool enterCode)
     {
+
 		buttonsPanel.Hide();
+		playerPanel.Hide();
 		AttemptToConnectToAccountServer((bool wasSucessful, string message) =>
 		{
 			if (wasSucessful)
@@ -79,6 +97,12 @@ public class MainMenuController : MonoBehaviour
 		});
 	}
 
+	public void ReturnToStart()
+	{
+		buttonsPanel.Show();
+		playerPanel.Show();
+	}
+
 	public void JoinLobby(string lobbyCode)
     {
 		AccountServerManager.instance.JoinLobby(lobbyCode);
@@ -87,7 +111,7 @@ public class MainMenuController : MonoBehaviour
 
     public void OnExitMultiplayerButtonPress()
     {
-		networkConnectionPanel.Hide(
+		playerPanel.Hide(
             () => buttonsPanel.Show()
         );
     }
@@ -98,6 +122,4 @@ public class MainMenuController : MonoBehaviour
         // Show the options panel
         optionsPanel.Show();
 	}
-
-
 }

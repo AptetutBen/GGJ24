@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class JoinLobbyPanel : MonoBehaviour
 {
-	private List<int> inputNumbers = new();
+	private List<int> inputNumbers;
 	[SerializeField] private List<Image> outputImages = new();
 	[SerializeField] private List<Sprite> icons = new();
 	[SerializeField] private MainMenuController mainMenuController;
@@ -33,10 +33,23 @@ public class JoinLobbyPanel : MonoBehaviour
 	public void Show()
 	{
 		gameObject.SetActive(true);
+
+		inputNumbers = new();
+
+		foreach (Image image in outputImages)
+		{
+			image.sprite = null;
+		}
 	}
 
 	public void Hide()
 	{
 		gameObject.SetActive(false);
+	}
+
+	public void OnBackButtonPress()
+	{
+		MainMenuController.instance.ReturnToStart();
+		Hide();
 	}
 }
