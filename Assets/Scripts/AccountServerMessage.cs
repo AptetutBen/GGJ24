@@ -107,6 +107,19 @@ public class RequestUpdateUser: AccountServerRequest{
     }
 }
 
+public class RequestStartSession: AccountServerRequest{
+    public UserData userData;
+    
+    public RequestStartSession(UserData userData){
+        this.userData = userData;
+        type = (int)MessageType.StartSession;
+    }
+
+    public override string ToJSON(){
+        return JsonUtility.ToJson(this);
+    }
+}
+
 public class RequestStartGame: AccountServerRequest{
     
     public RequestStartGame(){

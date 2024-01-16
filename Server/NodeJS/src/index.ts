@@ -41,6 +41,7 @@ enum MessageType{
     GameSettings    = 10, // 
     ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
     ServerInfo      = 12, // Eg where should the players join
+	StartSession    = 13
 }
 
 
@@ -123,6 +124,10 @@ function LobbyReadyToSerialisable(lobby:Lobby){
 	}
 
 	return lobbyToSend;
+}
+
+function SendStartSession(user: LobbyUser){
+	SendMessage(user, MessageType.StartSession, {});
 }
 
 function SendUserInfo(user: LobbyUser){
@@ -318,6 +323,19 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 		case MessageType.StartGame:
 			console.log("TODO: Send ServerStatus");
 			break;
+			
+		case MessageType.StartSession:
+			console.log("Got StartSession");
+			if(messageData.userData){
+				user.userData = messageData.userData;
+			}else{
+				user.userData = {};
+			}
+
+			SendUserInfo(user);
+			JoinEmptyLobby(user);
+			break;
+			
 		default:
 			break;
 	}
@@ -352,8 +370,7 @@ const server = net.createServer((socket) => {
 				
 				lobbyUser = messageResult;
 				console.log("Sending MessageType.UserInfo");
-				SendUserInfo(lobbyUser);
-				JoinEmptyLobby(lobbyUser);
+				SendStartSession(lobbyUser);
 			}
 		}else if (lobbyUser.validated == true){
 			HandleAuthenticatedMessage(socket, data, lobbyUser);

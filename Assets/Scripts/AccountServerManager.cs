@@ -20,6 +20,7 @@ public enum MessageType{
     GameSettings    = 10, // 
     ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
     ServerInfo      = 12, // Eg where should the players join
+    StartSession    = 13
 }
 
 public enum AccountServerState{
@@ -207,6 +208,9 @@ public class AccountServerManager : MonoBehaviour
 					    case MessageType.Chat:
 						    message = JsonUtility.FromJson<MessageChat>(messageData);
 						    break;
+					    case MessageType.StartSession:
+						    message = new AccountServerMessage();
+						    break;
 
 					    default:
 						    WeekendLogger.LogNetworkServer($"Unknown message type {messageType} received: \"{messageData}\"");
@@ -282,6 +286,14 @@ public class AccountServerManager : MonoBehaviour
             return false;
 
         socketConnection.SendMessage(new RequestStartGame());
+        return true;
+    }
+
+    public bool StartSession(UserData userData){
+        if(currentState != AccountServerState.Connected)
+            return false;
+
+        socketConnection.SendMessage(new RequestStartSession(userData));
         return true;
     }
 }
