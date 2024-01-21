@@ -32,7 +32,8 @@ public class AccountServerSocketConnection
         onConnectionStateChange(AccountServerState.Connecting);
         using TcpClient client = new();
         IPAddress[] address = await Dns.GetHostAddressesAsync("ggj24.games.luisvsm.com");
-        await client.ConnectAsync(address, 7776);
+        //await client.ConnectAsync(address, 7776);
+        await client.ConnectAsync(IPAddress.Parse("192.168.88.65"), 7776);
         await using NetworkStream stream = client.GetStream();
         openConnection = stream;
 
