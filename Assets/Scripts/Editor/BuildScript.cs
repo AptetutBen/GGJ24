@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections.Generic;
 
 public class BuildScript
 {
@@ -13,6 +14,13 @@ public class BuildScript
     static string[] getScenes()
     {
         return EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
+    }
+
+    static string[] getServerScenes()
+    {
+        List<string> scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToList();
+        scenes.Insert(0, "DedicatedServer");
+        return scenes.ToArray();
     }
 
     [MenuItem("Build/Linux64 [Development]")]
@@ -42,6 +50,40 @@ public class BuildScript
         }
     }
 
+    [MenuItem("Build/Server/Linux64 [Development]")]
+    static void PerformBuildLinux64Server()
+    {
+        string buildName = PlayerSettings.productName.Replace(" ", "-");
+        string buildFolder = "linux-server";
+        string extension = "x86_64";
+        string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
+        
+        BuildReport buildReport = null;
+        startLoggingErrors();
+
+        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.IL2CPP);
+
+        BuildPlayerOptions buildPlayerOptions = BuildPlayerWindow.DefaultBuildMethods.GetBuildPlayerOptions(new BuildPlayerOptions());
+        buildPlayerOptions.scenes = getServerScenes();
+        buildPlayerOptions.locationPathName = $"./builds/{buildFolder}/{buildName}";
+        buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
+        buildPlayerOptions.subtarget = buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
+        buildPlayerOptions.options = BuildOptions.Development;
+
+        try{
+            buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        }catch(Exception error){
+            Debug.LogError(error);
+        }
+
+        stopLoggingErrors();
+        
+        if(buildReport!= null && buildReport.summary.result == BuildResult.Succeeded){
+            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", buildArtifact);
+        }else{
+            EditorApplication.Exit(1);
+        }
+    }
 
     [MenuItem("Build/OSX [Development]")]
     static void PerformBuildOSX()
@@ -58,6 +100,41 @@ public class BuildScript
         try{
             buildReport = BuildPipeline.BuildPlayer(getScenes(), buildArtifact,
                 BuildTarget.StandaloneOSX, developmentBuild);
+        }catch(Exception error){
+            Debug.LogError(error);
+        }
+
+        stopLoggingErrors();
+        
+        if(buildReport!= null && buildReport.summary.result == BuildResult.Succeeded){
+            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", $"./builds/{buildFolder}");
+        }else{
+            EditorApplication.Exit(1);
+        }
+    }
+
+    [MenuItem("Build/Server/Windows [Development]")]
+    static void PerformBuildWindowsServer()
+    {
+        string buildName = PlayerSettings.productName.Replace(" ", "-");
+        string buildFolder = "windows-server";
+        string extension = "exe";
+        string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
+        BuildReport buildReport = null;
+        startLoggingErrors();
+
+        // The build server is osx so it can only build mono
+        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.Mono2x);
+        
+        BuildPlayerOptions buildPlayerOptions = BuildPlayerWindow.DefaultBuildMethods.GetBuildPlayerOptions(new BuildPlayerOptions());
+        buildPlayerOptions.scenes = getServerScenes();
+        buildPlayerOptions.locationPathName = $"./builds/{buildFolder}/{buildName}";
+        buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
+        buildPlayerOptions.subtarget = buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
+        buildPlayerOptions.options = BuildOptions.Development;
+        
+        try{
+            buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
         }catch(Exception error){
             Debug.LogError(error);
         }
