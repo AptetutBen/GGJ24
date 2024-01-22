@@ -19,7 +19,7 @@ public class BuildScript
     static string[] getServerScenes()
     {
         List<string> scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToList();
-        scenes.Insert(0, "DedicatedServer");
+        scenes.Insert(0, "Assets/Scenes/DedicatedServer.unity");
         return scenes.ToArray();
     }
 
@@ -57,32 +57,15 @@ public class BuildScript
         string buildFolder = "linux-server";
         string extension = "x86_64";
         string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
-        
-        BuildReport buildReport = null;
-        startLoggingErrors();
 
-        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.IL2CPP);
-
-        BuildPlayerOptions buildPlayerOptions = BuildPlayerWindow.DefaultBuildMethods.GetBuildPlayerOptions(new BuildPlayerOptions());
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = getServerScenes();
-        buildPlayerOptions.locationPathName = $"./builds/{buildFolder}/{buildName}";
+        buildPlayerOptions.locationPathName = $"builds/{buildFolder}/{buildName}";
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-        buildPlayerOptions.subtarget = buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
+        buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
         buildPlayerOptions.options = BuildOptions.Development;
 
-        try{
-            buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
-        }catch(Exception error){
-            Debug.LogError(error);
-        }
-
-        stopLoggingErrors();
-        
-        if(buildReport!= null && buildReport.summary.result == BuildResult.Succeeded){
-            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", buildArtifact);
-        }else{
-            EditorApplication.Exit(1);
-        }
+        PerformBuild(buildPlayerOptions, buildArtifact);
     }
 
     [MenuItem("Build/OSX [Development]")]
@@ -116,25 +99,43 @@ public class BuildScript
     [MenuItem("Build/Server/Windows [Development]")]
     static void PerformBuildWindowsServer()
     {
+        // The build server is osx so it can only build mono
+        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.Mono2x);
+        
         string buildName = PlayerSettings.productName.Replace(" ", "-");
         string buildFolder = "windows-server";
         string extension = "exe";
         string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
-        BuildReport buildReport = null;
-        startLoggingErrors();
 
-        // The build server is osx so it can only build mono
-        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.Mono2x);
-        
-        BuildPlayerOptions buildPlayerOptions = BuildPlayerWindow.DefaultBuildMethods.GetBuildPlayerOptions(new BuildPlayerOptions());
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = getServerScenes();
-        buildPlayerOptions.locationPathName = $"./builds/{buildFolder}/{buildName}";
+        buildPlayerOptions.locationPathName = buildArtifact;
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-        buildPlayerOptions.subtarget = buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
+        buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
         buildPlayerOptions.options = BuildOptions.Development;
-        
+
+        PerformBuild(buildPlayerOptions, buildArtifact);
+    }
+
+    static void PerformBuild(BuildPlayerOptions buildPlayerOptions, string buildArtifact)
+    {
+        startLoggingErrors();
+        BuildReport buildReport = null;
+
         try{
             buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            BuildSummary summary = buildReport.summary;
+
+            if (summary.result == BuildResult.Succeeded)
+            {
+                Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+            }
+
+            if (summary.result == BuildResult.Failed)
+            {
+                Debug.Log("Build failed");
+            }
+
         }catch(Exception error){
             Debug.LogError(error);
         }
@@ -142,7 +143,7 @@ public class BuildScript
         stopLoggingErrors();
         
         if(buildReport!= null && buildReport.summary.result == BuildResult.Succeeded){
-            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", $"./builds/{buildFolder}");
+            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", buildArtifact);
         }else{
             EditorApplication.Exit(1);
         }
@@ -151,30 +152,21 @@ public class BuildScript
     [MenuItem("Build/Windows [Development]")]
     static void PerformBuildWindows()
     {
+        // The build server is osx so it can only build mono
+        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+        
         string buildName = PlayerSettings.productName.Replace(" ", "-");
         string buildFolder = "windows";
         string extension = "exe";
         string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
-        BuildReport buildReport = null;
-        startLoggingErrors();
 
-        // The build server is osx so it can only build mono
-        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.scenes = getServerScenes();
+        buildPlayerOptions.locationPathName = buildArtifact;
+        buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
+        buildPlayerOptions.options = BuildOptions.Development;
 
-        try{
-            buildReport = BuildPipeline.BuildPlayer(getScenes(), buildArtifact,
-            BuildTarget.StandaloneWindows64, developmentBuild);
-        }catch(Exception error){
-            Debug.LogError(error);
-        }
-
-        stopLoggingErrors();
-        
-        if(buildReport!= null && buildReport.summary.result == BuildResult.Succeeded){
-            System.IO.File.WriteAllText(@"./builds/lastbuild.txt", $"./builds/{buildFolder}");
-        }else{
-            EditorApplication.Exit(1);
-        }
+        PerformBuild(buildPlayerOptions, buildArtifact);
     }
 
     [MenuItem("Build/Android [Development]")]
