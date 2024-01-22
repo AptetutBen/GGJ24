@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 public class DedicatedServer : MonoBehaviour
 {
     bool shouldStartGameServer = false;
+    public static bool isDedicatedServer = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Ohhhhhhhhhhhhhhhh boi I'm a dedicated server weeeeeeeeeewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+        // Let's goooooooooooooooooooooooooooooooooooooooooooooo
+        isDedicatedServer = true;
+        DontDestroyOnLoad(this.gameObject);
+
         Debug.Log("Loading Main Game scene");
         SceneManager.LoadScene("Main Game");
         shouldStartGameServer = true;
