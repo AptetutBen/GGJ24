@@ -53,6 +53,8 @@ public class BuildScript
     [MenuItem("Build/Server/Linux64 [Development]")]
     static void PerformBuildLinux64Server()
     {
+        PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Server, ScriptingImplementation.IL2CPP);
+        
         string buildName = PlayerSettings.productName.Replace(" ", "-");
         string buildFolder = "linux-server";
         string extension = "x86_64";

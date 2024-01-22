@@ -1,0 +1,9 @@
+FROM alpine:3.14
+
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+EXPOSE 7777/tcp
+EXPOSE 5050/tcp
+
+ENTRYPOINT ["/usr/src/app/GGJ24"]
