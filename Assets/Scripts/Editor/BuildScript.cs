@@ -62,7 +62,7 @@ public class BuildScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = getServerScenes();
-        buildPlayerOptions.locationPathName = $"builds/{buildFolder}/{buildName}";
+        buildPlayerOptions.locationPathName = buildArtifact;
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
         buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
         buildPlayerOptions.options = BuildOptions.Development;
