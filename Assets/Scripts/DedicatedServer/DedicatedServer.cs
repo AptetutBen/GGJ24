@@ -25,6 +25,8 @@ public class DedicatedServer : MonoBehaviour
         Debug.Log("Loading Main Game scene");
         SceneManager.LoadScene("Main Game");
         shouldStartGameServer = true;
+
+        Application.targetFrameRate = 30;
     }
 
     // Update is called once per frame
