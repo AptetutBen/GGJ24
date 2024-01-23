@@ -106,7 +106,10 @@ public class NetworkController : MonoBehaviour
 #if UNITY_EDITOR
     return !ClonesManager.IsClone();
 #else
-        return true;
+        if(DedicatedServer.isDedicatedServer)
+            return true;
+            
+        return false;
 #endif
 
     }

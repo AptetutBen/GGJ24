@@ -13,13 +13,16 @@ public class DedicatedServer : MonoBehaviour
     
     private CancellationTokenSource cancelSource;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Awake(){
         // Ohhhhhhhhhhhhhhhh boi I'm a dedicated server weeeeeeeeeewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         // Let's goooooooooooooooooooooooooooooooooooooooooooooo
         isDedicatedServer = true;
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
 
         Debug.Log("Loading Main Game scene");
@@ -35,7 +38,7 @@ public class DedicatedServer : MonoBehaviour
         if(shouldStartGameServer == true){
             if(NetworkController.instance != null){
                 Debug.Log("Starting game server");
-                NetworkController.instance.StartHost();
+                // NetworkController.instance.StartHost();
                 shouldStartGameServer = false;
                 
                 //HTeeeTeePeeeee time

@@ -1,9 +1,9 @@
-FROM alpine:3.14
+FROM ubuntu:24.04
 
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
-EXPOSE 7777/tcp
+EXPOSE 7777/udp
 EXPOSE 5050/tcp
 
-ENTRYPOINT ["/usr/src/app/GGJ24"]
+CMD ./GGJ24.x86_64
