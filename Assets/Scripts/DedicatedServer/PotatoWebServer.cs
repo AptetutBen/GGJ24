@@ -12,7 +12,7 @@ public class PotatoWebServer
 {
     private TcpListener myListener;
     private int port = 5050;
-    private IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+    private IPAddress localAddr = IPAddress.Parse("0.0.0.0");
 
     // Okay so why the heck are we running a web server in Unity?
     // Well!! Basically because it'll make hosting it in Kubernetes a lot easier
