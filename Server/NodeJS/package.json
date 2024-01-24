@@ -18,12 +18,15 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.6",
     "@types/uuid": "^9.0.7",
+    "@types/needle": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.20.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "needle": "^3.3.1",
     "uuid": "^9.0.1"
   }
 }

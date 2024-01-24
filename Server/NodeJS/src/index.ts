@@ -2,7 +2,10 @@ import config from "./config.json";
 import net from "node:net";
 import { ExpressManager } from "./express";
 import { TokenManager } from './token';
+import { KubeTime } from './kubetime';
+
 let tokenManager = new TokenManager();
+let kubeTime = new KubeTime();
 
 interface Lobby{
 	id: string
@@ -395,3 +398,5 @@ const server = net.createServer((socket) => {
 let tcpPort = 7776;
 console.log(`TCP running at http://localhost:${tcpPort}`);
 server.listen(tcpPort, '0.0.0.0');
+
+kubeTime.ReadPods();
