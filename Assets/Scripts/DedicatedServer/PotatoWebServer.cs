@@ -7,6 +7,24 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using Unity.Netcode;
+
+[System.Serializable]
+public class PotatoServerInfo{
+    public bool shouldTerminate;
+    public int numberOfPlayers;
+    public float serverUptimeInSeconds;
+    public string gameMode;
+    public string level;
+
+    public PotatoServerInfo(){
+        this.shouldTerminate = DedicatedServer.shouldTerminate;
+        this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
+        this.serverUptimeInSeconds = Time.time;
+        this.gameMode = "What is life";
+        this.level = "Late Stage Capitalism";
+    }
+}
 
 public class PotatoWebServer
 {
@@ -83,7 +101,8 @@ public class PotatoWebServer
     }
 
     private string GetServerInfo(){
-        return "{}";
+        PotatoServerInfo info = new PotatoServerInfo();
+        return JsonUtility.ToJson(info);
     }
 
     private void SendHeaders(int statusCode, string statusMsg, ref NetworkStream networkStream)

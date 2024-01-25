@@ -8,6 +8,7 @@ public class DedicatedServer : MonoBehaviour
 {
     bool shouldStartGameServer = false;
     public static bool isDedicatedServer = false;
+    public static bool shouldTerminate = false;
 
     private PotatoWebServer webServer;
     
