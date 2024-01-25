@@ -53,7 +53,7 @@ export class KubeTime {
             
             let container = new k8s.V1Container();
             container.name = "ggj24-gameserver-" + randomUUID();
-            container.image = "10.147.20.23:5000/ggj24/ggj24-gameserver:ab64216";
+            container.image = "10.147.20.23:5000/ggj24/ggj24-gameserver:2790d7c";
 
             let gameServerPod = new k8s.V1Pod();
             gameServerPod.apiVersion = "v1";
