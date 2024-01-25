@@ -400,3 +400,4 @@ console.log(`TCP running at http://localhost:${tcpPort}`);
 server.listen(tcpPort, '0.0.0.0');
 
 kubeTime.ReadPods();
+// kubeTime.CreateDistribution();
