@@ -186,6 +186,43 @@ export class KubeTime {
         
     };
 
+    public async LookForServersToTerminate(){
+        try {
+            const items = await this.RequestPods();
+            if(items == null){
+                return
+            }
+
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+
+                if(item.metadata == undefined || item.metadata.labels == undefined){
+                    break;   
+                }
+                
+                let serviceNumber:string|null = item.metadata.labels["ggj24.service"];
+                if(serviceNumber == null){
+                    break;
+                }
+
+                const resp = await needle('get', "http://10.147.20.23:302" + ("00" + serviceNumber.toString()).slice(-2) + "/info");
+                
+                console.log("resp.body.shouldTerminate: " + resp.body.shouldTerminate);
+
+                if(resp.body.shouldTerminate === true){
+                    if(item.metadata.name == undefined){
+                        console.error("Can't find name to terminate pod!");
+                    }else{
+                        console.log("Terminating " + item.metadata.name);
+                        await this.k8sApi.deleteNamespacedPod(item.metadata.name, "ggj24");
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error in LookForServersToTerminate", err);
+        }
+    }
+    
     public async ReadPods(): Promise<void>{
         try {
             const items = await this.RequestPods();

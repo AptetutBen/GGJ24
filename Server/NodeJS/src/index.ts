@@ -459,3 +459,7 @@ console.log(`TCP running at http://localhost:${tcpPort}`);
 server.listen(tcpPort, '0.0.0.0');
 
 kubeTime.ReadPods();
+
+setInterval(
+	function(){kubeTime.LookForServersToTerminate()}, 20 * 1000
+); 
