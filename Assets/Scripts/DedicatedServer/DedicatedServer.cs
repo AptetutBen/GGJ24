@@ -22,6 +22,9 @@ public class PotatoServerInfo{
     }
 
     public void UpdateInfo(){
+        if(Time.time > 30 && this.numberOfPlayers <= 1)
+            DedicatedServer.shouldTerminate = true;
+
         this.shouldTerminate = DedicatedServer.shouldTerminate;
         this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
         this.serverUptimeInSeconds = Time.time;
