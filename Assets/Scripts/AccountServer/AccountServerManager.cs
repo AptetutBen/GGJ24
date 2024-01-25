@@ -36,6 +36,8 @@ public delegate void stateChangeCallback(AccountServerState newState);
 
 public class AccountServerManager : MonoBehaviour
 {
+    public const string clientVersion = "latest";
+
 	public static AccountServerManager instance{
         get{
             if(_instance == null){
@@ -211,6 +213,14 @@ public class AccountServerManager : MonoBehaviour
 					    case MessageType.StartSession:
 						    message = new AccountServerMessage();
 						    break;
+					    case MessageType.ServerStatus:
+						    message = JsonUtility.FromJson<MessageServerStatus>(messageData);
+                            break;
+					    case MessageType.StartGame:
+						    message = JsonUtility.FromJson<MessageStartGame>(messageData);
+                            // Grab the IP address from DNS in case of shenanigans
+                            (message as MessageStartGame).ip = socketConnection.GetServerIP();
+						    break;
 
 					    default:
 						    WeekendLogger.LogNetworkServer($"Unknown message type {messageType} received: \"{messageData}\"");
@@ -293,7 +303,7 @@ public class AccountServerManager : MonoBehaviour
         if(currentState != AccountServerState.Connected)
             return false;
 
-        socketConnection.SendMessage(new RequestStartSession(userData));
+        socketConnection.SendMessage(new RequestStartSession(userData, clientVersion));
         return true;
     }
 }

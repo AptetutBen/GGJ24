@@ -52,6 +52,16 @@ public class MessageChat: AccountServerMessage{
     public string chatMessage;
 }
 
+public class MessageServerStatus: AccountServerMessage{
+    public string message;
+    public bool failed;
+}
+
+public class MessageStartGame: AccountServerMessage{
+    public int port;
+    public string? ip;
+}
+
 public abstract class AccountServerRequest{
     public int type;
     public abstract string ToJSON(); 
@@ -107,11 +117,14 @@ public class RequestUpdateUser: AccountServerRequest{
     }
 }
 
+[System.Serializable]
 public class RequestStartSession: AccountServerRequest{
     public UserData userData;
+    public string clientVersion;
     
-    public RequestStartSession(UserData userData){
+    public RequestStartSession(UserData userData, string clientVersion){
         this.userData = userData;
+        this.clientVersion = clientVersion;
         type = (int)MessageType.StartSession;
     }
 

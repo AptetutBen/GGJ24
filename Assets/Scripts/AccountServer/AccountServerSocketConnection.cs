@@ -21,10 +21,15 @@ public class AccountServerSocketConnection
     byte[] reconstructBuffer = new byte[10240000]; // 10 megabytes
     NetworkStream openConnection = null;
     CancellationTokenSource cancelSource;
+    string socketServerAddress = "";
 
     public void ConnectToAccountServer(string sessionToken, Action<AccountServerState> onConnectionStateChange){
         cancelSource = new CancellationTokenSource();
         Task task = Task.Run(() => ConnectToAccountServerTask(sessionToken, onConnectionStateChange, cancelSource.Token), cancelSource.Token);
+    }
+    
+    public string GetServerIP(){
+        return socketServerAddress;
     }
 
     public async void ConnectToAccountServerTask(string sessionToken, Action<AccountServerState> onConnectionStateChange, CancellationToken cancelToken){
@@ -33,6 +38,7 @@ public class AccountServerSocketConnection
         using TcpClient client = new();
         IPAddress[] address = await Dns.GetHostAddressesAsync("ggj24.games.luisvsm.com");
         await client.ConnectAsync(address, 7776);
+        socketServerAddress = address[0].ToString();
         await using NetworkStream stream = client.GetStream();
         openConnection = stream;
 

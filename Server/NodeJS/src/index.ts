@@ -2,10 +2,11 @@ import config from "./config.json";
 import net from "node:net";
 import { ExpressManager } from "./express";
 import { TokenManager } from './token';
-import { KubeTime } from './kubetime';
+import { KubeTime, GameServerPodInfo } from './kubetime';
 
 let tokenManager = new TokenManager();
 let kubeTime = new KubeTime();
+
 
 interface Lobby{
 	id: string
@@ -19,6 +20,7 @@ interface LobbyUser {
 	socket: net.Socket
 	lobby: Lobby
 	ready: boolean
+	clientVersion: string
 }
 
 interface userRequest{
@@ -28,6 +30,7 @@ interface userRequest{
 	userData?: {[id: string]: string | number | boolean}
 	ready?:boolean
 	chatData?:string
+	clientVersion?:string
 }
 
 
@@ -163,6 +166,23 @@ function SendChat(user: LobbyUser, chatData: string){
 	}
 }
 
+function SendServerStatus(user: LobbyUser, failed: boolean, message:string){
+	for (let i = 0; i < user.lobby.users.length; i++) {
+		SendMessage(user.lobby.users[i], MessageType.ServerStatus, {
+			message: message,
+			failed: failed
+		});
+	}
+}
+
+function SendStartGame(user: LobbyUser, port: Number){
+	for (let i = 0; i < user.lobby.users.length; i++) {
+		SendMessage(user.lobby.users[i], MessageType.StartGame, {
+			port: port
+		});
+	}
+}
+
 // Make the kicked player join an empty lobby
 function KickPlayer(userToKick: string, user:LobbyUser){
 	// Check if the user is the lobby owner (position 0)
@@ -266,7 +286,8 @@ function HandleAnonymousMessage(socket:net.Socket, data:Buffer): LobbyUser | nul
 					id:"",
 					users:[]
 				},
-				ready: false
+				ready: false,
+				clientVersion: "latest"
 			}
 		}else{
 			socket.end('goodbye');
@@ -280,7 +301,7 @@ function HandleAnonymousMessage(socket:net.Socket, data:Buffer): LobbyUser | nul
 	return null;
 }
 
-function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUser){
+async function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUser){
 	let messageData = JSON.parse(data.toString()) as userRequest;
 
 	console.log("messageData", messageData);
@@ -325,11 +346,49 @@ function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUs
 			break;
 		
 		case MessageType.StartGame:
-			console.log("TODO: Send ServerStatus");
+			SendServerStatus(user, false, "Creating server...");
+			let pod:GameServerPodInfo | null;
+
+			try{
+				pod = await kubeTime.CreatePod(user.clientVersion);
+			} catch (err) {
+				console.error(err);
+				SendServerStatus(user, true, "Failed to create game server");
+				break;
+			}
+
+			if(pod == null){
+				SendServerStatus(user, true, "Failed to create game server");
+				break;
+			}
+
+			SendServerStatus(user, false, "Waiting for server to be ready...");
+
+			let success = await kubeTime.WaitForPodToBeReady(pod.name);
+
+			if(success){
+				SendStartGame(user, pod.port);
+			}
 			break;
 			
 		case MessageType.StartSession:
 			console.log("Got StartSession");
+			
+			const regex = /\b[0-9a-f]{7}\b/; // Validate short hash
+			if(!messageData.clientVersion){
+				socket.end('goodbye');
+				console.log("missing clientVersion");
+				return;
+			}
+
+			if(messageData.clientVersion != "latest" && regex.test(messageData.clientVersion) == false){
+				socket.end('goodbye');
+				console.log("missing clientVersion");
+				return;
+			}
+
+			user.clientVersion = messageData.clientVersion;
+
 			if(messageData.userData){
 				user.userData = messageData.userData;
 			}else{
@@ -400,4 +459,3 @@ console.log(`TCP running at http://localhost:${tcpPort}`);
 server.listen(tcpPort, '0.0.0.0');
 
 kubeTime.ReadPods();
-// kubeTime.CreateDistribution();
