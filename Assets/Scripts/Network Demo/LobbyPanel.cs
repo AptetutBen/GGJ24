@@ -40,7 +40,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
-		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
+		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
     public void OnDisable()
@@ -51,13 +51,13 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
-		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
+		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
-	private void ReceiveStartSession(AccountServerMessage accountServerMessage)
-	{
-		AccountServerManager.instance.StartSession(MainMenuController.instance.UserData);
-	}
+	//private void ReceiveStartSession(AccountServerMessage accountServerMessage)
+	//{
+	//	AccountServerManager.instance.StartSession(MainMenuController.instance.UserData);
+	//}
 
 
 	// Receive User Info Message

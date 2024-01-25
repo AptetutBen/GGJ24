@@ -63,10 +63,15 @@ public class MainMenuController : MonoBehaviour
 	private void OnAccountServerStateChange(AccountServerState newState){
 
 
+		if (newState == AccountServerState.Connected)
+		{
+			AccountServerManager.instance.StartSession(UserData);
+		}
 	}
 
-    // When the player presses the exit button
-    public void OnExitButtonPress()
+
+	// When the player presses the exit button
+	public void OnExitButtonPress()
     {
         // Game quits
         Application.Quit();
