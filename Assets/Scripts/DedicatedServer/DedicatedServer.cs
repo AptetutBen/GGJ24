@@ -22,7 +22,12 @@ public class PotatoServerInfo{
     }
 
     public void UpdateInfo(){
+
         if(NetworkManager.Singleton){
+            if(NetworkManager.Singleton.IsServer == false){
+                this.numberOfPlayers = 0;
+                return;
+            }
             this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
 
             if(Time.time > 30 && this.numberOfPlayers < 1){
@@ -71,10 +76,16 @@ public class DedicatedServer : MonoBehaviour
         webServer.StartWebServerWeeewwwww(cancelSource.Token);
     }
 
+    private float lastServerInfoLog;
     // Update is called once per frame
     void Update()
     {
         serverInfo.UpdateInfo();
+
+        if(lastServerInfoLog + 5 < Time.time){
+            lastServerInfoLog = Time.time;
+            WeekendLogger.Log($"[{Mathf.Round(Time.time)}] Players: {serverInfo.numberOfPlayers}");
+        }
 
         if(newGameMode != null){
             GameFlowController.ChangeGameMode((GameFlowController.GameMode) newGameMode);
