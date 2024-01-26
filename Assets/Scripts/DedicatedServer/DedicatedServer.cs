@@ -22,7 +22,7 @@ public class PotatoServerInfo{
     }
 
     public void UpdateInfo(){
-        if(Time.time > 30 && this.numberOfPlayers <= 1)
+        if(Time.time > 30 && this.numberOfPlayers < 1)
             DedicatedServer.shouldTerminate = true;
 
         this.shouldTerminate = DedicatedServer.shouldTerminate;
@@ -69,7 +69,7 @@ public class DedicatedServer : MonoBehaviour
         if(shouldStartGameServer == true){
             if(NetworkController.instance != null){
                 Debug.Log("Starting game server");
-                // NetworkController.instance.StartHost();
+                NetworkController.instance.StartServer();
                 shouldStartGameServer = false;
                 
                 //HTeeeTeePeeeee time

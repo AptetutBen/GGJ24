@@ -61,6 +61,11 @@ public class NetworkController : MonoBehaviour
         networkManager.StartHost();
     }
 
+    public void StartServer()
+    {
+        networkManager.StartServer();
+    }
+
     public void StartClient()
     {
         StartClient(GameFlowController.ipAddress, GameFlowController.host);
@@ -104,9 +109,9 @@ public class NetworkController : MonoBehaviour
     public bool IsDefaultServer()
     {
 #if UNITY_EDITOR
-    return !ClonesManager.IsClone();
+        return !ClonesManager.IsClone();
 #else
-        return true;
+        return false;
 #endif
 
     }
