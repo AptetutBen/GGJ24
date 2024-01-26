@@ -9,9 +9,18 @@ using Unity.Collections;
 public class NetworkPlayer : NetworkBehaviour
 {
     private int index;
-    public Transform cursor;
-    public SpriteRenderer cursorSprite;
+
+    public float speed = 3;
+    public float jumpForce = 5;
+    public LayerMask groundLayerMask;
+
+    [Space]
+
+    public Transform player;
+    public Rigidbody rb;
+    public SpriteRenderer playerSprite;
     public TextMeshPro playerNameText;
+    public GameObject playerCamera;
 
     private readonly NetworkVariable<PlayerNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
@@ -28,7 +37,7 @@ public class NetworkPlayer : NetworkBehaviour
 		playerName.OnValueChanged += OnNameChanged;
 	}
 
-    private void OnColourChanged(Color prev, Color next) => cursorSprite.color = next;
+    private void OnColourChanged(Color prev, Color next) => playerSprite.color = next;
     private void OnNameChanged(FixedString128Bytes prev, FixedString128Bytes next)
     {
         playerNameText.text = next.ToString();
@@ -47,18 +56,21 @@ public class NetworkPlayer : NetworkBehaviour
 		}
         else
         {
-            cursorSprite.color = playerColour.Value;
+            playerSprite.color = playerColour.Value;
             playerNameText.text = playerName.Value.ToString();
 
             playerNameText.color = playerColour.Value;
-		}
+
+            Destroy(rb);
+            Destroy(playerCamera);
+        }
 
 		if (!IsOwner)
         {
             return;
         }
 
-        cursorSprite.sortingLayerName = "Owner Player";
+        playerSprite.sortingLayerName = "Owner Player";
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -84,18 +96,13 @@ public class NetworkPlayer : NetworkBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-		MoveCursor();
+		Move();
 
 		if (!IsOwner)
         {
             return;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            SpawnNetworkObjectServerRPC(GetMousePosition(), playerColour.Value);
         }
     }
 
@@ -108,17 +115,35 @@ public class NetworkPlayer : NetworkBehaviour
 
 	}
 
-    public void MoveCursor()
+    public void Move()
     {
         if (IsOwner)
         {
+            Vector3 pInput = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
+
+            pInput *= speed;
+
+            if (Input.GetKey(KeyCode.Space) && IsGrounded())
+            {
+                Debug.Log("here");
+                pInput.y = jumpForce;
+            }
+            else
+            {
+                pInput.y = rb.velocity.y;
+            }
+
+            rb.velocity = pInput;
+
             netState.Value = new PlayerNetworkData()
             {
-                Position = GetMousePosition()
+                Position = player.transform.position
             };
-		}
-
-        cursor.transform.position = netState.Value.Position;
+        }
+        else
+        {
+            player.transform.position = netState.Value.Position;
+        }
 	}
 
     private Vector3 GetMousePosition()
@@ -126,19 +151,33 @@ public class NetworkPlayer : NetworkBehaviour
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         return new Vector3(worldPos.x, worldPos.y, 0);
     }
+
+    public bool IsGrounded()
+    {
+        // Adjust the position of the sphere to be just below the character's feet
+        Vector3 spherePosition = player.position - new Vector3(0, 0.55f, 0);
+
+        // Perform a sphere cast to check for ground
+        bool grounded = Physics.SphereCast(spherePosition, 0.3f, Vector3.down, out RaycastHit hitInfo, 0.4f, groundLayerMask);
+
+        // If the sphere cast hits something within the specified layer, consider it grounded
+        return grounded;
+    }
 }
+
 
 struct PlayerNetworkData : INetworkSerializable
 {
-    private float xPos, yPos;
+    private float xPos, yPos, zPos;
 
     internal Vector3 Position
     {
-        get => new Vector3(xPos, yPos, 0);
+        get => new Vector3(xPos, yPos, zPos);
         set
         {
             xPos = value.x;
             yPos = value.y;
+            zPos = value.z;
         }
     }
 
@@ -146,5 +185,7 @@ struct PlayerNetworkData : INetworkSerializable
 	{
         serializer.SerializeValue(ref xPos);
 		serializer.SerializeValue(ref yPos);
-	}
+        serializer.SerializeValue(ref zPos);
+
+    }
 }
