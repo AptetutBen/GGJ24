@@ -13,10 +13,11 @@ public class GameController : NetworkBehaviour
 	private NetworkController networkController;
 	public ClothingPickupNetworkObject clothingPickupPrefab;
 
+
 	// Debug Options
 	[Space]
 	public bool Debug_Use_Debug = false;
-
+	public GameObject Debug_devPlayer;
 
 	private void Awake()
 	{
@@ -36,6 +37,11 @@ public class GameController : NetworkBehaviour
 		networkController = NetworkController.instance;
 
 		Invoke("ConnectNetwork", 1);
+
+		if(Debug_devPlayer != null)
+        {
+			Destroy(Debug_devPlayer);
+        }
     }
 
 	private void ConnectNetwork()

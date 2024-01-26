@@ -27,6 +27,10 @@ public class NetworkPlayer : NetworkBehaviour
     public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.blue,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 	public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    public Clothing hatSlotClothing;
+    public Clothing topSlotClothing;
+    public Clothing pantsSlotClothing;
+
 	private Camera mainCamera;
 
     private void Awake()
@@ -155,9 +159,24 @@ public class NetworkPlayer : NetworkBehaviour
         return grounded;
     }
 
-    public void PickUpClothing(ClothingPickupNetworkObject clothing)
+    public void PickUpClothing(ClothingPickupNetworkObject pickedUpItem)
     {
-        Debug.Log(clothing.clothing.clothingName);
+        Debug.Log(pickedUpItem.clothing.clothingName);
+
+        switch (pickedUpItem.clothing.type)
+        {
+            case Clothing.ClothingType.Hat:
+                hatSlotClothing = pickedUpItem.clothing;
+                break;
+            case Clothing.ClothingType.Pants:
+                pantsSlotClothing = pickedUpItem.clothing;
+                break;
+            case Clothing.ClothingType.Top:
+                topSlotClothing = pickedUpItem.clothing;
+                break;
+            default:
+                break;
+        }
     }
 }
 
