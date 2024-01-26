@@ -20,7 +20,8 @@ public enum MessageType{
     GameSettings    = 10, // 
     ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
     ServerInfo      = 12, // Eg where should the players join
-    StartSession    = 13
+    StartSession    = 13,
+    FindActiveGame = 14
 }
 
 public enum AccountServerState{
@@ -291,11 +292,12 @@ public class AccountServerManager : MonoBehaviour
         return true;
     }
 
-    public bool StartGame(){
+    public bool StartGame(GameFlowController.GameMode gameMode){
         if(currentState != AccountServerState.Connected)
             return false;
 
-        socketConnection.SendMessage(new RequestStartGame());
+        // socketConnection.SendMessage(new RequestStartGame(gameMode));
+        socketConnection.SendMessage(new RequestFindGame(gameMode));
         return true;
     }
 

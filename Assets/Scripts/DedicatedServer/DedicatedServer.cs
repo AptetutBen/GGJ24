@@ -22,11 +22,16 @@ public class PotatoServerInfo{
     }
 
     public void UpdateInfo(){
-        if(Time.time > 30 && this.numberOfPlayers < 1)
-            DedicatedServer.shouldTerminate = true;
+        if(NetworkManager.Singleton){
+            this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
 
-        this.shouldTerminate = DedicatedServer.shouldTerminate;
-        this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
+            if(Time.time > 30 && this.numberOfPlayers < 1){
+                DedicatedServer.shouldTerminate = true;
+                this.shouldTerminate = DedicatedServer.shouldTerminate;
+            }
+        }else{
+            this.numberOfPlayers = 0;
+        }
         this.serverUptimeInSeconds = Time.time;
         this.gameMode = "What is life";
         this.level = "Late Stage Capitalism";
@@ -35,9 +40,10 @@ public class PotatoServerInfo{
 
 public class DedicatedServer : MonoBehaviour
 {
-    bool shouldStartGameServer = false;
+    public static GameFlowController.GameMode? newGameMode = null;
     public static bool isDedicatedServer = false;
     public static bool shouldTerminate = false;
+    public bool serverIsRunning = false;   
     public static PotatoServerInfo serverInfo;
     private PotatoWebServer webServer;
     
@@ -47,6 +53,7 @@ public class DedicatedServer : MonoBehaviour
         // Ohhhhhhhhhhhhhhhh boi I'm a dedicated server weeeeeeeeeewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         // Let's goooooooooooooooooooooooooooooooooooooooooooooo
         isDedicatedServer = true;
+        serverIsRunning = false;
         DontDestroyOnLoad(this.gameObject);
         serverInfo = new PotatoServerInfo();
     }
@@ -54,35 +61,24 @@ public class DedicatedServer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
-        Debug.Log("Loading Main Game scene");
-        SceneManager.LoadScene("Main Game");
-        shouldStartGameServer = true;
-
+        Debug.Log("Set targetFrameRate");
         Application.targetFrameRate = 30;
+        
+        //HTeeeTeePeeeee time
+        Debug.Log("Starting web server");
+        webServer = new PotatoWebServer();
+        cancelSource = new CancellationTokenSource();
+        webServer.StartWebServerWeeewwwww(cancelSource.Token);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(shouldStartGameServer == true){
-            if(NetworkController.instance != null){
-                Debug.Log("Starting game server");
-                NetworkController.instance.StartServer();
-                shouldStartGameServer = false;
-                
-                //HTeeeTeePeeeee time
-                webServer = new PotatoWebServer();
-                cancelSource = new CancellationTokenSource();
-                webServer.StartWebServerWeeewwwww(cancelSource.Token);
-            }else{
-                Debug.Log("Waiting for NetworkController.instance");
-            }
-                
-        }
-
         serverInfo.UpdateInfo();
+
+        if(newGameMode != null){
+            GameFlowController.ChangeGameMode((GameFlowController.GameMode) newGameMode);
+        }
     }
 
     void OnDestroy()

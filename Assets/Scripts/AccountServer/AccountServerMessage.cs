@@ -134,15 +134,31 @@ public class RequestStartSession: AccountServerRequest{
 }
 
 public class RequestStartGame: AccountServerRequest{
+    public int gameMode;
     
-    public RequestStartGame(){
-        type = (int)MessageType.StartGame;
+    public RequestStartGame(GameFlowController.GameMode gameMode){
+        this.gameMode = (int) gameMode;
+        type = (int) MessageType.StartGame;
     }
 
     public override string ToJSON(){
         return JsonUtility.ToJson(this);
     }
 }
+
+public class RequestFindGame: AccountServerRequest{
+    public int gameMode;
+    
+    public RequestFindGame(GameFlowController.GameMode gameMode){
+        this.gameMode = (int) gameMode;
+        type = (int) MessageType.FindActiveGame;
+    }
+
+    public override string ToJSON(){
+        return JsonUtility.ToJson(this);
+    }
+}
+
 
 public class RequestReady: AccountServerRequest{
     public bool ready;
