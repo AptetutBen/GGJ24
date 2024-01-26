@@ -71,10 +71,16 @@ public class DedicatedServer : MonoBehaviour
         webServer.StartWebServerWeeewwwww(cancelSource.Token);
     }
 
+    private float lastServerInfoLog;
     // Update is called once per frame
     void Update()
     {
         serverInfo.UpdateInfo();
+
+        if(lastServerInfoLog + 5 < Time.time){
+            lastServerInfoLog = Time.time;
+            WeekendLogger.Log($"[{Mathf.Round(Time.time)}] Players: {serverInfo.numberOfPlayers}");
+        }
 
         if(newGameMode != null){
             GameFlowController.ChangeGameMode((GameFlowController.GameMode) newGameMode);
