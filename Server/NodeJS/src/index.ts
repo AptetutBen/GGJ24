@@ -268,7 +268,7 @@ let expressManager = new ExpressManager();
 expressManager.Start();
 
 function HandleAnonymousMessage(socket:net.Socket, data:Buffer): LobbyUser | null{
-	let semiPos = data.indexOf(";")
+	let semiPos = data.indexOf("~");
 
 	if(semiPos > 0){
 		let jwt = data.toString().substring(0, semiPos);
@@ -301,10 +301,18 @@ function HandleAnonymousMessage(socket:net.Socket, data:Buffer): LobbyUser | nul
 	return null;
 }
 
-async function HandleAuthenticatedMessage(socket:net.Socket, data:Buffer, user:LobbyUser){
-	let messageData = JSON.parse(data.toString()) as userRequest;
+async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:LobbyUser){
+	console.log("messageData", data);
+	let messageData: userRequest;
 
-	console.log("messageData", messageData);
+	try{
+		messageData = JSON.parse(data) as userRequest;
+	}catch(err){
+		
+		console.log("Discarding user request with invalid JSON: " + data);
+		return;
+	}
+
 
 	if(messageData.lobbyID != null){
 		const regex = /[^0-8]/g;
@@ -421,6 +429,7 @@ const server = net.createServer((socket) => {
 	}); 
 
 	socket.on('data', (data) => {
+		console.log("data: " + data.toString());
 		if(lobbyUser == null){
 			let messageResult = HandleAnonymousMessage(socket, data);
 			
@@ -436,7 +445,18 @@ const server = net.createServer((socket) => {
 				SendStartSession(lobbyUser);
 			}
 		}else if (lobbyUser.validated == true){
-			HandleAuthenticatedMessage(socket, data, lobbyUser);
+			try{
+				let messages = data.toString().split("~");
+				console.log("messages: ", messages);
+	
+				for (let i = 0; i < messages.length; i++) {
+					const message = messages[i];
+					if(message != "")
+						HandleAuthenticatedMessage(socket, message, lobbyUser);
+				}
+			}catch(err){
+				console.log(err);
+			}
 		}
 	});
 

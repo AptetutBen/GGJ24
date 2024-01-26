@@ -42,7 +42,7 @@ public class AccountServerSocketConnection
         await using NetworkStream stream = client.GetStream();
         openConnection = stream;
 
-        stream.Write(Encoding.ASCII.GetBytes(sessionToken + ";"));
+        stream.Write(Encoding.ASCII.GetBytes(sessionToken + "~"));
         int infiniteLoopCatcherLol = 10000;
 
         try{
@@ -179,7 +179,7 @@ public class AccountServerSocketConnection
             return false;
             
         WeekendLogger.LogNetworkServer("Sending messasge");
-        openConnection.Write(Encoding.ASCII.GetBytes(request.ToJSON()));
+        openConnection.Write(Encoding.ASCII.GetBytes(request.ToJSON().Replace("~", "") + "~"));
 
         return true;
     }
