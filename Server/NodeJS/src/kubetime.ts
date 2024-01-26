@@ -3,6 +3,12 @@ import { time } from 'console';
 import { randomUUID } from 'crypto';
 import needle from 'needle';
 
+enum MessageType{
+    None = -1,
+    MMO = 1, // lol
+    Group = 2 // lol
+}
+
 export interface GameServerPodInfo{
 	port: number
 	name: string
@@ -23,7 +29,7 @@ export class KubeTime {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    public async CreatePod(clientVersion:string):Promise<GameServerPodInfo | null>{
+    public async CreatePod(clientVersion:string, gameMode:number):Promise<GameServerPodInfo | null>{
         try {
             
             const items = await this.RequestPods();
@@ -74,7 +80,8 @@ export class KubeTime {
             gameServerPod.metadata = new k8s.V1ObjectMeta();
             gameServerPod.metadata.name = container.name;
             gameServerPod.metadata.labels = {
-                "ggj24.service":nextServerNumber.toString()
+                "ggj24.service":nextServerNumber.toString(),
+                "ggj24.gameMode":gameMode.toString()
             };
             
             const gameServerRequest = await this.k8sApi.createNamespacedPod('ggj24', gameServerPod);
@@ -140,7 +147,7 @@ export class KubeTime {
         }
     }
 
-    public async WaitForPodToBeReady(podName:string):Promise<boolean>{
+    public async WaitForPodToBeReady(podName:string, gameMode:number):Promise<boolean>{
         const timeoutDurationInSeconds = 20;
 
         let timeout = Date.now() + (timeoutDurationInSeconds * 1000);
@@ -159,6 +166,11 @@ export class KubeTime {
                     const resp = await needle('get', "http://10.147.20.23:302" + ("00" + serviceNumber.toString()).slice(-2) + "/info", {parse_response:false});
                     JSON.parse(resp.body);
                     console.log("Pod "+podName+" ready after " + (timeoutDurationInSeconds - ((timeout - Date.now())/1000)).toString() + " seconds.");
+                    if(gameMode == MessageType.MMO){
+                        const gameModeResp = await needle('get', "http://10.147.20.23:302" + ("00" + serviceNumber.toString()).slice(-2) + "/mode_mmo", {parse_response:false});
+                    }else if(gameMode == MessageType.Group){
+                        const gameModeResp = await needle('get', "http://10.147.20.23:302" + ("00" + serviceNumber.toString()).slice(-2) + "/mode_group", {parse_response:false});
+                    }
                     return true;
                 } catch (e) {
                     console.log("Game server is not ready");
@@ -185,6 +197,46 @@ export class KubeTime {
         }
         
     };
+
+    public async GetPodsRunningGameMode(gameModeToFind:number): Promise<GameServerPodInfo | null>{
+        try {
+            const items = await this.RequestPods();
+            if(items == null){
+                return null;
+            }
+
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+
+                if(item.metadata == undefined || item.metadata.labels == undefined){
+                    break;   
+                }
+                
+                let gameMode = item.metadata.labels["ggj24.gameMode"];
+                let serviceNumber = item.metadata.labels["ggj24.service"];
+                if(serviceNumber == null){
+                    break;
+                }
+                if(gameMode == null){
+                    break;
+                }
+                if(item.metadata.name == null){
+                    break;
+                }
+                
+                if(gameModeToFind.toString() == gameMode){
+                    return {
+                        name: item.metadata.name,
+                        port: Number("301" + ("00" + serviceNumber.toString()).slice(-2))
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error in LookForServersToTerminate", err);
+        }
+
+        return null;
+    }
 
     public async LookForServersToTerminate(){
         try {

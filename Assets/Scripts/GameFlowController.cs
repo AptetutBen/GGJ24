@@ -9,9 +9,13 @@ public static class GameFlowController
 	But can be expanded to store the last scene the player was is in last time they were playing etc.
 	*/
 
-	public enum GameMode { Client, Host, Server, Solo}
+	public enum GameMode { 
+		None = -1,
+		MMO = 1, // lol
+		Group = 2 // lol
+	}
 
-	public static GameMode gameMode = GameMode.Solo;
+	public static GameMode gameMode = GameMode.None;
 	public static string ipAddress = "127.0.0.1";
 	public static ushort host = 7777;
 	public static string playerName = "Not Set Up";
@@ -41,6 +45,10 @@ public static class GameFlowController
 
 	}
 
+	public static void ChangeGameMode(GameMode newMode){
+        gameMode = newMode;
+        SceneManager.LoadScene("Main Game");
+    }
 
 	public static void SetHostQuickStart()
 	{
@@ -52,7 +60,6 @@ public static class GameFlowController
     {
 		playerName = name;
 		playerColor = color;
-		gameMode = GameMode.Host;
 
 		if (startNetwork)
 		{
@@ -62,16 +69,21 @@ public static class GameFlowController
 
 	public static void SetClientQuickStart()
 	{
-		gameMode = GameMode.Client;
 		ipAddress = "127.0.0.1";
 		playerName = Tools.GenerateRandomName();
 		host = 7777;
 		playerColor = Tools.RandomColour();
 	}
 
+	public static void SetClient(string address, ushort hostNumber)
+    {
+		ipAddress = address;
+		host = hostNumber;
+		LoadScene("Main Game");
+	}
+
 	public static void SetClient(string address, ushort hostNumber,string name,Color color)
     {
-		gameMode = GameMode.Client;
 		ipAddress = address;
 		playerName = name;
 		host = hostNumber;

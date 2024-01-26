@@ -50,10 +50,15 @@ public class NetworkController : MonoBehaviour
 
     private void Start()
     {
-        IsDefaultServer();
         networkManager = NetworkManager.Singleton;
         networkManager.OnServerStarted += OnServerStarted;
         networkManager.OnServerStopped += OnServerStopped;
+
+        if(DedicatedServer.isDedicatedServer){
+            networkManager.StartServer();
+        }else if(IsDefaultServer()){
+            networkManager.StartHost();
+        }
     }
 
     public void StartHost()

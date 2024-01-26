@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class PotatoWebServer
 {
@@ -67,17 +69,30 @@ public class PotatoWebServer
             else
             {
                 string requestedPath = requestFirstLine[1];
+                WeekendLogger.Log($"requestedPath: {requestedPath}");
                 if(requestedPath == "/info")
                 {
                     SendHeaders(200, "OK", ref stream);
                     stream.Write(Encoding.ASCII.GetBytes(GetServerInfo()));
+                }else if(requestedPath == "/mode_mmo")
+                {
+                    SendHeaders(200, "OK", ref stream);
+                    stream.Write(Encoding.ASCII.GetBytes("Okie"));
+                    DedicatedServer.newGameMode = GameFlowController.GameMode.MMO;
+                }else if(requestedPath == "/mode_group")
+                {
+                    SendHeaders(200, "OK", ref stream);
+                    stream.Write(Encoding.ASCII.GetBytes("Okie"));
+                    DedicatedServer.newGameMode = GameFlowController.GameMode.Group;
                 }
                 else
                 {
                     SendHeaders(404, "Page Not Found", ref stream);
+                    stream.Write(Encoding.ASCII.GetBytes(""));
                 }
             }
 
+            client.GetStream().Close();
             client.Close();
         }
     }

@@ -58,21 +58,10 @@ public class GameController : NetworkBehaviour
 			return;
         }
 
-		switch (GameFlowController.gameMode)
-		{
-			case GameFlowController.GameMode.Client:
+		if (networkController.IsDefaultServer()){
+				networkController.StartHost();
+		}else{
 				networkController.StartClient();
-				break;
-			case GameFlowController.GameMode.Host:
-				networkController.StartHost();
-				break;
-			case GameFlowController.GameMode.Server:
-				break;
-			case GameFlowController.GameMode.Solo:
-				networkController.StartHost();
-				break;
-			default:
-				break;
 		}
 	}
 

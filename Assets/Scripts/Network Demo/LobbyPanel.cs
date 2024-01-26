@@ -40,6 +40,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
+		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartGame, MessageType.StartGame);
 		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
@@ -51,6 +52,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveLobbyInfo, MessageType.LobbyInfo);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
+		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveStartGame, MessageType.StartGame);
 		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
@@ -66,6 +68,14 @@ public class LobbyPanel : MonoBehaviour
         MessageUserInfo messageUserInfo = (MessageUserInfo)accountServerMessage;
 
 		myID = messageUserInfo.userID;
+	}
+
+	// Receive Start Game
+	public void ReceiveStartGame(AccountServerMessage accountServerMessage)
+    {
+        MessageStartGame messageUserInfo = (MessageStartGame)accountServerMessage;
+	
+		GameFlowController.SetClient(messageUserInfo.ip, (ushort) messageUserInfo.port);
 	}
 
 	// Receive Chat Message
@@ -243,7 +253,7 @@ public class LobbyPanel : MonoBehaviour
 			return;
 		}
 
-		AccountServerManager.instance.StartGame();
+		AccountServerManager.instance.StartGame(GameFlowController.GameMode.MMO);
 	}
 
 	public void OnLeaveButtonPress()
