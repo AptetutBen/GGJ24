@@ -15,24 +15,28 @@ MonoBehaviour:
   DatabaseName: Clothing
   Headers:
   - ID
+  - Name
   - Category
   - Description
   - Sprite Name
   DataSets:
   - Values:
     - duck_hat
+    - Duck Hat
     - hat
     - What's he doin' up there?
     - Duck_Hat
     Database: {fileID: 11400000}
   - Values:
     - duck_top
+    - Duck Top
     - top
     - '-'
     - Duck_Top
     Database: {fileID: 11400000}
   - Values:
     - duck_pants
+    - Duck Pants
     - pants
     - '-'
     - Duck_Pants
