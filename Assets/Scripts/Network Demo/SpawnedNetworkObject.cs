@@ -9,20 +9,23 @@ public class SpawnedNetworkObject : NetworkBehaviour
 {
 	private NetworkPlayer owner;
 	private NetworkObject networkObject;
-
+	private float minMoveDistanceForNetwork = 0.1f;
 	public NetworkPlayer Owner => owner;
 
+	private readonly NetworkVariable<ClothingNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
+
 	public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.white, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-	public SpriteRenderer spriteRenderer;
-	public float duration;
+	public Renderer rend;
+	public Rigidbody rb;
 
 	private void Awake()
 	{
 		playerColour.OnValueChanged += OnColourChanged;
-		StartCoroutine(Play());
 	}
 
-	private void OnColourChanged(Color prev, Color next) => spriteRenderer.color = next;
+	private void OnColourChanged(Color prev, Color next) => rend.material.color = next;
+
+
 
 	public override void OnNetworkSpawn()
 	{
@@ -32,7 +35,8 @@ public class SpawnedNetworkObject : NetworkBehaviour
 		}
 		else
 		{
-			spriteRenderer.color = playerColour.Value;
+			Destroy(rb);
+			rend.material.color = playerColour.Value;
 		}
 
 		if (!IsOwner)
@@ -41,27 +45,45 @@ public class SpawnedNetworkObject : NetworkBehaviour
 		}
 	}
 
+    private void FixedUpdate()
+    {
+		Move();
+	}
+
+
+    public void Move()
+	{
+		if (IsOwner)
+		{
+			if(Vector3.Distance(transform.position, netState.Value.Position) < minMoveDistanceForNetwork)
+            {
+				return;
+            }
+
+			netState.Value = new ClothingNetworkData()
+			{
+				Position = transform.position
+			};
+		}
+		else
+		{
+			transform.position = netState.Value.Position;
+		}
+	}
+
+
+
 	[ServerRpc]
 	private void CommitNetworkColourServerRPC(Color color)
 	{
 		playerColour.Value = color;
 	}
 
-	//public void Initialise(NetworkPlayer owner,Color color)
-	//   {
-	//       this.owner = owner;
-	//	objectColour = color;
-	//	networkObject = GetComponent<NetworkObject>();
-	//       networkObject.Spawn();
+	public void PickUpObject()
+    {
+		DestoryServerRPC();
+	}
 
-	//       StartCoroutine(timedDestory());
-	//       InitialiseClientRPC();
-	//       IEnumerator timedDestory()
-	//       {
-	//           yield return new WaitForSeconds(5);
-	//           DestoryServerRPC();
-	//       }
-	//}
 
 	[ServerRpc(RequireOwnership = false)]
 	public void DestoryServerRPC()
@@ -72,20 +94,30 @@ public class SpawnedNetworkObject : NetworkBehaviour
 	[ClientRpc]
 	public void InitialiseClientRPC()
 	{
-		spriteRenderer.color = playerColour.Value;
+		rend.material.color = playerColour.Value;
 	}
 
-	IEnumerator Play()
+	struct ClothingNetworkData : INetworkSerializable
 	{
-		float timer = 0;
+		private float xPos, yPos, zPos;
 
-		while (timer < 1)
+		internal Vector3 Position
 		{
-			timer += Time.deltaTime / duration;
-			spriteRenderer.material.SetFloat("_Value", timer);
+			get => new Vector3(xPos, yPos, zPos);
+			set
+			{
+				xPos = value.x;
+				yPos = value.y;
+				zPos = value.z;
+			}
+		}
 
-			Debug.Log(timer);
-			yield return null;
+		public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+		{
+			serializer.SerializeValue(ref xPos);
+			serializer.SerializeValue(ref yPos);
+			serializer.SerializeValue(ref zPos);
+
 		}
 	}
 

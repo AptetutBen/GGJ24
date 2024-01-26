@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : NetworkBehaviour
 {
 	public static GameController instince; 
 	public AudioClip musicClip;
-	public GameObject pausePanel;
-	public OptionsPanel optionsPanel;
+	//public GameObject pausePanel;
+	//public OptionsPanel optionsPanel;
 	public List<Color> playerColours = new List<Color>();
 	private NetworkController networkController;
+	public SpawnedNetworkObject clothingPickupPrefab;
 
 	// Debug Options
 	[Space]
@@ -30,7 +32,7 @@ public class GameController : MonoBehaviour
 	void Start()
     {
         AudioManager.instance.SwitchMusicClip(musicClip);
-		pausePanel.SetActive(false);
+		//pausePanel.SetActive(false);
 		networkController = NetworkController.instance;
 
 		Invoke("ConnectNetwork", 1);
@@ -74,48 +76,63 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-    private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+    public override void OnNetworkSpawn()
+    {
+		if (IsServer)
 		{
-			if (pausePanel.activeSelf)
-			{
-				UnPauseGame();
-			}
-			else
-			{
-				PauseGame();
-			}
+			StartCoroutine(SpawnClothesPickupCoroutine());
 		}
 	}
 
-	public void PauseGame()
+    private IEnumerator SpawnClothesPickupCoroutine()
+    {
+        while (true)
+        {
+			SpawnNetworkObjectServerRPC((Random.insideUnitSphere * 10) + Vector3.up * 10, Color.blue);
+
+			yield return new WaitForSeconds(5);
+		}
+    }
+
+
+
+	[ServerRpc]
+	private void SpawnNetworkObjectServerRPC(Vector3 position, Color color)
 	{
-		Time.timeScale = 0;
-		pausePanel.SetActive(true);
+		SpawnedNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
+		spawnObject.GetComponent<NetworkObject>().Spawn();
+		spawnObject.playerColour.Value = color;
 	}
 
-	public void UnPauseGame()
-	{
-		Time.timeScale = 1;
-		pausePanel.SetActive(false);
-		optionsPanel.Hide(true);
-	}
+
+
+	//public void PauseGame()
+	//{
+	//	Time.timeScale = 0;
+	//	pausePanel.SetActive(true);
+	//}
+
+	//public void UnPauseGame()
+	//{
+	//	Time.timeScale = 1;
+	//	pausePanel.SetActive(false);
+	//	optionsPanel.Hide(true);
+	//}
 
 	public void OnResumeButtonPress()
 	{
-		UnPauseGame();
+		//UnPauseGame();
 	}
 
 	public void OnMainMenuButtonPress()
 	{
-		UnPauseGame();
+		//UnPauseGame();
 		GameFlowController.LoadScene("Main Menu", false);
 	}
 
 	public void OnOptionsButtonPress()
 	{
-		optionsPanel.Show();
+		//optionsPanel.Show();
 	}
 
 	public void OnExitButtonPress()

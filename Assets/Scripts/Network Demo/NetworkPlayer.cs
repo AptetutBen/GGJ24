@@ -20,7 +20,7 @@ public class NetworkPlayer : NetworkBehaviour
     public Rigidbody rb;
     public SpriteRenderer playerSprite;
     public TextMeshPro playerNameText;
-    public GameObject playerCamera;
+    public GameObject ownerOnlyObject;
 
     private readonly NetworkVariable<PlayerNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
@@ -28,8 +28,6 @@ public class NetworkPlayer : NetworkBehaviour
 	public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
 	private Camera mainCamera;
-
-    public SpawnedNetworkObject spawnObjectPrefab;
 
     private void Awake()
     {
@@ -62,7 +60,7 @@ public class NetworkPlayer : NetworkBehaviour
             playerNameText.color = playerColour.Value;
 
             Destroy(rb);
-            Destroy(playerCamera);
+            Destroy(ownerOnlyObject);
         }
 
 		if (!IsOwner)
@@ -105,15 +103,6 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
     }
-
-    [ServerRpc]
-    private void SpawnNetworkObjectServerRPC(Vector3 position,Color color)
-    {
-		SpawnedNetworkObject spawnObject = Instantiate(spawnObjectPrefab, position, Quaternion.identity);
-        spawnObject.GetComponent<NetworkObject>().Spawn();
-        spawnObject.playerColour.Value = color;
-
-	}
 
     public void Move()
     {
