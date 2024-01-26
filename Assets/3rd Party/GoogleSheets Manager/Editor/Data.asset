@@ -12,6 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8567e749e563b934eb6c0d6dc32678ac, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  SpreadSheetID: 
+  SpreadSheetID: 1dpc5p90BhwWVr7LeymE6jdQnWw0zfvExE2I77yLaIpg
   DatabasePath: Assets/Data/
-  DataSheets: []
+  DataSheets:
+  - DatabaseName: Clothing
+    TabId: 0
+    CSV: 'ID,Name,Category,Description,Sprite Name
+
+      duck_hat,Duck Hat,hat,What''s
+      he doin'' up there?,Duck_Hat
+
+      duck_top,Duck Top,top,-,Duck_Top
+
+      duck_pants,Duck
+      Pants,pants,-,Duck_Pants'
+    IsUptodate: 1
+    DatabaseObject: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}

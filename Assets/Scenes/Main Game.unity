@@ -451,6 +451,51 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ef7fe763c7dd4233891c0599e444853, type: 3}
+--- !u!1 &1414994145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1414994147}
+  - component: {fileID: 1414994146}
+  m_Layer: 0
+  m_Name: ClothingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1414994146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414994145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99300128ee68b4be88b26ee1912fd90d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingDatabase: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}
+--- !u!4 &1414994147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414994145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 733.2485, y: 512.1221, z: -151.49382}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1430294595
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,10 +608,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3997836786013134289, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
 --- !u!1 &1996377499
 GameObject:
@@ -713,3 +755,4 @@ SceneRoots:
   - {fileID: 1985702555}
   - {fileID: 794128129}
   - {fileID: 40848914}
+  - {fileID: 1414994147}

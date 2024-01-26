@@ -93,7 +93,7 @@ public class GameController : NetworkBehaviour
 	{
 		ClothingPickupNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
 		spawnObject.GetComponent<NetworkObject>().Spawn();
-		spawnObject.playerColour.Value = color;
+		spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
 	}
 
 

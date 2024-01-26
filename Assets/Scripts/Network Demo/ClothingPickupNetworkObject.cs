@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Drawing;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -15,17 +16,21 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
 	private readonly NetworkVariable<ClothingNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
-	public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.white, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+	public NetworkVariable<FixedString128Bytes> clothingId = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 	public Renderer rend;
 	public Rigidbody rb;
+	public Clothing clothing;
 
 	private void Awake()
 	{
-		playerColour.OnValueChanged += OnColourChanged;
+		clothingId.OnValueChanged += OnIdChanged;
 		networkObject = GetComponent<NetworkObject>();
 	}
 
-	private void OnColourChanged(Color prev, Color next) => rend.material.color = next;
+	private void OnIdChanged(FixedString128Bytes oldClothingId, FixedString128Bytes newClothingId )
+	{
+		clothing = ClothingManager.instance.GetItemByID(newClothingId.ToString());
+	}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,16 +42,21 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 		}
     }
 
+	public void Initialise(string id)
+    {
+		clothingId.Value = id;
+	}
+
     public override void OnNetworkSpawn()
 	{
 		if (IsOwner)
 		{
-			CommitNetworkColourServerRPC(GameFlowController.playerColor);
+			//CommitNetworkClothingIdServerRPC(clothingId.Value);
 		}
 		else
 		{
 			Destroy(rb);
-			rend.material.color = playerColour.Value;
+			clothing = ClothingManager.instance.GetItemByID(clothingId.Value.ToString());
 		}
 
 		if (!IsOwner)
@@ -84,9 +94,9 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
 
 	[ServerRpc]
-	private void CommitNetworkColourServerRPC(Color color)
+	private void CommitNetworkClothingIdServerRPC(String id)
 	{
-		playerColour.Value = color;
+		clothingId.Value = id;
 	}
 
 	private bool isBeingDistroyed;
@@ -109,11 +119,11 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 		networkObject.Despawn();
 	}
 
-	[ClientRpc]
-	public void InitialiseClientRPC()
-	{
-		rend.material.color = playerColour.Value;
-	}
+	//[ClientRpc]
+	//public void InitialiseClientRPC()
+	//{
+	//	clothing = ClothingManager.instance.GetItemByID(newClothingId);
+	//}
 
 	struct ClothingNetworkData : INetworkSerializable
 	{

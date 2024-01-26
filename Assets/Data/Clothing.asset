@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa68e25fe00a2d46be47f5c63a3042e, type: 3}
+  m_Name: Clothing
+  m_EditorClassIdentifier: 
+  DatabaseName: Clothing
+  Headers:
+  - ID
+  - Category
+  - Description
+  - Sprite Name
+  DataSets:
+  - Values:
+    - duck_hat
+    - hat
+    - What's he doin' up there?
+    - Duck_Hat
+    Database: {fileID: 11400000}
+  - Values:
+    - duck_top
+    - top
+    - '-'
+    - Duck_Top
+    Database: {fileID: 11400000}
+  - Values:
+    - duck_pants
+    - pants
+    - '-'
+    - Duck_Pants
+    Database: {fileID: 11400000}

@@ -157,7 +157,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickUpClothing(ClothingPickupNetworkObject clothing)
     {
-
+        Debug.Log(clothing.clothing.clothingName);
     }
 }
 
