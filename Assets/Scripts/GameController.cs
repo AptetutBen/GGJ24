@@ -11,7 +11,7 @@ public class GameController : NetworkBehaviour
 	//public OptionsPanel optionsPanel;
 	public List<Color> playerColours = new List<Color>();
 	private NetworkController networkController;
-	public SpawnedNetworkObject clothingPickupPrefab;
+	public ClothingPickupNetworkObject clothingPickupPrefab;
 
 	// Debug Options
 	[Space]
@@ -88,7 +88,7 @@ public class GameController : NetworkBehaviour
 	[ServerRpc]
 	private void SpawnNetworkObjectServerRPC(Vector3 position, Color color)
 	{
-		SpawnedNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
+		ClothingPickupNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
 		spawnObject.GetComponent<NetworkObject>().Spawn();
 		spawnObject.playerColour.Value = color;
 	}

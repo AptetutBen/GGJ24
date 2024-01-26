@@ -51,7 +51,9 @@ public class NetworkPlayer : NetworkBehaviour
 			index = (int)OwnerClientId;
             CommitNetworkPlayerColourServerRPC(GameFlowController.playerColor);
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
-		}
+            player.tag = "OwnerPlayer";
+
+        }
         else
         {
             playerSprite.color = playerColour.Value;
@@ -152,7 +154,13 @@ public class NetworkPlayer : NetworkBehaviour
         // If the sphere cast hits something within the specified layer, consider it grounded
         return grounded;
     }
+
+    public void PickUpClothing(ClothingPickupNetworkObject clothing)
+    {
+
+    }
 }
+
 
 
 struct PlayerNetworkData : INetworkSerializable

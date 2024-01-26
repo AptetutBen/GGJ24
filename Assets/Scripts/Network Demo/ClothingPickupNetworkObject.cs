@@ -5,12 +5,13 @@ using Unity.Netcode;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
-public class SpawnedNetworkObject : NetworkBehaviour
+public class ClothingPickupNetworkObject : NetworkBehaviour
 {
 	private NetworkPlayer owner;
 	private NetworkObject networkObject;
 	private float minMoveDistanceForNetwork = 0.1f;
 	public NetworkPlayer Owner => owner;
+	public float smoothingFactor = 0.2f;
 
 	private readonly NetworkVariable<ClothingNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
@@ -21,13 +22,22 @@ public class SpawnedNetworkObject : NetworkBehaviour
 	private void Awake()
 	{
 		playerColour.OnValueChanged += OnColourChanged;
+		networkObject = GetComponent<NetworkObject>();
 	}
 
 	private void OnColourChanged(Color prev, Color next) => rend.material.color = next;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("OwnerPlayer"))
+        {
+			other.transform.parent.GetComponent<NetworkPlayer>().PickUpClothing(this);
+			gameObject.SetActive(false);
+			DestoryServerRPC();
+		}
+    }
 
-
-	public override void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
 	{
 		if (IsOwner)
 		{
@@ -67,7 +77,7 @@ public class SpawnedNetworkObject : NetworkBehaviour
 		}
 		else
 		{
-			transform.position = netState.Value.Position;
+			transform.position = Vector3.Lerp(transform.position, netState.Value.Position, smoothingFactor); 
 		}
 	}
 
@@ -79,8 +89,16 @@ public class SpawnedNetworkObject : NetworkBehaviour
 		playerColour.Value = color;
 	}
 
+	private bool isBeingDistroyed;
+
 	public void PickUpObject()
     {
+        if (isBeingDistroyed)
+        {
+			return;
+        }
+		isBeingDistroyed = true;
+		Debug.Log("bye");
 		DestoryServerRPC();
 	}
 
