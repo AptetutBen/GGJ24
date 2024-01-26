@@ -31,6 +31,7 @@ interface userRequest{
 	ready?:boolean
 	chatData?:string
 	clientVersion?:string
+	gameMode?:number
 }
 
 
@@ -47,7 +48,8 @@ enum MessageType{
     GameSettings    = 10, // 
     ServerStatus    = 11, // Eg finding server, looking for players to match with, etc
     ServerInfo      = 12, // Eg where should the players join
-	StartSession    = 13
+	StartSession    = 13,
+	FindActiveGame  = 14
 }
 
 
@@ -352,13 +354,60 @@ async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:L
 				SendChat(user, messageData.chatData);
 			}
 			break;
-		
+		case MessageType.FindActiveGame:
+			SendServerStatus(user, false, "Finding server...");
+			if(messageData.gameMode == null){
+				console.log("FindActiveGame gameMode was null.");
+				return;
+			}
+
+			let podActiveGame:GameServerPodInfo | null;
+
+			try{
+				podActiveGame = await kubeTime.GetPodsRunningGameMode(messageData.gameMode);
+			} catch (err) {
+				console.error(err);
+				SendServerStatus(user, true, "Failed to find game server");
+				break;
+			}
+
+			try{
+				if(podActiveGame == null){
+					podActiveGame = await kubeTime.CreatePod(user.clientVersion, messageData.gameMode);
+					
+					if(podActiveGame == null){
+						SendServerStatus(user, true, "Failed to create game server");
+						break;
+					}else{
+						SendServerStatus(user, false, "Waiting for server to be ready...");
+						let success = await kubeTime.WaitForPodToBeReady(podActiveGame.name, messageData.gameMode);
+						
+					}
+				}
+			} catch (err) {
+				console.error(err);
+				SendServerStatus(user, true, "Failed to create game server");
+				break;
+			}
+
+
+			if(podActiveGame == null){
+				SendServerStatus(user, true, "Failed to create game server");
+				break;
+			}else{
+				SendStartGame(user, podActiveGame.port);
+			}
+
+			break;
 		case MessageType.StartGame:
 			SendServerStatus(user, false, "Creating server...");
 			let pod:GameServerPodInfo | null;
-
+			if(messageData.gameMode == null){
+				console.log("StartGame gameMode was null.");
+				return;
+			}
 			try{
-				pod = await kubeTime.CreatePod(user.clientVersion);
+				pod = await kubeTime.CreatePod(user.clientVersion, messageData.gameMode);
 			} catch (err) {
 				console.error(err);
 				SendServerStatus(user, true, "Failed to create game server");
@@ -372,7 +421,7 @@ async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:L
 
 			SendServerStatus(user, false, "Waiting for server to be ready...");
 
-			let success = await kubeTime.WaitForPodToBeReady(pod.name);
+			let success = await kubeTime.WaitForPodToBeReady(pod.name, messageData.gameMode);
 
 			if(success){
 				SendStartGame(user, pod.port);
