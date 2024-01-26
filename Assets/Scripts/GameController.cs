@@ -40,10 +40,13 @@ public class GameController : NetworkBehaviour
 
 	private void ConnectNetwork()
     {
+		
 		// For testing in editor 
         if (!GameFlowController.loadedOtherScene)
         {
-            if (!networkController.IsDefaultServer())
+            if(DedicatedServer.isDedicatedServer){
+				networkController.StartServer();
+			}else if (!networkController.IsDefaultServer())
             {
 				Debug.Log("Editor Loading Starting Client");
 				GameFlowController.SetClientQuickStart();

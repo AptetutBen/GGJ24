@@ -22,7 +22,12 @@ public class PotatoServerInfo{
     }
 
     public void UpdateInfo(){
+
         if(NetworkManager.Singleton){
+            if(NetworkManager.Singleton.IsServer == false){
+                this.numberOfPlayers = 0;
+                return;
+            }
             this.numberOfPlayers = NetworkManager.Singleton.ConnectedClients.Count;
 
             if(Time.time > 30 && this.numberOfPlayers < 1){
