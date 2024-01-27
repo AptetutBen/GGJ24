@@ -254,6 +254,7 @@ public class NetworkPlayer : NetworkBehaviour
             }
 
             bool isGrounded = IsGrounded();
+
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetFloat("Speed", pInput.magnitude);
             pInput *= speed;
@@ -273,6 +274,8 @@ public class NetworkPlayer : NetworkBehaviour
 
 
             rb.velocity = pInput;
+
+            //if(rb.velocity < 0 )
 
             netState.Value = new PlayerNetworkData()
             {
