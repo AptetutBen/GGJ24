@@ -16,6 +16,7 @@ public static class GameFlowController
 	}
 
 	public static GameMode gameMode = GameMode.None;
+	public static bool shouldJoinRemoteServer = false;
 	public static string ipAddress = "127.0.0.1";
 	public static ushort host = 7777;
 	public static string playerName = "Not Set Up";
@@ -29,6 +30,8 @@ public static class GameFlowController
 	// When called will switch scenes using the loading screen
 	public static void LoadScene(string sceneToLoad,bool useLoadingBar = false)
 	{
+		loadedOtherScene = true;
+
 		// Gets the current scene name for later use
 		previousScene = SceneManager.GetActiveScene().name;
 
@@ -40,8 +43,6 @@ public static class GameFlowController
 
 		// Loads the loading scene which takes over the rest of the process
 		SceneManager.LoadSceneAsync("Loading Scene",LoadSceneMode.Additive);
-
-		loadedOtherScene = true;
 
 	}
 
@@ -79,15 +80,17 @@ public static class GameFlowController
     {
 		ipAddress = address;
 		host = hostNumber;
+		shouldJoinRemoteServer = true;
 		LoadScene("Main Game");
 	}
-
+	
 	public static void SetClient(string address, ushort hostNumber,string name,Color color)
     {
 		ipAddress = address;
 		playerName = name;
 		host = hostNumber;
 		playerColor = color;
+		shouldJoinRemoteServer = true;
 		LoadScene("Main Game");
 	}
 }

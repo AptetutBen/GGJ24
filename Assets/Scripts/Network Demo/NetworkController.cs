@@ -108,7 +108,11 @@ public class NetworkController : MonoBehaviour
     public bool IsDefaultServer()
     {
 #if UNITY_EDITOR
-        return !ClonesManager.IsClone();
+	    if(GameFlowController.shouldJoinRemoteServer){
+            return false;
+        }else{
+            return !ClonesManager.IsClone();
+        }
 #else
         return false;
 #endif

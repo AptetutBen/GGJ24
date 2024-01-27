@@ -89,6 +89,7 @@ public class DedicatedServer : MonoBehaviour
 
         if(newGameMode != null){
             GameFlowController.ChangeGameMode((GameFlowController.GameMode) newGameMode);
+            newGameMode = null;
         }
     }
 
