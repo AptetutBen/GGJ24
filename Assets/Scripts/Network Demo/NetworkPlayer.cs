@@ -164,6 +164,7 @@ public class NetworkPlayer : NetworkBehaviour
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
             CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
             player.tag = "OwnerPlayer";
+            player.transform.position = SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Player);
         }
         else
         {

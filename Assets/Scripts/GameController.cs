@@ -90,7 +90,7 @@ public class GameController : NetworkBehaviour
     {
         while (true)
         {
-			SpawnNetworkObjectServerRPC((Random.insideUnitSphere * 10) + Vector3.up * 10, Color.blue);
+			SpawnNetworkObjectServerRPC(SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing));
 
 			yield return new WaitForSeconds(5);
 		}
@@ -99,7 +99,7 @@ public class GameController : NetworkBehaviour
 
 
 	[ServerRpc]
-	private void SpawnNetworkObjectServerRPC(Vector3 position, Color color)
+	private void SpawnNetworkObjectServerRPC(Vector3 position)
 	{
 		ClothingPickupNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
 		spawnObject.GetComponent<NetworkObject>().Spawn();

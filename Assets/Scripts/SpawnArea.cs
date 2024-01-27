@@ -3,13 +3,17 @@ using UnityEngine;
 public class SpawnArea : MonoBehaviour
 {
     Collider collider;
+    public SpawnManager.SpawnType type;
+
     private void Awake(){
-        SpawnManager.instance.RegisterSpawnArea(this);
+        SpawnManager.instance.RegisterSpawnArea(this, type);
         collider = gameObject.GetComponent<Collider>();
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        WeekendLogger.Log("Awake!");
     }
 
     private void OnDestroy(){
-        SpawnManager.instance.UnRegisterSpawnArea(this);
+        SpawnManager.instance.UnRegisterSpawnArea(this, type);
     }
 
     public Vector3 GetSpawnPoint(){
@@ -18,10 +22,10 @@ public class SpawnArea : MonoBehaviour
         float minY = collider.bounds.size.y * -0.5f;
         float minZ = collider.bounds.size.z * -0.5f;
 
-        return (Vector3)gameObject.transform.TransformPoint(
-            new Vector3(Random.Range (minX, -minX),
-                Random.Range (minY, -minY),
-                Random.Range (minZ, -minZ))
+        return new Vector3(Random.Range (minX, -minX) + transform.position.x,
+                Random.Range (minY, -minY)+ transform.position.y,
+                Random.Range (minZ, -minZ)+ transform.position.z
         );
+
     }
 }
