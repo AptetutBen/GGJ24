@@ -5,7 +5,6 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using TMPro;
 using Unity.Collections;
-using UnityEngine.U2D.Animation;
 
 public class NetworkPlayer : NetworkBehaviour
 {
@@ -40,6 +39,7 @@ public class NetworkPlayer : NetworkBehaviour
     public Dictionary<string, List<GameObject>> shirtLookup = new Dictionary<string, List<GameObject>>();
 
     private Camera mainCamera;
+    public Animator animator;
 
     private void Awake()
     {
@@ -221,12 +221,23 @@ public class NetworkPlayer : NetworkBehaviour
             float speed = playerAffects.GetMoveSpeed();
             float jumpForce = playerAffects.GetJumpForce();
 
-            Vector3 pInput = new Vector3(Input.GetAxis("Horizontal") * speed, 0, Input.GetAxis("Vertical") * speed);
-
-            if (Input.GetKey(KeyCode.Space) && IsGrounded())
+            Vector3 pInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+            if(pInput.x > 0)
             {
-                Debug.Log("here");
+                littleGuy.transform.localScale = new Vector3(-1, 1, 1);
+            }else if (pInput.x < 0)
+            {
+                littleGuy.transform.localScale = new Vector3(1, 1, 1);
+            }
+            bool isGrounded = IsGrounded();
+            animator.SetBool("IsGrounded", isGrounded);
+            animator.SetFloat("Speed", pInput.magnitude);
+            pInput *= speed;
+
+            if (Input.GetKey(KeyCode.Space) && isGrounded)
+            {
                 pInput.y = jumpForce;
+                animator.SetTrigger("Jump");
             }
             else
             {
@@ -274,8 +285,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickUpClothing(ClothingPickupNetworkObject pickedUpItem)
     {
-        Debug.Log(pickedUpItem.clothing.spriteName);
-
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:

@@ -486,11 +486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clothingDatabase: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}
-  clothingSprites:
-  - {fileID: 5913352984317307505, guid: 22e68c835e5d245769d8affa85947388, type: 3}
-  - {fileID: 174310082230599695, guid: 22e68c835e5d245769d8affa85947388, type: 3}
-  - {fileID: -734156730555397155, guid: 22e68c835e5d245769d8affa85947388, type: 3}
-  - {fileID: 7470805092405223643, guid: 22e68c835e5d245769d8affa85947388, type: 3}
 --- !u!4 &1414994147
 Transform:
   m_ObjectHideFlags: 0
@@ -563,9 +558,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2412748
+      objectReference: {fileID: 0}
+    - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000002533912
+      objectReference: {fileID: 0}
+    - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000006299808
+      objectReference: {fileID: 0}
     - target: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2412748
+      objectReference: {fileID: 0}
+    - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000002533912
+      objectReference: {fileID: 0}
+    - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000006299808
       objectReference: {fileID: 0}
     - target: {fileID: 5988944073662621236, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: GlobalObjectIdHash

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646575469443274795}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2412748, y: 0.00000002533912, z: -0.000000006299808, w: 0.97045684}
+  m_LocalRotation: {x: 0.24127483, y: -0.000000003836034, z: 9.537141e-10, w: 0.97045684}
   m_LocalPosition: {x: 0, y: 5.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -208,8 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed9fc121d6484a6dbe446ae6fa98383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 5
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -669,6 +667,7 @@ MonoBehaviour:
         byte0124: 0
         byte0125: 0
   littleGuy: {fileID: 1065511447418063869}
+  animator: {fileID: 4752490365077251033}
 --- !u!1 &3694575033196134500
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +963,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4158228115151335923}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2412748, y: 0.00000002533912, z: -0.000000006299808, w: 0.97045684}
+  m_LocalRotation: {x: 0.24127483, y: -0.000000003836034, z: 9.537141e-10, w: 0.97045684}
   m_LocalPosition: {x: 0, y: 5.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

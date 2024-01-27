@@ -25,24 +25,24 @@ MonoBehaviour:
 
       duck_top,duck,TRUE,top,duck,,duck_top,Got any grapes?,-
 
-      dog_hat,dog,FALSE,hat,dog,,dog_hat,"Mmm,
+      dog_hat,dog,TRUE,hat,dog,,dog_hat,"Mmm,
       woof",
 
-      dog_top,dog,FALSE,top,dog,,dog_top,Good puppy,
+      dog_top,dog,TRUE,top,dog,,dog_top,Good puppy,
 
       dino_hat,dino,FALSE,hat,dino,,dino_hat,RAWR,
 
       dino_top,dino,FALSE,top,dino,,dino_top,Ready
       for stomping,
 
-      fox_hat,fox,FALSE,hat,fox,,fox_hat,What does the fox
-      say?,
+      fox_hat,fox,TRUE,hat,fox,,fox_hat,What does the fox say?,
 
-      fox_top,fox,FALSE,top,fox,,fox_top,Ring ding ding,
+      fox_top,fox,TRUE,top,fox,,fox_top,Ring
+      ding ding,
 
-      wombat_hat,wombat,FALSE,hat,wombat,,wombat_hat,,
+      wombat_hat,wombat,TRUE,hat,wombat,,wombat_hat,,
 
-      wombat_top,wombat,FALSE,top,wombat,,wombat_top,It''s
+      wombat_top,wombat,TRUE,top,wombat,,wombat_top,It''s
       giving ''cubist'',
 
       cat_hat,cat,FALSE,hat,cat,,cat_hat,Me-ow,
@@ -61,10 +61,14 @@ MonoBehaviour:
       lilguy_top,lilguy,FALSE,top,lilguy,Floral
       shirt,lilguy_top,Florals? Groundbreaking!,
 
-      pigeon_hat,pigeon,FALSE,hat,pigeon,,pigeon_hat,"Coo,
+      pidgeon_hat,pidgeon,TRUE,hat,pidgeon,,pidgeon_hat,"Coo,
       coo cool",
 
-      pigeon_top,pigeon,FALSE,top,pigeon,,pigeon_top,That will
-      ruffle some feathers,'
+      pidgeon_top,pidgeon,TRUE,top,pidgeon,,pidgeon_top,That will
+      ruffle some feathers,
+
+      narwhal_hat,narwhal,FALSE,hat,narwhal,,narwhal_hat,,
+
+      narwhal_top,narwhal,FALSE,top,narwhal,,narwhal_top,,'
     IsUptodate: 1
     DatabaseObject: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}

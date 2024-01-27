@@ -49,7 +49,7 @@ MonoBehaviour:
   - Values:
     - dog_hat
     - dog
-    - FALSE
+    - TRUE
     - hat
     - dog
     - 
@@ -60,7 +60,7 @@ MonoBehaviour:
   - Values:
     - dog_top
     - dog
-    - FALSE
+    - TRUE
     - top
     - dog
     - 
@@ -93,7 +93,7 @@ MonoBehaviour:
   - Values:
     - fox_hat
     - fox
-    - FALSE
+    - TRUE
     - hat
     - fox
     - 
@@ -104,7 +104,7 @@ MonoBehaviour:
   - Values:
     - fox_top
     - fox
-    - FALSE
+    - TRUE
     - top
     - fox
     - 
@@ -115,7 +115,7 @@ MonoBehaviour:
   - Values:
     - wombat_hat
     - wombat
-    - FALSE
+    - TRUE
     - hat
     - wombat
     - 
@@ -126,7 +126,7 @@ MonoBehaviour:
   - Values:
     - wombat_top
     - wombat
-    - FALSE
+    - TRUE
     - top
     - wombat
     - 
@@ -201,24 +201,46 @@ MonoBehaviour:
     - 
     Database: {fileID: 11400000}
   - Values:
-    - pigeon_hat
-    - pigeon
-    - FALSE
+    - pidgeon_hat
+    - pidgeon
+    - TRUE
     - hat
-    - pigeon
+    - pidgeon
     - 
-    - pigeon_hat
+    - pidgeon_hat
     - Coo, coo cool
     - 
     Database: {fileID: 11400000}
   - Values:
-    - pigeon_top
-    - pigeon
+    - pidgeon_top
+    - pidgeon
+    - TRUE
+    - top
+    - pidgeon
+    - 
+    - pidgeon_top
+    - That will ruffle some feathers
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - narwhal_hat
+    - narwhal
+    - FALSE
+    - hat
+    - narwhal
+    - 
+    - narwhal_hat
+    - 
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - narwhal_top
+    - narwhal
     - FALSE
     - top
-    - pigeon
+    - narwhal
     - 
-    - pigeon_top
-    - That will ruffle some feathers
+    - narwhal_top
+    - 
     - 
     Database: {fileID: 11400000}
