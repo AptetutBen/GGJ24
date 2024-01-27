@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerAffectDefault : PlayerAffect
 {
     public PlayerAffectDefault(List<PlayerAffectSystem.AffectName> affects): base(affects){
-        moveSpeed       = 10;
-        jumpForce       = 6;
+        moveSpeed       = 9.5f;
+        jumpForce       = 9;
         gravity         = 0;
         dashTime        = 0;
         dashSpeed       = 0;
-        airMoveSpeed    = 5f;
+        airMoveSpeed    = 9.5f;
         jumpCount       = 1;
         jumpPadForce    = 0;
         
