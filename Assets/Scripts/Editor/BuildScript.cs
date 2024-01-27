@@ -163,7 +163,7 @@ public class BuildScript
         string buildArtifact = $"./builds/{buildFolder}/{buildName}.{extension}";
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = getServerScenes();
+        buildPlayerOptions.scenes = getScenes();
         buildPlayerOptions.locationPathName = buildArtifact;
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.Development;
