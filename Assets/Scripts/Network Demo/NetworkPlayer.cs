@@ -242,7 +242,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             float speed = playerAffects.GetMoveSpeed();
             float jumpForce = playerAffects.GetJumpForce();
-            float maxJumpCount = playerAffects.GetjumpCount();
+            float maxJumpCount = playerAffects.GetJumpCount();
 
             Vector3 pInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
             if(pInput.x > 0)
@@ -257,7 +257,7 @@ public class NetworkPlayer : NetworkBehaviour
 
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetFloat("Speed", pInput.magnitude);
-            pInput *= speed;
+            pInput *= IsGrounded()?speed: playerAffects.GetAirMoveSpeed();
 
             if (jumpPressed && (isGrounded||jumpCount < maxJumpCount))
             {
