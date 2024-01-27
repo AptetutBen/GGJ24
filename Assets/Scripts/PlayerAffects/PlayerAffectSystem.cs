@@ -53,19 +53,23 @@ public class PlayerAffectSystem
         return Mathf.Max(jumpForce, 0);
     }
 
-    float gravityCache = 0;
+    float? gravityCache = 0;
     float gravityCacheMultiplier = 0;
     public float GetGravity(){
-        gravityCache = 0;
-        gravityCacheMultiplier = 0;
+        if(gravityCache == null){
+            gravityCache = 0;
+            gravityCacheMultiplier = 0;
 
-        for (int i = 0; i < affects.Count; i++)
-        {
-            gravityCache += affects[i]._gravity;
-            gravityCacheMultiplier += affects[i].gravityMultiplier;
+            for (int i = 0; i < affects.Count; i++)
+            {
+                gravityCache += affects[i]._gravity;
+                gravityCacheMultiplier += affects[i].gravityMultiplier;
+            }
+
+            gravityCache = gravityCache * gravityCacheMultiplier;
         }
 
-        return gravityCache * gravityCacheMultiplier;
+        return (float) gravityCache;
     }
 
     public int GetjumpCount(){
@@ -82,6 +86,8 @@ public class PlayerAffectSystem
     public void AddAffect(AffectName affect){
         affects.Add(nameToAffect[affect]);
         affectNames.Add(affect);
+        
+        gravityCache = null;
     }
 
     public void RemoveAffect(AffectName affect){
@@ -89,5 +95,7 @@ public class PlayerAffectSystem
             affects.Remove(nameToAffect[affect]);
             affectNames.Remove(affect);
         }
+
+        gravityCache = null;
     }
 }
