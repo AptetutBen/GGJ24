@@ -18,14 +18,16 @@ public class NetworkPlayer : NetworkBehaviour
 
     public Transform player;
     public Rigidbody rb;
-    public SpriteRenderer playerSprite;
+    public SpriteRenderer[] playerSkinSprites;
+    public Gradient skinColours;
     public TextMeshPro playerNameText;
     public GameObject ownerOnlyObject;
 
     private readonly NetworkVariable<PlayerNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
     public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.blue,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
-	public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<Color> skinColour = new NetworkVariable<Color>(Color.blue, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public Clothing hatSlotClothing;
     public Clothing topSlotClothing;
@@ -36,10 +38,25 @@ public class NetworkPlayer : NetworkBehaviour
     private void Awake()
     {
         playerColour.OnValueChanged += OnColourChanged;
-		playerName.OnValueChanged += OnNameChanged;
+        skinColour.OnValueChanged += OnSkinColourChanged;
+
+        playerName.OnValueChanged += OnNameChanged;
 	}
 
-    private void OnColourChanged(Color prev, Color next) => playerSprite.color = next;
+    private void OnColourChanged(Color prev, Color next)
+    {
+        playerNameText.color = next;
+    }
+
+    private void OnSkinColourChanged(Color prev, Color next)
+    {
+        foreach (SpriteRenderer item in playerSkinSprites)
+        {
+            item.color = next;
+        }
+    }
+
+
     private void OnNameChanged(FixedString128Bytes prev, FixedString128Bytes next)
     {
         playerNameText.text = next.ToString();
@@ -55,12 +72,17 @@ public class NetworkPlayer : NetworkBehaviour
 			index = (int)OwnerClientId;
             CommitNetworkPlayerColourServerRPC(GameFlowController.playerColor);
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
+            CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
             player.tag = "OwnerPlayer";
 
         }
         else
         {
-            playerSprite.color = playerColour.Value;
+            foreach (SpriteRenderer item in playerSkinSprites)
+            {
+                item.color = skinColour.Value;
+            }
+           
             playerNameText.text = playerName.Value.ToString();
 
             playerNameText.color = playerColour.Value;
@@ -74,7 +96,7 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
-        playerSprite.sortingLayerName = "Owner Player";
+        //playerSprite.sortingLayerName = "Owner Player";
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -86,7 +108,13 @@ public class NetworkPlayer : NetworkBehaviour
         playerColour.Value = color;
     }
 
-	[ServerRpc]
+    [ServerRpc]
+    private void CommitNetworkSkinColourServerRPC(Color color)
+    {
+        skinColour.Value = color;
+    }
+
+    [ServerRpc]
 	private void CommitNetworkPlayerNameServerRPC(FixedString128Bytes playerName)
 	{
         this.playerName.Value = playerName;
@@ -114,9 +142,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Vector3 pInput = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
-
-            pInput *= speed;
+            Vector3 pInput = new Vector3(Input.GetAxis("Horizontal") * speed, 0, Input.GetAxis("Vertical") * speed);
 
             if (Input.GetKey(KeyCode.Space) && IsGrounded())
             {

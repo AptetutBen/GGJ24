@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.3446066, g: 0.5362552, b: 0.6037736, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 133347283e115d147a5fcce7f47a538f, type: 2}
   m_HaloStrength: 0.5
@@ -241,6 +241,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &79346037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+  m_PrefabInstance: {fileID: 1985702555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &760495042 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1130541997125333226, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+  m_PrefabInstance: {fileID: 1985702555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &794128126
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1430294596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,7 +539,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 4a0268c421faf4c1b92996717e46b5d2, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 484d041e8003d4f988143b31855878eb, type: 2}
 --- !u!4 &1430294597
 Transform:
   m_ObjectHideFlags: 0
@@ -554,36 +564,128 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2412748
+      objectReference: {fileID: 0}
+    - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1e-45
+      value: 0.00000002533912
       objectReference: {fileID: 0}
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.000000006299808
       objectReference: {fileID: 0}
     - target: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.2412748
       objectReference: {fileID: 0}
     - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1e-45
+      value: 0.00000002533912
       objectReference: {fileID: 0}
     - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.000000006299808
       objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.ctime1
+      value: 26600
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.ctime2
+      value: 46838
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.ctime3
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.ctime4
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key0.b
+      value: 0.78991634
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key0.g
+      value: 0.8779405
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key0.r
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key1.b
+      value: 0.621079
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key1.g
+      value: 0.55633676
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key1.r
+      value: 0.8867924
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key2.b
+      value: 0.09019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key2.g
+      value: 0.10686235
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key2.r
+      value: 0.34117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key3.b
+      value: 0.0540673
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key3.g
+      value: 0.06055959
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key3.r
+      value: 0.084905684
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key4.b
+      value: 0.0540673
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key4.g
+      value: 0.06055959
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.key4.r
+      value: 0.084905684
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: skinColours.m_NumColorKeys
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: playerSkinSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 760495042}
     - target: {fileID: 5988944073662621236, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1735129525
       objectReference: {fileID: 0}
-    - target: {fileID: 7607075885533139621, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_FollowOffset.y
-      value: 5.41
+    - target: {fileID: 7006193504193318593, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7875398089463971879, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -628,7 +730,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3997836786013134289, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
 --- !u!1 &1996377499
 GameObject:
@@ -754,6 +859,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
+      propertyPath: Debug_devPlayer
+      value: 
+      objectReference: {fileID: 79346037}
     - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
       propertyPath: clothingPickupPrefab
       value: 
