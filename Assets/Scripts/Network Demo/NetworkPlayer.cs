@@ -44,6 +44,7 @@ public class NetworkPlayer : NetworkBehaviour
     private bool dashPressed;
     private bool isDashing;
     private int jumpCount = 0;
+    private bool facingLeft;
 
     private void Awake()
     {
@@ -248,9 +249,12 @@ public class NetworkPlayer : NetworkBehaviour
             if(pInput.x > 0)
             {
                 littleGuy.transform.localScale = new Vector3(-1, 1, 1);
-            }else if (pInput.x < 0)
+                facingLeft = false;
+            }
+            else if (pInput.x < 0)
             {
                 littleGuy.transform.localScale = new Vector3(1, 1, 1);
+                facingLeft = true;
             }
 
             bool isGrounded = IsGrounded();
@@ -279,12 +283,14 @@ public class NetworkPlayer : NetworkBehaviour
 
             netState.Value = new PlayerNetworkData()
             {
-                Position = player.transform.position
+                Position = player.transform.position,
+                FacingLeft = facingLeft
             };
         }
         else
         {
             player.transform.position = netState.Value.Position;
+            littleGuy.transform.localScale = netState.Value.FacingLeft ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
         }
 	}
 
@@ -349,6 +355,15 @@ public class NetworkPlayer : NetworkBehaviour
 struct PlayerNetworkData : INetworkSerializable
 {
     private float xPos, yPos, zPos;
+    private bool facingLeft;
+
+    internal bool FacingLeft {
+        get => facingLeft;
+        set
+        {
+            facingLeft = value;
+        }
+    }
 
     internal Vector3 Position
     {
@@ -366,6 +381,7 @@ struct PlayerNetworkData : INetworkSerializable
         serializer.SerializeValue(ref xPos);
 		serializer.SerializeValue(ref yPos);
         serializer.SerializeValue(ref zPos);
+        serializer.SerializeValue(ref facingLeft);
 
     }
 }
