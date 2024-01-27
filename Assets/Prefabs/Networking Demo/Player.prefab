@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646575469443274795}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24127483, y: -0.000000003836034, z: 9.537141e-10, w: 0.97045684}
+  m_LocalRotation: {x: 0.2412748, y: 0.00000002533912, z: -0.000000006299808, w: 0.97045684}
   m_LocalPosition: {x: 0, y: 5.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -223,8 +223,8 @@ MonoBehaviour:
     serializedVersion: 2
     key0: {r: 0.9150943, g: 0.8779405, b: 0.78991634, a: 1}
     key1: {r: 0.8867924, g: 0.55633676, b: 0.621079, a: 1}
-    key2: {r: 0.34117648, g: 0.10686235, b: 0.09019608, a: 0}
-    key3: {r: 0.084905684, g: 0.06055959, b: 0.0540673, a: 0}
+    key2: {r: 0.509434, g: 0.16024941, b: 0.13697045, a: 0}
+    key3: {r: 0.31132078, g: 0.21238098, b: 0.19824672, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
@@ -246,7 +246,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   playerNameText: {fileID: 4660720905372609956}
@@ -871,8 +871,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2141751095
-  m_fontColor: {r: 0.21493416, g: 0.5283098, b: 0.6603774, a: 0.49803922}
+    rgba: 4289234743
+  m_fontColor: {r: 0.21493416, g: 0.5283098, b: 0.6603774, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -963,7 +963,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4158228115151335923}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24127483, y: -0.000000003836034, z: 9.537141e-10, w: 0.97045684}
+  m_LocalRotation: {x: 0.2412748, y: 0.00000002533912, z: -0.000000006299808, w: 0.97045684}
   m_LocalPosition: {x: 0, y: 5.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1233,6 +1233,7 @@ GameObject:
   - component: {fileID: 6325073293461606428}
   - component: {fileID: 4274972356847210613}
   - component: {fileID: 1037933365151380796}
+  - component: {fileID: 4519878226556615325}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -1303,8 +1304,31 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!136 &4519878226556615325
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8386483323947841451}
+  m_Material: {fileID: 13400000, guid: 2d766d598d51444cdbade502a87dea84, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &1866358380434731555
@@ -1598,6 +1622,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4752490365077251033}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5322149875703208360}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
 --- !u!4 &1065511447418063869 stripped
 Transform:
@@ -1640,6 +1667,62 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5322149875703208360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162128940145841054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1389425410
+    DestinationState: 2024713011
+    TransitionDuration: 0.25000003
+    TriggerNameHash: 125937960
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1389425410
+    DestinationState: 1169121233
+    TransitionDuration: 0.25
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1705304373
+    DestinationState: 2024713011
+    TransitionDuration: 0.25
+    TriggerNameHash: 125937960
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1705304373
+    DestinationState: 1169121233
+    TransitionDuration: 0.25
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -379614407
+    DestinationState: 1169121233
+    TransitionDuration: 0.056060594
+    TriggerNameHash: 995914302
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1626531326
+    DestinationState: 1169121233
+    TransitionDuration: 0.076818176
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  m_Animator: {fileID: 4752490365077251033}
 --- !u!212 &3049687487665477676 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3725613321712544271, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}

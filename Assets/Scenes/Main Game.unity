@@ -312,6 +312,34 @@ MonoBehaviour:
     TriggerNameHash: 995914302
     TransitionIndex: 2
   m_Animator: {fileID: 236722067}
+--- !u!1 &675405744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8386483323947841451, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+  m_PrefabInstance: {fileID: 1985702555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &675405748
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675405744}
+  m_Material: {fileID: 13400000, guid: 2d766d598d51444cdbade502a87dea84, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &794128126
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,15 +654,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24127483
+      value: 0.2412748
       objectReference: {fileID: 0}
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000003836034
+      value: 0.00000002533912
       objectReference: {fileID: 0}
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 9.537141e-10
+      value: -0.000000006299808
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037933365151380796, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037933365151380796, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037933365151380796, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_Name
@@ -642,15 +682,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24127483
+      value: 0.2412748
       objectReference: {fileID: 0}
     - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000003836034
+      value: 0.00000002533912
       objectReference: {fileID: 0}
     - target: {fileID: 4225061611331331538, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 9.537141e-10
+      value: -0.000000006299808
       objectReference: {fileID: 0}
     - target: {fileID: 4660720905372609956, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_fontColor.a
@@ -736,6 +776,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8386483323947841451, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 675405748}
     - targetCorrespondingSourceObject: {fileID: 2162128940145841054, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 236722069}
