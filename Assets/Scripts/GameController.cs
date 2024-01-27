@@ -56,21 +56,25 @@ public class GameController : NetworkBehaviour
             {
 				Debug.Log("Editor Loading Starting Client");
 				GameFlowController.SetClientQuickStart();
+				WeekendLogger.Log("StartClient");
 				networkController.StartClient();
 			}
             else
             {
 				Debug.Log("Editor Loading Starting Host");
 				GameFlowController.SetHostQuickStart();
+				WeekendLogger.Log("StartHost");
 				networkController.StartHost();
 			}
 			return;
         }
 
 		if (networkController.IsDefaultServer()){
-				networkController.StartHost();
+			WeekendLogger.Log("StartHost");
+			networkController.StartHost();
 		}else{
-				networkController.StartClient();
+			WeekendLogger.Log("StartClient");
+			networkController.StartClient();
 		}
 	}
 
