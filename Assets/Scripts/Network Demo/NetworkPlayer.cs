@@ -40,6 +40,10 @@ public class NetworkPlayer : NetworkBehaviour
 
     private Camera mainCamera;
     public Animator animator;
+    private bool jumpPressed;
+    private bool dashPressed;
+    private bool isDashing;
+    private int jumpCount = 0;
 
     private void Awake()
     {
@@ -203,7 +207,25 @@ public class NetworkPlayer : NetworkBehaviour
     }
 
 
-    // Update is called once per frame
+    private void Update()
+    {
+        if (!IsOwner)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpPressed = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            dashPressed = true;
+        }
+
+    }
+
     void FixedUpdate()
     {
 		Move();
@@ -220,6 +242,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             float speed = playerAffects.GetMoveSpeed();
             float jumpForce = playerAffects.GetJumpForce();
+            float maxJumpCount = playerAffects.GetjumpCount();
 
             Vector3 pInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
             if(pInput.x > 0)
@@ -229,13 +252,15 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 littleGuy.transform.localScale = new Vector3(1, 1, 1);
             }
+
             bool isGrounded = IsGrounded();
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetFloat("Speed", pInput.magnitude);
             pInput *= speed;
 
-            if (Input.GetKey(KeyCode.Space) && isGrounded)
+            if (jumpPressed && (isGrounded||jumpCount < maxJumpCount))
             {
+                jumpCount++;
                 pInput.y = jumpForce;
                 animator.SetTrigger("Jump");
             }
@@ -243,6 +268,9 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 pInput.y = rb.velocity.y;
             }
+
+            jumpPressed = false;
+
 
             rb.velocity = pInput;
 
@@ -277,7 +305,7 @@ public class NetworkPlayer : NetworkBehaviour
         Vector3 spherePosition = player.position + new Vector3(0, 0.3f, 0);
 
         // Perform a sphere cast to check for ground
-        bool grounded = Physics.SphereCast(spherePosition, 0.2f, Vector3.down, out RaycastHit hitInfo, 0.3f, groundLayerMask);
+        bool grounded = Physics.SphereCast(spherePosition, 0.2f, Vector3.down, out RaycastHit hitInfo, 0.7f, groundLayerMask);
 
         // If the sphere cast hits something within the specified layer, consider it grounded
         return grounded;
