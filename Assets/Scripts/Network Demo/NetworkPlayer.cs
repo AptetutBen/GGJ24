@@ -164,8 +164,8 @@ public class NetworkPlayer : NetworkBehaviour
 
             playerNameText.color = playerColour.Value;
 
-            ChangeShirt(shirtID.ToString());
-            ChangeShirt(hatID.ToString());
+            ChangeShirt(shirtID.Value.ToString());
+            ChangeHat(hatID.Value.ToString());
 
             Destroy(rb);
             Destroy(ownerOnlyObject);
@@ -320,15 +320,27 @@ public class NetworkPlayer : NetworkBehaviour
         {
             case Clothing.ClothingType.Hat:
                 hatSlotClothing = pickedUpItem.clothing;
-                ChangeHat(pickedUpItem.clothing.spriteName);
+                ChangeHatServerRPC(pickedUpItem.clothing.spriteName);
                 break;
             case Clothing.ClothingType.Top:
                 topSlotClothing = pickedUpItem.clothing;
-                ChangeShirt(pickedUpItem.clothing.spriteName);
+                ChangeShirtServerRPC(pickedUpItem.clothing.spriteName);
                 break;
             default:
                 break;
         }
+    }
+
+    [ServerRpc]
+    private void ChangeHatServerRPC(string id)
+    {
+        hatID.Value = id;
+    }
+
+    [ServerRpc]
+    private void ChangeShirtServerRPC(string id)
+    {
+        shirtID.Value = id;
     }
 }
 
