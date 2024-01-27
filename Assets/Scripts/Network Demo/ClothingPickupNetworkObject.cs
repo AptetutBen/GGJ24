@@ -51,6 +51,9 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
     public override void OnNetworkSpawn()
 	{
+		if(clothing != null)
+			spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
+
 		if (IsOwner)
 		{
 			//CommitNetworkClothingIdServerRPC(clothingId.Value);

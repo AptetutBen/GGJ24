@@ -90,25 +90,20 @@ public class GameController : NetworkBehaviour
 
     private IEnumerator SpawnClothesPickupCoroutine()
     {
-        while (true)
+        while (IsServer)
         {
-			SpawnNetworkObjectServerRPC(SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing));
+			ClothingPickupNetworkObject spawnObject = Instantiate(
+				clothingPickupPrefab,
+				SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing),
+				Quaternion.identity
+			);
+
+			spawnObject.GetComponent<NetworkObject>().Spawn();
+			spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
 
 			yield return new WaitForSeconds(5);
 		}
     }
-
-
-
-	[ServerRpc]
-	private void SpawnNetworkObjectServerRPC(Vector3 position)
-	{
-		ClothingPickupNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
-		spawnObject.GetComponent<NetworkObject>().Spawn();
-		spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
-	}
-
-
 
 	//public void PauseGame()
 	//{

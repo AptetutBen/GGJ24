@@ -334,6 +334,9 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickUpClothing(ClothingPickupNetworkObject pickedUpItem)
     {
+        if(pickedUpItem.clothing == null)
+            return;
+            
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:
