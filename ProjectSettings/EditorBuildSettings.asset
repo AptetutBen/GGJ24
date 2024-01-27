@@ -18,6 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading Scene.unity
     guid: 71a52fc86616342719b869e4d938e3f2
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/Avis Greybox Room.unity
     guid: 67f468aa4de2cdf42be89ea6fc66b945
+=======
+    path: Assets/Scenes/Hailey Level Sandbox.unity
+    guid: 8c47e09026ee743038de609da788e9d2
+>>>>>>> c094b3b (level sandbox blah)
   m_configObjects: {}
