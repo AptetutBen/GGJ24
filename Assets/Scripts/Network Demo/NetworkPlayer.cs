@@ -271,7 +271,7 @@ public class NetworkPlayer : NetworkBehaviour
             }
             else
             {
-                pInput.y = rb.velocity.y;
+                pInput.y = rb.velocity.y - playerAffects.GetGravity();
             }
 
             jumpPressed = false;

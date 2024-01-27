@@ -7,7 +7,7 @@ public class PlayerAffectDefault : PlayerAffect
     public PlayerAffectDefault(List<PlayerAffectSystem.AffectName> affects): base(affects){
         moveSpeed       = 9.5f;
         jumpForce       = 9;
-        gravity         = 0;
+        gravity         = 1;
         dashTime        = 0;
         dashSpeed       = 0;
         airMoveSpeed    = 9.5f;
