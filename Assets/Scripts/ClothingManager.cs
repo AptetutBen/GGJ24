@@ -11,6 +11,8 @@ public class ClothingManager : MonoBehaviour
     public SpreadsheetDatabase clothingDatabase;
 
     public List<Clothing> clothings = new List<Clothing>();
+    public List<GameObject> clothingSprites = new List<GameObject>();
+    private Dictionary<string, GameObject> clothingLookup = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
@@ -21,6 +23,26 @@ public class ClothingManager : MonoBehaviour
         {
             clothings.Add(new Clothing(clothingItem));
         }
+
+        foreach (GameObject sprite in clothingSprites)
+        {
+            clothingLookup[sprite.name] = sprite;
+        }
+    }
+
+    public GameObject GetHatSpriteFromId(string id)
+    {
+        return clothingLookup["hat_" + id];
+    }
+
+    public GameObject GetPantsFromId(string id)
+    {
+        return clothingLookup["pants_" + id];
+    }
+
+    public GameObject[] GetShirtPiecesFromId(string id)
+    {
+        return new GameObject[] { clothingLookup["top_" + id], clothingLookup["sleeve_" + id], clothingLookup["sleeve1_" + id] };
     }
 
     public Clothing GetItemByID(string id)
