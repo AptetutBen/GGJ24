@@ -11,7 +11,6 @@ public class ClothingManager : MonoBehaviour
     public SpreadsheetDatabase clothingDatabase;
 
     public List<Clothing> clothings = new List<Clothing>();
-    public List<Sprite> clothingSprites = new List<Sprite>();
     private Dictionary<string, Sprite> clothingLookup = new Dictionary<string, Sprite>();
 
     private void Awake()
@@ -25,11 +24,6 @@ public class ClothingManager : MonoBehaviour
                 clothings.Add(new Clothing(clothingItem));
             }
           
-        }
-
-        foreach (Sprite sprite in clothingSprites)
-        {
-            clothingLookup[sprite.name] = sprite;
         }
     }
 

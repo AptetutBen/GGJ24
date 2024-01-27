@@ -264,17 +264,17 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickUpClothing(ClothingPickupNetworkObject pickedUpItem)
     {
-        Debug.Log(pickedUpItem.clothing.clothingName);
+        Debug.Log(pickedUpItem.clothing.spriteName);
 
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:
                 hatSlotClothing = pickedUpItem.clothing;
-                ChangeHat(pickedUpItem.clothing.id);
+                ChangeHat(pickedUpItem.clothing.spriteName);
                 break;
             case Clothing.ClothingType.Top:
                 topSlotClothing = pickedUpItem.clothing;
-                ChangeShirt(pickedUpItem.clothing.id);
+                ChangeShirt(pickedUpItem.clothing.spriteName);
                 break;
             default:
                 break;
