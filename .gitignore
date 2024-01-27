@@ -72,5 +72,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Server related ignores
-Server/NodeJS/node_modules/
-Server/NodeJS/dist/
+/Server/NodeJS/node_modules/
+/Server/NodeJS/dist/
+/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json
+/ProjectSettings/Packages/com.unity.probuilder/Settings.json
+/ProjectSettings/Packages/com.unity.sequences/Settings.json
+/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
