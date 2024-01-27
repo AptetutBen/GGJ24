@@ -11,8 +11,6 @@ public class NetworkPlayer : NetworkBehaviour
 {
     private int index;
 
-    public float speed = 3;
-    public float jumpForce = 5;
     public LayerMask groundLayerMask;
 
     [Space]
@@ -23,6 +21,7 @@ public class NetworkPlayer : NetworkBehaviour
     public Gradient skinColours;
     public TextMeshPro playerNameText;
     public GameObject ownerOnlyObject;
+    public PlayerAffectSystem playerAffects = new PlayerAffectSystem();
 
     private readonly NetworkVariable<PlayerNetworkData> netState = new(writePerm: NetworkVariableWritePermission.Owner);
 
@@ -219,6 +218,9 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (IsOwner)
         {
+            float speed = playerAffects.GetMoveSpeed();
+            float jumpForce = playerAffects.GetJumpForce();
+
             Vector3 pInput = new Vector3(Input.GetAxis("Horizontal") * speed, 0, Input.GetAxis("Vertical") * speed);
 
             if (Input.GetKey(KeyCode.Space) && IsGrounded())
@@ -250,13 +252,21 @@ public class NetworkPlayer : NetworkBehaviour
         return new Vector3(worldPos.x, worldPos.y, 0);
     }
 
+    /*
+    // A little debug as a treat
+    public void OnDrawGizmos(){
+        WeekendLogger.Log($"Drawing Gizmo: {player.position - new Vector3(0, 5f, 0)}");
+        Gizmos.DrawSphere(player.position + new Vector3(0, 0.3f, 0), 0.2f);
+    }
+    */
+
     public bool IsGrounded()
     {
         // Adjust the position of the sphere to be just below the character's feet
-        Vector3 spherePosition = player.position - new Vector3(0, 0.55f, 0);
+        Vector3 spherePosition = player.position + new Vector3(0, 0.3f, 0);
 
         // Perform a sphere cast to check for ground
-        bool grounded = Physics.SphereCast(spherePosition, 0.3f, Vector3.down, out RaycastHit hitInfo, 0.4f, groundLayerMask);
+        bool grounded = Physics.SphereCast(spherePosition, 0.2f, Vector3.down, out RaycastHit hitInfo, 0.3f, groundLayerMask);
 
         // If the sphere cast hits something within the specified layer, consider it grounded
         return grounded;

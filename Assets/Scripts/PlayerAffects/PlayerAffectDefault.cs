@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAffectDefault : PlayerAffect
 {
-    public PlayerAffectDefault(): base(){
+    public PlayerAffectDefault(List<PlayerAffect> affects): base(affects){
         this.moveSpeed = 3;
         this.jumpForce = 5;
         this.gravity   = 0;

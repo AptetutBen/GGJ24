@@ -11,13 +11,22 @@ public class PlayerAffectSystem
         Default
     }
 
-    private Dictionary<AffectName, PlayerAffect> nameToAffect = new Dictionary<AffectName, PlayerAffect>(){
-        [AffectName.Default] = new PlayerAffectDefault()
-    };
     
     private List<PlayerAffect> affects = new List<PlayerAffect>();
 
+    private Dictionary<AffectName, PlayerAffect> nameToAffect;
+
+    private Dictionary<string, PlayerAffect> IDToAffect;
+
     public PlayerAffectSystem(){
+        nameToAffect = new Dictionary<AffectName, PlayerAffect>(){
+            [AffectName.Default] = new PlayerAffectDefault(affects)
+        };
+
+        IDToAffect = new Dictionary<string, PlayerAffect>(){
+            ["default"] = nameToAffect[AffectName.Default]
+        };
+
         AddAffect(AffectName.Default);
     }
 
@@ -43,15 +52,19 @@ public class PlayerAffectSystem
         return Mathf.Max(jumpForce, 0);
     }
 
+    float gravityCache = 0;
+    float gravityCacheMultiplier = 0;
     public float GetGravity(){
-        float gravity = 0;
+        gravityCache = 0;
+        gravityCacheMultiplier = 0;
 
         for (int i = 0; i < affects.Count; i++)
         {
-            gravity += affects[i].gravity;
+            gravityCache += affects[i].gravity;
+            gravityCacheMultiplier += affects[i].gravityMultiplier;
         }
 
-        return Mathf.Max(gravity, 0);
+        return gravityCache * gravityCacheMultiplier;
     }
 
     public int GetjumpCount(){
