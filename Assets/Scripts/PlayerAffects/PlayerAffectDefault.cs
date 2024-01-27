@@ -10,7 +10,7 @@ public class PlayerAffectDefault : PlayerAffect
         gravity         = 0;
         dashTime        = 0;
         dashSpeed       = 0;
-        airMoveSpeed    = 0.5f;
+        airMoveSpeed    = 5f;
         jumpCount       = 1;
         jumpPadForce    = 0;
         
