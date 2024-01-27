@@ -44,6 +44,7 @@ public class NetworkPlayer : NetworkBehaviour
     private bool dashPressed;
     private bool isDashing;
     private int jumpCount = 0;
+    private bool facingLeft;
 
     private void Awake()
     {
@@ -164,8 +165,8 @@ public class NetworkPlayer : NetworkBehaviour
 
             playerNameText.color = playerColour.Value;
 
-            ChangeShirt(shirtID.ToString());
-            ChangeShirt(hatID.ToString());
+            ChangeShirt(shirtID.Value.ToString());
+            ChangeHat(hatID.Value.ToString());
 
             Destroy(rb);
             Destroy(ownerOnlyObject);
@@ -248,9 +249,12 @@ public class NetworkPlayer : NetworkBehaviour
             if(pInput.x > 0)
             {
                 littleGuy.transform.localScale = new Vector3(-1, 1, 1);
-            }else if (pInput.x < 0)
+                facingLeft = false;
+            }
+            else if (pInput.x < 0)
             {
                 littleGuy.transform.localScale = new Vector3(1, 1, 1);
+                facingLeft = true;
             }
 
             bool isGrounded = IsGrounded();
@@ -279,12 +283,14 @@ public class NetworkPlayer : NetworkBehaviour
 
             netState.Value = new PlayerNetworkData()
             {
-                Position = player.transform.position
+                Position = player.transform.position,
+                FacingLeft = facingLeft
             };
         }
         else
         {
             player.transform.position = netState.Value.Position;
+            littleGuy.transform.localScale = netState.Value.FacingLeft ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
         }
 	}
 
@@ -320,15 +326,27 @@ public class NetworkPlayer : NetworkBehaviour
         {
             case Clothing.ClothingType.Hat:
                 hatSlotClothing = pickedUpItem.clothing;
-                ChangeHat(pickedUpItem.clothing.spriteName);
+                ChangeHatServerRPC(pickedUpItem.clothing.spriteName);
                 break;
             case Clothing.ClothingType.Top:
                 topSlotClothing = pickedUpItem.clothing;
-                ChangeShirt(pickedUpItem.clothing.spriteName);
+                ChangeShirtServerRPC(pickedUpItem.clothing.spriteName);
                 break;
             default:
                 break;
         }
+    }
+
+    [ServerRpc]
+    private void ChangeHatServerRPC(string id)
+    {
+        hatID.Value = id;
+    }
+
+    [ServerRpc]
+    private void ChangeShirtServerRPC(string id)
+    {
+        shirtID.Value = id;
     }
 }
 
@@ -337,6 +355,15 @@ public class NetworkPlayer : NetworkBehaviour
 struct PlayerNetworkData : INetworkSerializable
 {
     private float xPos, yPos, zPos;
+    private bool facingLeft;
+
+    internal bool FacingLeft {
+        get => facingLeft;
+        set
+        {
+            facingLeft = value;
+        }
+    }
 
     internal Vector3 Position
     {
@@ -354,6 +381,7 @@ struct PlayerNetworkData : INetworkSerializable
         serializer.SerializeValue(ref xPos);
 		serializer.SerializeValue(ref yPos);
         serializer.SerializeValue(ref zPos);
+        serializer.SerializeValue(ref facingLeft);
 
     }
 }
