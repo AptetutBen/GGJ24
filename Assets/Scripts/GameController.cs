@@ -69,7 +69,9 @@ public class GameController : NetworkBehaviour
 			return;
         }
 
-		if (networkController.IsDefaultServer()){
+		if(DedicatedServer.isDedicatedServer){
+				networkController.StartServer();
+		}else if(networkController.IsDefaultServer()){
 			WeekendLogger.Log("StartHost");
 			networkController.StartHost();
 		}else{
