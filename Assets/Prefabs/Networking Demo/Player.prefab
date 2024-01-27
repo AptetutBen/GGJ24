@@ -152,6 +152,8 @@ GameObject:
   - component: {fileID: 7875398089463971879}
   - component: {fileID: 5988944073662621236}
   - component: {fileID: 4684400474195660438}
+  - component: {fileID: 3465948040626448929}
+  - component: {fileID: 3753962360237798299}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -668,6 +670,83 @@ MonoBehaviour:
         byte0125: 0
   littleGuy: {fileID: 1065511447418063869}
   animator: {fileID: 4752490365077251033}
+--- !u!95 &3465948040626448929
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653719827232791173}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3753962360237798299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653719827232791173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1389425410
+    DestinationState: 2024713011
+    TransitionDuration: 0.25000003
+    TriggerNameHash: 125937960
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1389425410
+    DestinationState: 1169121233
+    TransitionDuration: 0.25
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1705304373
+    DestinationState: 2024713011
+    TransitionDuration: 0.25
+    TriggerNameHash: 125937960
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -1705304373
+    DestinationState: 1169121233
+    TransitionDuration: 0.25
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -379614407
+    DestinationState: 1169121233
+    TransitionDuration: 0.056060594
+    TriggerNameHash: 995914302
+    TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1626531326
+    DestinationState: 1169121233
+    TransitionDuration: 0.076818176
+    TriggerNameHash: 995914302
+    TransitionIndex: 2
+  m_Animator: {fileID: 4752490365077251033}
 --- !u!1 &3694575033196134500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,9 +1701,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4752490365077251033}
-    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5322149875703208360}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
 --- !u!4 &1065511447418063869 stripped
 Transform:
@@ -1667,62 +1743,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5322149875703208360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2162128940145841054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1389425410
-    DestinationState: 2024713011
-    TransitionDuration: 0.25000003
-    TriggerNameHash: 125937960
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1389425410
-    DestinationState: 1169121233
-    TransitionDuration: 0.25
-    TriggerNameHash: 995914302
-    TransitionIndex: 2
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -1705304373
-    DestinationState: 2024713011
-    TransitionDuration: 0.25
-    TriggerNameHash: 125937960
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -1705304373
-    DestinationState: 1169121233
-    TransitionDuration: 0.25
-    TriggerNameHash: 995914302
-    TransitionIndex: 2
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: -379614407
-    DestinationState: 1169121233
-    TransitionDuration: 0.056060594
-    TriggerNameHash: 995914302
-    TransitionIndex: 1
-  - IsCrossFadeExit: 0
-    Layer: 0
-    OriginatingState: 1626531326
-    DestinationState: 1169121233
-    TransitionDuration: 0.076818176
-    TriggerNameHash: 995914302
-    TransitionIndex: 2
-  m_Animator: {fileID: 4752490365077251033}
 --- !u!212 &3049687487665477676 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3725613321712544271, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
