@@ -380,6 +380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CFXR3 Magic Aura A
       objectReference: {fileID: 0}
+    - target: {fileID: 1338169166719577252, guid: 896be70f0740e994b80f169f9438d731, type: 3}
+      propertyPath: animatedLights.Array.data[0].light
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1338169166719577254, guid: 896be70f0740e994b80f169f9438d731, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -437,7 +441,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1338169166660358239, guid: 896be70f0740e994b80f169f9438d731, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 896be70f0740e994b80f169f9438d731, type: 3}

@@ -88,9 +88,18 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 
+    private void SpawnPickUpParticles(float height)
+    {
+        GameObject particle = ParticleManager.instance.PickUpClothesSpawn();
+        particle.transform.SetParent(player);
+        particle.transform.localPosition = Vector3.up * height;
+    }
 
     private void ChangeHat(string id)
     {
+        SpawnPickUpParticles(2);
+
+
         foreach (var key in hatLookup.Keys)
         {
             foreach (var item in hatLookup[key])
@@ -103,6 +112,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void ChangeShirt(string id)
     {
+        SpawnPickUpParticles(1);
+
         foreach (var key in shirtLookup.Keys)
         {
             foreach (var item in shirtLookup[key])
