@@ -17,6 +17,7 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private ButtonsPanel buttonsPanel;
 	[SerializeField] private LobbyPanel lobbyPanel;
 	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
+	[SerializeField] private GameObject creditsPanel;
 
 	public UserData UserData
 	{
@@ -35,6 +36,7 @@ public class MainMenuController : MonoBehaviour
 	void Start()
     {
 		lobbyPanel.Initalise();
+		creditsPanel.SetActive(false);
 
 		AudioManager.instance.SwitchMusicClip(musicClip);
         optionsPanel.Hide();
@@ -129,5 +131,15 @@ public class MainMenuController : MonoBehaviour
     {
         // Show the options panel
         optionsPanel.Show();
+	}
+
+	public void OnCreditsButtonPress()
+    {
+		creditsPanel.SetActive(true);
+	}
+
+	public void OnCloseCreditsButtonPress()
+    {
+		creditsPanel.SetActive(false);
 	}
 }
