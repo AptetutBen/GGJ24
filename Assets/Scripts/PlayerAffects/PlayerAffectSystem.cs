@@ -8,8 +8,24 @@ public class PlayerAffectSystem
 {
     public enum AffectName{
         Default,
+        
+        // Clothes
+        Duck,
+        Dog,
+        Dino,
+        Fox,
+        Wombat,
+        Cat,
+        Crab,
+        LilGuy,
+        Pidgeon,
+        Narwhal,
+
+        // Environment
         Mud,
-        Duck
+        Bushes,
+        Sticky,
+        Ice
     }
     
     private List<PlayerAffect> affects = new List<PlayerAffect>();
@@ -21,11 +37,47 @@ public class PlayerAffectSystem
 
     public PlayerAffectSystem(){
         nameToAffect = new Dictionary<AffectName, PlayerAffect>(){
-            [AffectName.Default] = new PlayerAffectDefault(affectNames)
+            [AffectName.Default] = new PlayerAffectDefault(affectNames),
+            
+            // Clothes
+            [AffectName.Duck] = new PlayerAffectDuck(affectNames),
+            [AffectName.Dog] = new PlayerAffectDog(affectNames),
+            [AffectName.Dino] = new PlayerAffectDino(affectNames),
+            [AffectName.Fox] = new PlayerAffectFox(affectNames),
+            [AffectName.Wombat] = new PlayerAffectWombat(affectNames),
+            [AffectName.Cat] = new PlayerAffectCat(affectNames),
+            [AffectName.Crab] = new PlayerAffectCrab(affectNames),
+            [AffectName.LilGuy] = new PlayerAffectLilGuy(affectNames),
+            [AffectName.Pidgeon] = new PlayerAffectPidgeon(affectNames),
+            [AffectName.Narwhal] = new PlayerAffectNarwhal(affectNames),
+
+            // Environment
+            [AffectName.Mud] = new PlayerAffectMud(affectNames),
+            [AffectName.Bushes] = new PlayerAffectBushes(affectNames),
+            [AffectName.Sticky] = new PlayerAffectSticky(affectNames),
+            [AffectName.Ice] = new PlayerAffectIce(affectNames),
         };
 
         IDToAffect = new Dictionary<string, PlayerAffect>(){
-            ["default"] = nameToAffect[AffectName.Default]
+            ["default"] = nameToAffect[AffectName.Default],
+
+            // Clothes
+            ["duck"] = nameToAffect[AffectName.Duck],
+            ["dog"] = nameToAffect[AffectName.Dog],
+            ["dino"] = nameToAffect[AffectName.Dino],
+            ["fox"] = nameToAffect[AffectName.Fox],
+            ["wombat"] = nameToAffect[AffectName.Wombat],
+            ["cat"] = nameToAffect[AffectName.Cat],
+            ["crab"] = nameToAffect[AffectName.Crab],
+            ["lilguy"] = nameToAffect[AffectName.LilGuy],
+            ["pidgeon"] = nameToAffect[AffectName.Pidgeon],
+            ["narwhal"] = nameToAffect[AffectName.Narwhal],
+
+            // Environment
+            ["mud"] = nameToAffect[AffectName.Mud],
+            ["bushes"] = nameToAffect[AffectName.Bushes],
+            ["sticky"] = nameToAffect[AffectName.Sticky],
+            ["ice"] = nameToAffect[AffectName.Ice],
         };
 
         AddAffect(AffectName.Default);
