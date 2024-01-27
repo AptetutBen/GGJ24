@@ -5,6 +5,7 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using TMPro;
 using Unity.Collections;
+using UnityEngine.U2D.Animation;
 
 public class NetworkPlayer : NetworkBehaviour
 {
@@ -33,6 +34,9 @@ public class NetworkPlayer : NetworkBehaviour
     public Clothing topSlotClothing;
     public Clothing pantsSlotClothing;
 
+    public GameObject hatReference, topReference, armReference, arm1Reference;
+    public int hatLayer, topLayer, armLayer, arm1Layer;
+
 	private Camera mainCamera;
 
     private void Awake()
@@ -41,7 +45,60 @@ public class NetworkPlayer : NetworkBehaviour
         skinColour.OnValueChanged += OnSkinColourChanged;
 
         playerName.OnValueChanged += OnNameChanged;
-	}
+
+        //hatReference.GetComponent<SpriteRenderer>().enabled = false;
+        hatLayer = hatReference.GetComponent<SpriteRenderer>().sortingOrder;
+        //topReference.GetComponent<SpriteRenderer>().enabled = false;
+        topLayer = topReference.GetComponent<SpriteRenderer>().sortingOrder;
+
+        //armReference.GetComponent<SpriteRenderer>().enabled = false;
+        armLayer = armReference.GetComponent<SpriteRenderer>().sortingOrder;
+        //arm1Reference.GetComponent<SpriteRenderer>().enabled = false;
+        arm1Layer = arm1Reference.GetComponent<SpriteRenderer>().sortingOrder;
+
+        //AddHat("duck");
+        //AddTop("duck");
+    }
+
+    public void AddHat(string id)
+    {
+        hatReference.GetComponent<SpriteRenderer>().sprite = ClothingManager.instance.GetHatSpriteFromId(id);
+        //hatReference.GetComponent<SpriteSkin>().
+        //foreach (Transform child in hatReference.transform)
+        //{
+        //    Destroy(child.gameObject);
+        //}
+        //GameObject newSprite = new GameObject();
+        //SpriteRenderer newRenderer = newSprite.AddComponent<SpriteRenderer>();
+        //newRenderer.sprite = ClothingManager.instance.GetHatSpriteFromId(id);
+        //newSprite.transform.SetParent(hatReference.transform);
+        //newSprite.transform.localPosition = Vector3.zero;
+        //newRenderer.sortingOrder = hatLayer;
+    }
+
+    public void AddTop(string id)
+    {
+        Sprite[] sprites =  ClothingManager.instance.GetTopPiecesFromId(id);
+
+        addTopPart(topReference, sprites[0], topLayer);
+        addTopPart(armReference, sprites[1], armLayer);
+        addTopPart(arm1Reference, sprites[2], arm1Layer);
+
+        void addTopPart(GameObject referenceParent, Sprite partSprite,int layerOrder)
+        {
+            foreach (Transform child in referenceParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            GameObject newSprite = new GameObject();
+            SpriteRenderer newRenderer = newSprite.AddComponent<SpriteRenderer>();
+            newRenderer.sprite = partSprite;
+            newSprite.transform.SetParent(referenceParent.transform);
+            newSprite.transform.localPosition = Vector3.zero;
+            newRenderer.sortingOrder = layerOrder;
+        }
+    }
+
 
     private void OnColourChanged(Color prev, Color next)
     {
@@ -193,9 +250,6 @@ public class NetworkPlayer : NetworkBehaviour
         {
             case Clothing.ClothingType.Hat:
                 hatSlotClothing = pickedUpItem.clothing;
-                break;
-            case Clothing.ClothingType.Pants:
-                pantsSlotClothing = pickedUpItem.clothing;
                 break;
             case Clothing.ClothingType.Top:
                 topSlotClothing = pickedUpItem.clothing;

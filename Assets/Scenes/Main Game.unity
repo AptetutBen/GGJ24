@@ -246,11 +246,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3653719827232791173, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
   m_PrefabInstance: {fileID: 1985702555}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &760495042 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1130541997125333226, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-  m_PrefabInstance: {fileID: 1985702555}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &794128126
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +486,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clothingDatabase: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}
+  clothingSprites:
+  - {fileID: 5913352984317307505, guid: 22e68c835e5d245769d8affa85947388, type: 3}
+  - {fileID: 174310082230599695, guid: 22e68c835e5d245769d8affa85947388, type: 3}
+  - {fileID: -734156730555397155, guid: 22e68c835e5d245769d8affa85947388, type: 3}
+  - {fileID: 7470805092405223643, guid: 22e68c835e5d245769d8affa85947388, type: 3}
 --- !u!4 &1414994147
 Transform:
   m_ObjectHideFlags: 0
@@ -591,101 +591,9 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.000000006299808
       objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.ctime1
-      value: 26600
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.ctime2
-      value: 46838
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.ctime3
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.ctime4
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key0.b
-      value: 0.78991634
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key0.g
-      value: 0.8779405
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key0.r
-      value: 0.9150943
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key1.b
-      value: 0.621079
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key1.g
-      value: 0.55633676
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key1.r
-      value: 0.8867924
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key2.b
-      value: 0.09019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key2.g
-      value: 0.10686235
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key2.r
-      value: 0.34117648
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key3.b
-      value: 0.0540673
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key3.g
-      value: 0.06055959
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key3.r
-      value: 0.084905684
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key4.b
-      value: 0.0540673
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key4.g
-      value: 0.06055959
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.key4.r
-      value: 0.084905684
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.m_ColorSpace
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: skinColours.m_NumColorKeys
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4684400474195660438, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: playerSkinSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 760495042}
     - target: {fileID: 5988944073662621236, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1735129525
-      objectReference: {fileID: 0}
-    - target: {fileID: 7006193504193318593, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7875398089463971879, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalPosition.x

@@ -11,8 +11,8 @@ public class ClothingManager : MonoBehaviour
     public SpreadsheetDatabase clothingDatabase;
 
     public List<Clothing> clothings = new List<Clothing>();
-    public List<GameObject> clothingSprites = new List<GameObject>();
-    private Dictionary<string, GameObject> clothingLookup = new Dictionary<string, GameObject>();
+    public List<Sprite> clothingSprites = new List<Sprite>();
+    private Dictionary<string, Sprite> clothingLookup = new Dictionary<string, Sprite>();
 
     private void Awake()
     {
@@ -21,28 +21,26 @@ public class ClothingManager : MonoBehaviour
         // Build database from spreadsheet data
         foreach (SpreadsheetDataSet clothingItem in clothingDatabase.DataSets)
         {
-            clothings.Add(new Clothing(clothingItem));
+            if (clothingItem.GetValueAsBool("Active")){
+                clothings.Add(new Clothing(clothingItem));
+            }
+          
         }
 
-        foreach (GameObject sprite in clothingSprites)
+        foreach (Sprite sprite in clothingSprites)
         {
             clothingLookup[sprite.name] = sprite;
         }
     }
 
-    public GameObject GetHatSpriteFromId(string id)
+    public Sprite GetHatSpriteFromId(string id)
     {
         return clothingLookup["hat_" + id];
     }
 
-    public GameObject GetPantsFromId(string id)
+    public Sprite[] GetTopPiecesFromId(string id)
     {
-        return clothingLookup["pants_" + id];
-    }
-
-    public GameObject[] GetShirtPiecesFromId(string id)
-    {
-        return new GameObject[] { clothingLookup["top_" + id], clothingLookup["sleeve_" + id], clothingLookup["sleeve1_" + id] };
+        return new Sprite[] { clothingLookup["shirt_" + id], clothingLookup["sleeve_" + id], clothingLookup["sleeve1_" + id] };
     }
 
     public Clothing GetItemByID(string id)
@@ -68,21 +66,15 @@ public class ClothingManager : MonoBehaviour
 
         return sortedList[Random.Range(0, sortedList.Count)];
     }
-
-    public Clothing GetRandomPants()
-    {
-        var sortedList = clothings.Where(item => item.type == Clothing.ClothingType.Pants).ToList();
-
-        return sortedList[Random.Range(0, sortedList.Count)];
-    }
 }
 
 
 public class Clothing
 {
-    public enum ClothingType { Hat, Pants, Top}
+    public enum ClothingType { Hat, Top}
 
     public string id;
+    public bool active;
     public ClothingType type;
     public string clothingName;
     public string description;
@@ -96,9 +88,6 @@ public class Clothing
         {
             case "hat":
                 type = ClothingType.Hat;
-                break;
-            case "pants":
-                type = ClothingType.Pants;
                 break;
             case "top":
                 type = ClothingType.Top;

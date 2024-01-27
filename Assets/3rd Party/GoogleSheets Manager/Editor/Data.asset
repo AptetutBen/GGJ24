@@ -17,14 +17,54 @@ MonoBehaviour:
   DataSheets:
   - DatabaseName: Clothing
     TabId: 0
-    CSV: 'ID,Name,Category,Description,Sprite Name
+    CSV: 'ID,Set,Active,Category,Sprite Name,Art description,Audio ID,Audio description,Item
+      text
 
-      duck_hat,Duck Hat,hat,What''s
-      he doin'' up there?,Duck_Hat
+      duck_hat,duck,TRUE,hat,duck,,duck_hat,Rubber duck quack,What''s
+      he doin'' up there?
 
-      duck_top,Duck Top,top,-,Duck_Top
+      duck_top,duck,TRUE,top,duck,,duck_top,Got any grapes?,-
 
-      duck_pants,Duck
-      Pants,pants,-,Duck_Pants'
+      dog_hat,dog,FALSE,hat,dog,,dog_hat,"Mmm,
+      woof",
+
+      dog_top,dog,FALSE,top,dog,,dog_top,Good puppy,
+
+      dino_hat,dino,FALSE,hat,dino,,dino_hat,RAWR,
+
+      dino_top,dino,FALSE,top,dino,,dino_top,Ready
+      for stomping,
+
+      fox_hat,fox,FALSE,hat,fox,,fox_hat,What does the fox
+      say?,
+
+      fox_top,fox,FALSE,top,fox,,fox_top,Ring ding ding,
+
+      wombat_hat,wombat,FALSE,hat,wombat,,wombat_hat,,
+
+      wombat_top,wombat,FALSE,top,wombat,,wombat_top,It''s
+      giving ''cubist'',
+
+      cat_hat,cat,FALSE,hat,cat,,cat_hat,Me-ow,
+
+      cat_top,cat,FALSE,top,cat,Include
+      toebeans,cat_top,"Toe beans, toe beans!",
+
+      crab_hat,crab,FALSE,hat,crab,,crab_hat,All
+      become crab,
+
+      crab_top,crab,FALSE,top,crab,,crab_top,Zoidburg noise,
+
+      lilguy_hat,lilguy,FALSE,hat,lilguy,Little
+      hat,lilguy_hat,Such a fancy little guy,
+
+      lilguy_top,lilguy,FALSE,top,lilguy,Floral
+      shirt,lilguy_top,Florals? Groundbreaking!,
+
+      pigeon_hat,pigeon,FALSE,hat,pigeon,,pigeon_hat,"Coo,
+      coo cool",
+
+      pigeon_top,pigeon,FALSE,top,pigeon,,pigeon_top,That will
+      ruffle some feathers,'
     IsUptodate: 1
     DatabaseObject: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}

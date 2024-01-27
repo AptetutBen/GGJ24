@@ -70,7 +70,7 @@ namespace GoogleSheetManager
 			int position = Array.IndexOf(Database.Headers, key);
 			if (position == -1)
 			{
-				Debug.LogError("Dataset does not contain key: " + key);
+				//Debug.LogError("Dataset does not contain key: " + key);
 				return "";
 			}
 
@@ -103,15 +103,13 @@ namespace GoogleSheetManager
 		//Return the value as a bool
 		public bool GetValueAsBool(string key)
 		{
-			bool result;
 			string value = GetValue(key);
-			if (bool.TryParse(value, out result))
+			if (value.ToUpper() == "TRUE")
 			{
-				return result;
+				return true;
 			}
 			else
 			{
-				Debug.LogError("Could not parse :" + value + " as a bool");
 				return false;
 			}
 		}

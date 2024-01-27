@@ -15,29 +15,210 @@ MonoBehaviour:
   DatabaseName: Clothing
   Headers:
   - ID
-  - Name
+  - Set
+  - Active
   - Category
-  - Description
   - Sprite Name
+  - Art description
+  - Audio ID
+  - Audio description
+  - Item text
   DataSets:
   - Values:
     - duck_hat
-    - Duck Hat
+    - duck
+    - TRUE
     - hat
+    - duck
+    - 
+    - duck_hat
+    - Rubber duck quack
     - What's he doin' up there?
-    - Duck_Hat
     Database: {fileID: 11400000}
   - Values:
     - duck_top
-    - Duck Top
+    - duck
+    - TRUE
     - top
+    - duck
+    - 
+    - duck_top
+    - Got any grapes?
     - '-'
-    - Duck_Top
     Database: {fileID: 11400000}
   - Values:
-    - duck_pants
-    - Duck Pants
-    - pants
-    - '-'
-    - Duck_Pants
+    - dog_hat
+    - dog
+    - FALSE
+    - hat
+    - dog
+    - 
+    - dog_hat
+    - Mmm, woof
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - dog_top
+    - dog
+    - FALSE
+    - top
+    - dog
+    - 
+    - dog_top
+    - Good puppy
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - dino_hat
+    - dino
+    - FALSE
+    - hat
+    - dino
+    - 
+    - dino_hat
+    - RAWR
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - dino_top
+    - dino
+    - FALSE
+    - top
+    - dino
+    - 
+    - dino_top
+    - Ready for stomping
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - fox_hat
+    - fox
+    - FALSE
+    - hat
+    - fox
+    - 
+    - fox_hat
+    - What does the fox say?
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - fox_top
+    - fox
+    - FALSE
+    - top
+    - fox
+    - 
+    - fox_top
+    - Ring ding ding
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - wombat_hat
+    - wombat
+    - FALSE
+    - hat
+    - wombat
+    - 
+    - wombat_hat
+    - 
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - wombat_top
+    - wombat
+    - FALSE
+    - top
+    - wombat
+    - 
+    - wombat_top
+    - It's giving 'cubist'
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - cat_hat
+    - cat
+    - FALSE
+    - hat
+    - cat
+    - 
+    - cat_hat
+    - Me-ow
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - cat_top
+    - cat
+    - FALSE
+    - top
+    - cat
+    - Include toebeans
+    - cat_top
+    - Toe beans, toe beans!
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - crab_hat
+    - crab
+    - FALSE
+    - hat
+    - crab
+    - 
+    - crab_hat
+    - All become crab
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - crab_top
+    - crab
+    - FALSE
+    - top
+    - crab
+    - 
+    - crab_top
+    - Zoidburg noise
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - lilguy_hat
+    - lilguy
+    - FALSE
+    - hat
+    - lilguy
+    - Little hat
+    - lilguy_hat
+    - Such a fancy little guy
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - lilguy_top
+    - lilguy
+    - FALSE
+    - top
+    - lilguy
+    - Floral shirt
+    - lilguy_top
+    - Florals? Groundbreaking!
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - pigeon_hat
+    - pigeon
+    - FALSE
+    - hat
+    - pigeon
+    - 
+    - pigeon_hat
+    - Coo, coo cool
+    - 
+    Database: {fileID: 11400000}
+  - Values:
+    - pigeon_top
+    - pigeon
+    - FALSE
+    - top
+    - pigeon
+    - 
+    - pigeon_top
+    - That will ruffle some feathers
+    - 
     Database: {fileID: 11400000}
