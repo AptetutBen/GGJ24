@@ -34,6 +34,8 @@ public class LobbyPanel : MonoBehaviour
 
 	private bool isLobbyOwner;
 
+	public TextMeshProUGUI serverMessageText;
+
 	public void Initalise()
 	{
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveUserInfo, MessageType.UserInfo);
@@ -41,6 +43,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
 		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartGame, MessageType.StartGame);
+		AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveServerStatus, MessageType.ServerStatus);
 		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
@@ -53,6 +56,7 @@ public class LobbyPanel : MonoBehaviour
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveReadyMessage, MessageType.Ready);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveChat, MessageType.Chat);
 		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveStartGame, MessageType.StartGame);
+		AccountServerManager.instance.UnregisterRecieveMessageCallback(ReceiveServerStatus, MessageType.ServerStatus);
 		//AccountServerManager.instance.RegisterRecieveMessageCallback(ReceiveStartSession, MessageType.StartSession);
 	}
 
@@ -61,6 +65,14 @@ public class LobbyPanel : MonoBehaviour
 	//	AccountServerManager.instance.StartSession(MainMenuController.instance.UserData);
 	//}
 
+
+	// Receive Server Status
+	public void ReceiveServerStatus(AccountServerMessage messageServerStatus)
+	{
+		MessageServerStatus serverStats = (MessageServerStatus)messageServerStatus;
+
+		serverMessageText.text = serverStats.message;
+	}
 
 	// Receive User Info Message
 	public void ReceiveUserInfo(AccountServerMessage accountServerMessage)
@@ -252,6 +264,8 @@ public class LobbyPanel : MonoBehaviour
 		{
 			return;
 		}
+
+		startGameButton.Enabled = false;
 
 		AccountServerManager.instance.StartGame(GameFlowController.GameMode.MMO);
 	}
