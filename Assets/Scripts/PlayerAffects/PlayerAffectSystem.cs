@@ -6,11 +6,20 @@ using UnityEngine;
 
 public class PlayerAffectSystem
 {
-    private Dictionary<string, PlayerAffect> stringToAffect = new Dictionary<string, PlayerAffect>(){
-        ["default"] = new PlayerAffectDefault()
+
+    public enum AffectName{
+        Default
+    }
+
+    private Dictionary<AffectName, PlayerAffect> nameToAffect = new Dictionary<AffectName, PlayerAffect>(){
+        [AffectName.Default] = new PlayerAffectDefault()
     };
     
     private List<PlayerAffect> affects = new List<PlayerAffect>();
+
+    public PlayerAffectSystem(){
+        AddAffect(AffectName.Default);
+    }
 
     public float GetMoveSpeed(){
         float moveSpeed = 0;
@@ -56,25 +65,13 @@ public class PlayerAffectSystem
         return Mathf.Max(jumpCount, 0);
     }
 
-    public void AddAffect(string affectName){
-        if(stringToAffect.ContainsKey(affectName)){
-            AddAffect(stringToAffect[affectName]);
-        }
+    public void AddAffect(AffectName affect){
+        affects.Add(nameToAffect[affect]);
     }
 
-    public void RemoveAffect(string affectName){
-        if(stringToAffect.ContainsKey(affectName)){
-            RemoveAffect(stringToAffect[affectName]);
-        }
-    }
-
-    public void AddAffect(PlayerAffect affect){
-        affects.Add(affect);
-    }
-
-    public void RemoveAffect(PlayerAffect affect){
-        if(affects.Contains(affect)){
-            affects.Remove(affect);
+    public void RemoveAffect(AffectName affect){
+        if(affects.Contains(nameToAffect[affect])){
+            affects.Remove(nameToAffect[affect]);
         }
     }
 }
