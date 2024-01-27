@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading Scene.unity
     guid: 71a52fc86616342719b869e4d938e3f2
+  - enabled: 1
+    path: Assets/Scenes/Avis Greybox Room.unity
+    guid: 67f468aa4de2cdf42be89ea6fc66b945
   m_configObjects: {}
