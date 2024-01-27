@@ -20779,6 +20779,10 @@ PrefabInstance:
       value: Game Controller
       objectReference: {fileID: 0}
     - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
+      propertyPath: musicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 96543bc24c63b41bfa557224d91066c2, type: 3}
+    - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
       propertyPath: Debug_devPlayer
       value: 
       objectReference: {fileID: 79346037}
