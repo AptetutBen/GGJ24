@@ -325,12 +325,22 @@ public class NetworkPlayer : NetworkBehaviour
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:
+                if(hatSlotClothing != null){
+                    playerAffects.RemoveAffect(hatSlotClothing.id);
+                }
+
                 hatSlotClothing = pickedUpItem.clothing;
                 ChangeHatServerRPC(pickedUpItem.clothing.spriteName);
+                playerAffects.AddAffect(hatSlotClothing.id);
                 break;
             case Clothing.ClothingType.Top:
+                if(topSlotClothing != null){
+                    playerAffects.RemoveAffect(topSlotClothing.id);
+                }
+
                 topSlotClothing = pickedUpItem.clothing;
                 ChangeShirtServerRPC(pickedUpItem.clothing.spriteName);
+                playerAffects.AddAffect(topSlotClothing.id);
                 break;
             default:
                 break;
