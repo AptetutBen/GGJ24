@@ -29,73 +29,82 @@ public class NetworkPlayer : NetworkBehaviour
     public NetworkVariable<Color> playerColour = new NetworkVariable<Color>(Color.blue,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public NetworkVariable<Color> skinColour = new NetworkVariable<Color>(Color.blue, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<FixedString128Bytes> hatID = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<FixedString128Bytes> shirtID = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    public Transform littleGuy;
     public Clothing hatSlotClothing;
     public Clothing topSlotClothing;
     public Clothing pantsSlotClothing;
 
-    public GameObject hatReference, topReference, armReference, arm1Reference;
-    public int hatLayer, topLayer, armLayer, arm1Layer;
+    public Dictionary<string, List<GameObject>> hatLookup = new Dictionary<string, List<GameObject>>();
+    public Dictionary<string, List<GameObject>> shirtLookup = new Dictionary<string, List<GameObject>>();
 
-	private Camera mainCamera;
+    private Camera mainCamera;
 
     private void Awake()
     {
         playerColour.OnValueChanged += OnColourChanged;
         skinColour.OnValueChanged += OnSkinColourChanged;
+        hatID.OnValueChanged += OnHatIDChanged;
+        shirtID.OnValueChanged += OnShirtIDChange;
 
         playerName.OnValueChanged += OnNameChanged;
 
-        //hatReference.GetComponent<SpriteRenderer>().enabled = false;
-        hatLayer = hatReference.GetComponent<SpriteRenderer>().sortingOrder;
-        //topReference.GetComponent<SpriteRenderer>().enabled = false;
-        topLayer = topReference.GetComponent<SpriteRenderer>().sortingOrder;
-
-        //armReference.GetComponent<SpriteRenderer>().enabled = false;
-        armLayer = armReference.GetComponent<SpriteRenderer>().sortingOrder;
-        //arm1Reference.GetComponent<SpriteRenderer>().enabled = false;
-        arm1Layer = arm1Reference.GetComponent<SpriteRenderer>().sortingOrder;
-
-        //AddHat("duck");
-        //AddTop("duck");
-    }
-
-    public void AddHat(string id)
-    {
-        hatReference.GetComponent<SpriteRenderer>().sprite = ClothingManager.instance.GetHatSpriteFromId(id);
-        //hatReference.GetComponent<SpriteSkin>().
-        //foreach (Transform child in hatReference.transform)
-        //{
-        //    Destroy(child.gameObject);
-        //}
-        //GameObject newSprite = new GameObject();
-        //SpriteRenderer newRenderer = newSprite.AddComponent<SpriteRenderer>();
-        //newRenderer.sprite = ClothingManager.instance.GetHatSpriteFromId(id);
-        //newSprite.transform.SetParent(hatReference.transform);
-        //newSprite.transform.localPosition = Vector3.zero;
-        //newRenderer.sortingOrder = hatLayer;
-    }
-
-    public void AddTop(string id)
-    {
-        Sprite[] sprites =  ClothingManager.instance.GetTopPiecesFromId(id);
-
-        addTopPart(topReference, sprites[0], topLayer);
-        addTopPart(armReference, sprites[1], armLayer);
-        addTopPart(arm1Reference, sprites[2], arm1Layer);
-
-        void addTopPart(GameObject referenceParent, Sprite partSprite,int layerOrder)
+        foreach (Transform child in littleGuy)
         {
-            foreach (Transform child in referenceParent.transform)
+            string childName = child.name;
+            if (childName.Contains("hat_"))
             {
-                Destroy(child.gameObject);
+                int lastUnderscoreIndex = childName.LastIndexOf('_');
+                string id = childName.Substring(lastUnderscoreIndex + 1);
+
+                if (!hatLookup.ContainsKey(id))
+                {
+                    hatLookup[id] = new List<GameObject>();
+                }
+
+                hatLookup[id].Add(child.gameObject);
+                child.gameObject.SetActive(false);
             }
-            GameObject newSprite = new GameObject();
-            SpriteRenderer newRenderer = newSprite.AddComponent<SpriteRenderer>();
-            newRenderer.sprite = partSprite;
-            newSprite.transform.SetParent(referenceParent.transform);
-            newSprite.transform.localPosition = Vector3.zero;
-            newRenderer.sortingOrder = layerOrder;
+
+            if (childName.Contains("sleeve") || childName.Contains("shirt_"))
+            {
+                int lastUnderscoreIndex = childName.LastIndexOf('_');
+                string id = childName.Substring(lastUnderscoreIndex + 1);
+
+                if (!shirtLookup.ContainsKey(id))
+                {
+                    shirtLookup[id] = new List<GameObject>();
+                }
+
+                shirtLookup[id].Add(child.gameObject);
+                child.gameObject.SetActive(false);
+            }
+        }
+    }
+
+
+    private void ChangeHat(string id)
+    {
+        foreach (var key in hatLookup.Keys)
+        {
+            foreach (var item in hatLookup[key])
+            {
+                item.SetActive(key == id);
+            }
+        }
+    }
+
+
+    private void ChangeShirt(string id)
+    {
+        foreach (var key in shirtLookup.Keys)
+        {
+            foreach (var item in shirtLookup[key])
+            {
+                item.SetActive(key == id);
+            }
         }
     }
 
@@ -113,6 +122,15 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 
+    private void OnShirtIDChange(FixedString128Bytes prev, FixedString128Bytes next)
+    {
+        ChangeShirt(next.ToString());
+    }
+
+    private void OnHatIDChanged(FixedString128Bytes prev, FixedString128Bytes next)
+    {
+        ChangeHat(next.ToString());
+    }
 
     private void OnNameChanged(FixedString128Bytes prev, FixedString128Bytes next)
     {
@@ -131,7 +149,6 @@ public class NetworkPlayer : NetworkBehaviour
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
             CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
             player.tag = "OwnerPlayer";
-
         }
         else
         {
@@ -143,6 +160,9 @@ public class NetworkPlayer : NetworkBehaviour
             playerNameText.text = playerName.Value.ToString();
 
             playerNameText.color = playerColour.Value;
+
+            ChangeShirt(shirtID.ToString());
+            ChangeShirt(hatID.ToString());
 
             Destroy(rb);
             Destroy(ownerOnlyObject);
@@ -250,9 +270,11 @@ public class NetworkPlayer : NetworkBehaviour
         {
             case Clothing.ClothingType.Hat:
                 hatSlotClothing = pickedUpItem.clothing;
+                ChangeHat(pickedUpItem.clothing.id);
                 break;
             case Clothing.ClothingType.Top:
                 topSlotClothing = pickedUpItem.clothing;
+                ChangeShirt(pickedUpItem.clothing.id);
                 break;
             default:
                 break;

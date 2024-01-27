@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: hat_pidgeon
+    m_Hash: 291469342
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: hat_pidgeon
+      m_Hash: 291469342
+      m_Sprite: {fileID: -8226152289067333643, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8226152289067333643, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: hat_duck
+    m_Hash: 332627616
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: hat_duck
+      m_Hash: 332627616
+      m_Sprite: {fileID: 7140836633546835237, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 7140836633546835237, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: sleeve1_pidgeon
+    m_Hash: 507584366
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: sleeve1_pidgeon
+      m_Hash: 507584366
+      m_Sprite: {fileID: 3962967089032550750, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 3962967089032550750, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: sleeve1_duck
+    m_Hash: 670017367
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: sleeve1_duck
+      m_Hash: 670017367
+      m_Sprite: {fileID: 6435718722522579572, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6435718722522579572, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: shirt_pidgeon
+    m_Hash: 299589863
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: shirt_pidgeon
+      m_Hash: 299589863
+      m_Sprite: {fileID: -3939744477510755323, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -3939744477510755323, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: shirt_duck
+    m_Hash: 891441749
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: shirt_duck
+      m_Hash: 891441749
+      m_Sprite: {fileID: 4414838541151577387, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 4414838541151577387, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: sleeve_pidgeon
+    m_Hash: 747167666
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: sleeve_pidgeon
+      m_Hash: 747167666
+      m_Sprite: {fileID: -5656478154204032702, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -5656478154204032702, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: sleeve_duck
+    m_Hash: 376398445
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: sleeve_duck
+      m_Hash: 376398445
+      m_Sprite: {fileID: 6990988657341865388, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6990988657341865388, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: face
+    m_Hash: 85228391
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: face
+      m_Hash: 85228391
+      m_Sprite: {fileID: -3056705518123669755, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -3056705518123669755, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: head
+    m_Hash: 670299804
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: head
+      m_Hash: 670299804
+      m_Sprite: {fileID: -5571119827590942621, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -5571119827590942621, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: arm1
+    m_Hash: 874964628
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: arm1
+      m_Hash: 874964628
+      m_Sprite: {fileID: -585681093546028002, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -585681093546028002, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: undies
+    m_Hash: 787209058
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: undies
+      m_Hash: 787209058
+      m_Sprite: {fileID: 6559885379088072478, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6559885379088072478, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: legs
+    m_Hash: 1025000330
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: legs
+      m_Hash: 1025000330
+      m_Sprite: {fileID: -6678149875188727945, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -6678149875188727945, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: torso
+    m_Hash: 660585605
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: torso
+      m_Hash: 660585605
+      m_Sprite: {fileID: 8078099391182213020, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 8078099391182213020, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: arm
+    m_Hash: 408845972
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: arm
+      m_Hash: 408845972
+      m_Sprite: {fileID: -4342221299737086869, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -4342221299737086869, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Hats
+    m_Hash: 883856045
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: pidgeon
+      m_Hash: 315587852
+      m_Sprite: {fileID: -8226152289067333643, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8226152289067333643, guid: f3ec1ebcd30074a31b2ead42eb30f064, type: 3}
+    - m_Name: New Label
+      m_Hash: 259326342
+      m_Sprite: {fileID: 0}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 0}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 638419644042336230
+  m_Version: 1
