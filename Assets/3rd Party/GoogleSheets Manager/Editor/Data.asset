@@ -45,20 +45,15 @@ MonoBehaviour:
       wombat_top,wombat,TRUE,top,wombat,,wombat_top,It''s
       giving ''cubist'',
 
-      cat_hat,cat,FALSE,hat,cat,,cat_hat,Me-ow,
+      crab_hat,crab,TRUE,hat,crab,,crab_hat,All become
+      crab,
 
-      cat_top,cat,FALSE,top,cat,Include
-      toebeans,cat_top,"Toe beans, toe beans!",
+      crab_top,crab,TRUE,top,crab,,crab_top,Zoidburg noise,
 
-      crab_hat,crab,FALSE,hat,crab,,crab_hat,All
-      become crab,
-
-      crab_top,crab,FALSE,top,crab,,crab_top,Zoidburg noise,
-
-      lilguy_hat,lilguy,FALSE,hat,lilguy,Little
+      lilguy_hat,lilguy,TRUE,hat,lilguy,Little
       hat,lilguy_hat,Such a fancy little guy,
 
-      lilguy_top,lilguy,FALSE,top,lilguy,Floral
+      lilguy_top,lilguy,TRUE,top,lilguy,Floral
       shirt,lilguy_top,Florals? Groundbreaking!,
 
       pidgeon_hat,pidgeon,TRUE,hat,pidgeon,,pidgeon_hat,"Coo,
@@ -67,8 +62,9 @@ MonoBehaviour:
       pidgeon_top,pidgeon,TRUE,top,pidgeon,,pidgeon_top,That will
       ruffle some feathers,
 
-      narwhal_hat,narwhal,FALSE,hat,narwhal,,narwhal_hat,,
+      narwhal_hat,narwhal,TRUE,hat,narwhal,,narwhal_hat,Nice
+      tusk!,
 
-      narwhal_top,narwhal,FALSE,top,narwhal,,narwhal_top,,'
+      narwhal_top,narwhal,TRUE,top,narwhal,,narwhal_top,,'
     IsUptodate: 1
     DatabaseObject: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}

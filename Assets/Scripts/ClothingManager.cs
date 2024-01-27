@@ -11,6 +11,8 @@ public class ClothingManager : MonoBehaviour
     public SpreadsheetDatabase clothingDatabase;
 
     public List<Clothing> clothings = new List<Clothing>();
+    public List<Sprite> clothingPickupSprites = new List<Sprite>();
+    private Dictionary<string, Sprite> clothingPickupLookup = new Dictionary<string, Sprite>();
     private Dictionary<string, Sprite> clothingLookup = new Dictionary<string, Sprite>();
 
     private void Awake()
@@ -25,6 +27,24 @@ public class ClothingManager : MonoBehaviour
             }
           
         }
+
+        foreach (Sprite item in clothingPickupSprites)
+        {
+            clothingPickupLookup[item.name] = item;
+        }
+    }
+
+    public Sprite GetPickupSpriteFromId(string id, Clothing.ClothingType clothingType)
+    {
+        string lookupId = $"item_{(clothingType == Clothing.ClothingType.Hat ? "hat" : "shirt")}_{id}";
+
+        if (!clothingPickupLookup.ContainsKey(lookupId))
+        {
+            WeekendLogger.LogError($"item {lookupId} not found");
+            return null;
+        }
+
+        return clothingPickupLookup[lookupId];
     }
 
     public Sprite GetHatSpriteFromId(string id)
