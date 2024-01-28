@@ -107,15 +107,7 @@ public class MainMenuController : MonoBehaviour
 		{
 			if (wasSucessful)
 			{
-				WeekendLogger.LogNetworkServer("Connected to account server");
-				if (enterCode)
-				{
-					joinLobbyPanel.Show();
-				}
-				else
-				{
-					lobbyPanel.Show();
-				}
+				StartCoroutine(WaitForReady(enterCode));
 			}
 			else
 			{
@@ -123,6 +115,26 @@ public class MainMenuController : MonoBehaviour
 				networkErrorPanel.Show("Failed to connect to account server", OnCloseNetworkErrorPannel);
 			}
 		});
+	}
+
+	IEnumerator WaitForReady(bool enterCode)
+    {
+        while (AccountServerManager.instance.currentState != AccountServerState.Connected)
+        {
+			yield return null;
+        }
+
+
+		yield return new WaitForSeconds(1);
+		WeekendLogger.LogNetworkServer("Connected to account server");
+		if (enterCode)
+		{
+			joinLobbyPanel.Show();
+		}
+		else
+		{
+			lobbyPanel.Show();
+		}
 	}
 
 	public void ReturnToStart()
