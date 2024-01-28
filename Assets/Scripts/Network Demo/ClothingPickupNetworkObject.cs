@@ -35,6 +35,9 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
 	private void ChangeClothes(string clothingId)
     {
+		if(clothingId == "")
+			return;
+			
 		clothing = ClothingManager.instance.GetItemByID(clothingId.ToString());
 		spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
 	}
@@ -59,6 +62,10 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 		if (!IsOwner)
 		{
 			Destroy(rb);
+			
+			if(clothingId == null)
+				return;
+
 			ChangeClothes(clothingId.Value.ToString());
 		}
 	}
