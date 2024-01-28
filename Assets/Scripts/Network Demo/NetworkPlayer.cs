@@ -184,8 +184,15 @@ public class NetworkPlayer : NetworkBehaviour
 
             playerNameText.color = playerColour.Value;
 
-            ChangeShirt(shirtID.Value.ToString());
-            ChangeHat(hatID.Value.ToString());
+            if(!string.IsNullOrEmpty(shirtID.ToString()))
+            {
+                ChangeShirt(shirtID.Value.ToString());
+            }
+
+            if(!string.IsNullOrEmpty(hatID.ToString()))
+            {
+                ChangeHat(hatID.Value.ToString());
+            }
 
             Destroy(rb);
             Destroy(ownerOnlyObject);
@@ -296,6 +303,9 @@ public class NetworkPlayer : NetworkBehaviour
             if (isGrounded)
             {
                 jumpCount = 1; // DOn't look at this
+
+                if(nextDash == float.MaxValue) // Hi, Luis too
+                    nextDash = Time.time + playerAffects.GetDashCooldown();
             }
 
             animator.SetBool("IsGrounded", isGrounded);
@@ -339,7 +349,7 @@ public class NetworkPlayer : NetworkBehaviour
         if(nextDash > Time.time)
             return; // On cooldown
 
-        nextDash = Time.time + playerAffects.GetDashCooldown();
+        nextDash = float.MaxValue;
         dashUntil = Time.time + playerAffects.GetDashDuration();
         dashDireection = rb.velocity.normalized;
     }

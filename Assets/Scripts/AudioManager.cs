@@ -228,11 +228,19 @@ public class AudioManager : MonoBehaviour
 
 	public void PlaySFX(string clipID)
     {
+        if (clipID == "_top" || clipID == "_hat")
+        {
+			return;
+        }
 		PlaySFX(clipLookup[clipID]);
 	}
 
 	public void PlaySFX(string clipID, Vector3 position)
 	{
+		if (clipID == "_top" || clipID == "_hat")
+		{
+			return;
+		}
 		PlaySFX(clipLookup[clipID], position);
 	}
 

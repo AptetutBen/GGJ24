@@ -10642,6 +10642,16 @@ MonoBehaviour:
   lobbyPanel: {fileID: 1268880054}
   joinLobbyPanel: {fileID: 1448387171}
   creditsPanel: {fileID: 2033186955}
+  littleGuysAudioClips:
+  - {fileID: 8300000, guid: f97fa7541814d4eb6a52cf8c8e222c83, type: 3}
+  - {fileID: 8300000, guid: 87881909a01fe42459a818729117cc4c, type: 3}
+  - {fileID: 8300000, guid: c127388e576fe49398920fda87f2c74e, type: 3}
+  - {fileID: 8300000, guid: af0d246216ce74ec1804299d99b16e5a, type: 3}
+  - {fileID: 8300000, guid: e40319d63b6bf496fbd4f670a91864be, type: 3}
+  - {fileID: 8300000, guid: 5390fa77e03624609bbcebce81a4f24f, type: 3}
+  - {fileID: 8300000, guid: b9700aeac4a35417d848057f753c2ba4, type: 3}
+  minAudioDelay: 4
+  maxAudioDelay: 10
 --- !u!1 &1440845897
 GameObject:
   m_ObjectHideFlags: 0

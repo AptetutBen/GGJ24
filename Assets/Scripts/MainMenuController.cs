@@ -45,7 +45,7 @@ public class MainMenuController : MonoBehaviour
         
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
 
-		//StartCoroutine(AudioLittleGuys());
+		StartCoroutine(AudioLittleGuys());
 	}
 
 	IEnumerator AudioLittleGuys()

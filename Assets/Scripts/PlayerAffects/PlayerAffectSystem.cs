@@ -297,5 +297,6 @@ public class PlayerAffectSystem
         gravityCache = null;
         jumpForceCache = null;
         moveSpeedCache = null;
+        jumpPadForceCache = null;
     }
 }
