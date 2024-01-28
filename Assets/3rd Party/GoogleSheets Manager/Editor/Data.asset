@@ -19,30 +19,28 @@ MonoBehaviour:
     TabId: 0
     CSV: "ID,Set,Active,Category,Item Name,Sprite Name,Art description,Abilities,Audio
       ID,Audio 1,Audio 2,Item text\r\nduck_hat,duck,TRUE,hat,Duck Hat,duck,\"duck
-      on head, leg out \",\"waterproof, shockproof, quackers\",duck_hat,\"Duck, duck,
-      snore\u2026\",,What's he doin' up there?\r\nduck_top,duck,TRUE,top,Duck Shirt,duck,duck
-      shirt,\"waterproof, shockproof, quackers\",duck_top,Got any grapes?,,-\r\ndog_hat,dog,TRUE,hat,Dog
-      Hat,dog,whippet hat,\"brushbreaker, speedy, smelly\",dog_hat,\"Whippet, whippet
-      good\",,\r\ndog_top,dog,TRUE,top,Dog Shirt,dog,matching shirt ,\"brushbreaker,
-      speedy, smelly\",dog_top,Are you from Bluey?,,\r\ndino_hat,dino,FALSE,hat,,dino,,,dino_hat,RAWR,,\r\ndino_top,dino,FALSE,top,,dino,,,dino_top,Ready
-      for stomping,,\r\nfox_hat,fox,TRUE,hat,Fox Hat,fox,red fox hat,\"brushbreaker,
-      high jump, sly\",fox_hat,What does the fox say?,,\r\nfox_top,fox,TRUE,top,Fox
-      Shirt,fox,shirt with tail ,\"brushbreaker, high jump, sly\",fox_top,Ring ding
-      ding,,\r\nwombat_hat,wombat,TRUE,hat,Wombat Hat,wombat,splayed wombat,\"brushbreaker,
-      heavy, cube-shaped poops\",wombat_hat,\"I bet he eats, roots and leaves\",,\r\nwombat_top,wombat,TRUE,top,Wombat
-      Shirt,wombat,cube poo shirt,\"brushbreaker, heavy, cube-shaped poops\",wombat_top,It's
-      giving 'cubist',,\r\ncrab_hat,crab,TRUE,hat,Crab Hat,crab,crab on head,\"waterproof,
-      mean, sideye\",crab_hat,Crabs\u2026there's a shampoo for that,,\r\ncrab_top,crab,TRUE,top,Crab
-      Shirt,crab,fishnet starfish ,\"waterproof, mean, sideye\",crab_top,Free the
-      nipple,,\r\nlilguy_hat,lilguy,TRUE,hat,Little Guy Hat,lilguy,Little hat,\"steady,
-      weirdo, just a little guy\",lilguy_hat,You're *just* a little guy,,\r\nlilguy_top,lilguy,TRUE,top,Little
-      Guy Shirt,lilguy,Floral shirt,\"steady, weirdo, just a little guy\",lilguy_top,Little
-      guys? Groundbreaking\u2026,,\r\npidgeon_hat,pidgeon,TRUE,hat,Pigeon Hat,pidgeon,red
-      beret pigeon,\"glide, double jump, poopy\",pidgeon_hat,\"Coo, coo cool\",,\r\npidgeon_top,pidgeon,TRUE,top,Pigeon
-      Shirt,pidgeon,coloured plumage,\"glide, double jump, poopy\",pidgeon_top,That
-      will ruffle some feathers,,\r\nnarwhal_hat,narwhal,TRUE,hat,Narwhal Hat,narwhal,large
-      tusk ,\"waterproof, spiky, smooth\",narwhal_hat,Oh look. A sea unicorn..,,\r\nnarwhal_top,narwhal,TRUE,top,Narwhal
-      Shirt,narwhal,grey with tail ,\"waterproof, spiky, smooth\",narwhal_top,A Niel
-      the Seal cosplay!,,"
+      on head, leg out \",\"Mud speed,Jump high,Glide\",duck_hat,\"Duck, duck, snore\u2026\",,What's
+      he doin' up there?\r\nduck_top,duck,TRUE,top,Duck Shirt,duck,duck shirt,\"Mud
+      speed,Jump high,Glide\",duck_top,Got any grapes?,,-\r\ndog_hat,dog,TRUE,hat,Dog
+      Hat,dog,whippet hat,\"Very fast,Long dash,\",dog_hat,\"Whippet, whippet good\",,\r\ndog_top,dog,TRUE,top,Dog
+      Shirt,dog,matching shirt ,\"Very fast,Long dash,\",dog_top,Are you from Bluey?,,\r\ndino_hat,dino,FALSE,hat,,dino,,,dino_hat,RAWR,,\r\ndino_top,dino,FALSE,top,,dino,,,dino_top,Ready
+      for stomping,,\r\nfox_hat,fox,TRUE,hat,Fox Hat,fox,red fox hat,\"Fast,Pounce
+      jump,Bush speed\",fox_hat,What does the fox say?,,\r\nfox_top,fox,TRUE,top,Fox
+      Shirt,fox,shirt with tail ,\"Fast,Pounce jump,Bush speed\",fox_top,Ring ding
+      ding,,\r\nwombat_hat,wombat,TRUE,hat,Wombat Hat,wombat,splayed wombat,\"Slow,Bush
+      speed,Heavy\",wombat_hat,\"I bet he eats, roots and leaves\",,\r\nwombat_top,wombat,TRUE,top,Wombat
+      Shirt,wombat,cube poo shirt,\"Slow,Bush speed,Heavy\",wombat_top,It's giving
+      'cubist',,\r\ncrab_hat,crab,TRUE,hat,Crab Hat,crab,crab on head,\"Mud speed,Scurry
+      dash\",crab_hat,Crabs\u2026there's a shampoo for that,,\r\ncrab_top,crab,TRUE,top,Crab
+      Shirt,crab,fishnet starfish ,\"Mud speed,Scurry dash\",crab_top,Free the nipple,,\r\nlilguy_hat,lilguy,TRUE,hat,Little
+      Guy Hat,lilguy,Little hat,\"Extra jump,,\",lilguy_hat,You're *just* a little
+      guy,,\r\nlilguy_top,lilguy,TRUE,top,Little Guy Shirt,lilguy,Floral shirt,\"Extra
+      jump,,\",lilguy_top,Little guys? Groundbreaking\u2026,,\r\npidgeon_hat,pidgeon,TRUE,hat,Pigeon
+      Hat,pidgeon,red beret pigeon,\"Jump high,Fast glide,\",pidgeon_hat,\"Coo, coo
+      cool\",,\r\npidgeon_top,pidgeon,TRUE,top,Pigeon Shirt,pidgeon,coloured plumage,\"Jump
+      high,Fast glide,\",pidgeon_top,That will ruffle some feathers,,\r\nnarwhal_hat,narwhal,TRUE,hat,Narwhal
+      Hat,narwhal,large tusk ,\"Mud speed,Spear dash,\",narwhal_hat,Oh look. A sea
+      unicorn..,,\r\nnarwhal_top,narwhal,TRUE,top,Narwhal Shirt,narwhal,grey with
+      tail ,\"Mud speed,Spear dash,\",narwhal_top,A Niel the Seal cosplay!,,"
     IsUptodate: 1
     DatabaseObject: {fileID: 11400000, guid: 89a913e17b645410cbe3581afe8d1079, type: 2}
