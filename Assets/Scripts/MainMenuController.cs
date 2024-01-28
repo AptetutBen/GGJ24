@@ -19,6 +19,8 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
 	[SerializeField] private GameObject creditsPanel;
 
+	public List<AudioClip> littleGuysAudioClips = new List<AudioClip>();
+	public float minAudioDelay = 4, maxAudioDelay = 10;
 	public UserData UserData
 	{
 		get
@@ -42,7 +44,19 @@ public class MainMenuController : MonoBehaviour
         optionsPanel.Hide();
         
 		AccountServerManager.instance.RegisterStateChangeCallback(OnAccountServerStateChange);
+
+		//StartCoroutine(AudioLittleGuys());
 	}
+
+	IEnumerator AudioLittleGuys()
+    {
+        while (true)
+        {
+			yield return new WaitForSeconds(UnityEngine.Random.Range(minAudioDelay, maxAudioDelay));
+			AudioManager.instance.PlaySFX(littleGuysAudioClips[UnityEngine.Random.Range(0, littleGuysAudioClips.Count)]);
+
+		}
+    }
 
 	private void AttemptToConnectToAccountServer(Action<bool,string> andThen)
     {
