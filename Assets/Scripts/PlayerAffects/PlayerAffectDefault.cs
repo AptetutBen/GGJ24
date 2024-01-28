@@ -12,7 +12,7 @@ public class PlayerAffectDefault : PlayerAffect
         dashSpeed       = 0;
         airMoveSpeed    = 9.5f;
         jumpCount       = 1;
-        jumpPadForce    = 0;
+        jumpPadForce    = 24;
         
         moveSpeedMultiplier     = 1;
         jumpForceMultiplier     = 1;
