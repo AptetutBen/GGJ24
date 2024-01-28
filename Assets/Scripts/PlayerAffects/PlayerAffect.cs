@@ -20,6 +20,8 @@ public class PlayerAffect
     virtual public float _dashTime { get { return dashTime; } }
     protected float dashSpeed;
     virtual public float _dashSpeed { get { return dashSpeed; } }
+    protected float dashCooldown;
+    virtual public float _dashCooldown { get { return dashCooldown; } }
     protected float airMoveSpeed;
     virtual public float _airMoveSpeed { get { return airMoveSpeed; } }
     protected int jumpCount;
@@ -35,9 +37,11 @@ public class PlayerAffect
     public float gravityMultiplier;
     virtual public float _gravityMultiplier { get { return gravityMultiplier; } }
     protected float dashTimeMultiplier;
-    virtual public float _dashDistanceMultiplier { get { return dashTimeMultiplier; } }
+    virtual public float _dashTimeMultiplier { get { return dashTimeMultiplier; } }
     protected float dashSpeedMultiplier;
     virtual public float _dashSpeedMultiplier { get { return dashSpeedMultiplier; } }
+    protected float dashCooldownMultiplier;
+    virtual public float _dashCooldownMultiplier { get { return dashCooldownMultiplier; } }
     protected float airMoveSpeedMultiplier;
     virtual public float _airMoveSpeedMultiplier { get { return airMoveSpeedMultiplier; } }
     public int jumpCountMultiplier;
@@ -53,6 +57,7 @@ public class PlayerAffect
         gravity         = 0;
         dashTime        = 0;
         dashSpeed       = 0;
+        dashCooldown       = 0;
         airMoveSpeed    = 0;
         jumpCount       = 0;
         jumpPadForce    = 0;
@@ -62,6 +67,7 @@ public class PlayerAffect
         gravityMultiplier       = 0;
         dashTimeMultiplier      = 0;
         dashSpeedMultiplier     = 0;
+        dashCooldownMultiplier  = 0;
         airMoveSpeedMultiplier  = 0;
         jumpCountMultiplier     = 0;
         jumpPadForceMultiplier  = 0;
