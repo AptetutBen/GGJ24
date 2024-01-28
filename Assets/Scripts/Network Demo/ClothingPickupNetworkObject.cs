@@ -30,7 +30,12 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
 	private void OnIdChanged(FixedString128Bytes oldClothingId, FixedString128Bytes newClothingId )
 	{
-		clothing = ClothingManager.instance.GetItemByID(newClothingId.ToString());
+		ChangeClothes(newClothingId.ToString());
+	}
+
+	private void ChangeClothes(string clothingId)
+    {
+		clothing = ClothingManager.instance.GetItemByID(clothingId.ToString());
 		spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
 	}
 
@@ -51,22 +56,10 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
     public override void OnNetworkSpawn()
 	{
-		if(clothing != null)
-			spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
-
-		if (IsOwner)
-		{
-			//CommitNetworkClothingIdServerRPC(clothingId.Value);
-		}
-		else
-		{
-			Destroy(rb);
-			clothing = ClothingManager.instance.GetItemByID(clothingId.Value.ToString());
-		}
-
 		if (!IsOwner)
 		{
-			return;
+			Destroy(rb);
+			ChangeClothes(clothingId.Value.ToString());
 		}
 	}
 
