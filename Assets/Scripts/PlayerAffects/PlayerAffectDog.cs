@@ -6,7 +6,7 @@ public class PlayerAffectDog : PlayerAffect
 {
     public PlayerAffectDog(List<PlayerAffectSystem.AffectName> affects): base(affects){
         moveSpeed = 8f;
-        //dash duration up
+        dashTime = 0.05f;
     }
 
 }

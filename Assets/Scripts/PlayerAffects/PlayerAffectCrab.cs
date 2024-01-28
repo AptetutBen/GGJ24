@@ -16,7 +16,8 @@ public class PlayerAffectCrab : PlayerAffect
     }
 
     public PlayerAffectCrab(List<PlayerAffectSystem.AffectName> affects): base(affects){
-        // dash speed up
-        // dash duration up
+        dashSpeed = -7f;
+        dashTime = 0.3f;
+        dashCooldown = 0.3f;
     }
 }
