@@ -316,6 +316,14 @@ public class NetworkPlayer : NetworkBehaviour
         }
 	}
 
+    public void SteppedOnJumpPad(){
+        Vector3 temp = rb.velocity;
+        
+        temp.y = playerAffects.GetjumpPadForce();
+        
+        rb.velocity = temp;
+    }
+
     private Vector3 GetMousePosition()
     {
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);

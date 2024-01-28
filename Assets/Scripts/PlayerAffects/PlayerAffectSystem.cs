@@ -149,6 +149,25 @@ public class PlayerAffectSystem
         return (float) gravityCache;
     }
 
+    // jumpPadForce
+    float? jumpPadForceCache = null;
+    public float GetjumpPadForce(){
+        if(jumpPadForceCache == null){
+            jumpPadForceCache = 0;
+            float jumpPadForceCacheMultiplier = 0;
+
+            for (int i = 0; i < affects.Count; i++)
+            {
+                jumpPadForceCache += affects[i]._jumpPadForce;
+                jumpPadForceCacheMultiplier += affects[i]._jumpPadForceMultiplier;
+            }
+
+            jumpPadForceCache = jumpPadForceCache * jumpPadForceCacheMultiplier;
+        }
+
+        return (float) jumpPadForceCache;
+    }
+
     // AirControl
     float? airMoveSpeedCache = null;
     public float GetAirMoveSpeed()
