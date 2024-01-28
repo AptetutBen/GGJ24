@@ -171,18 +171,18 @@ public class GameController : NetworkBehaviour
 
     public void OnResumeButtonPress()
 	{
-		//UnPauseGame();
+		UnPauseGame();
 	}
 
 	public void OnMainMenuButtonPress()
 	{
-		//UnPauseGame();
+		UnPauseGame();
 		GameFlowController.LoadScene("Main Menu", false);
 	}
 
 	public void OnOptionsButtonPress()
 	{
-		//optionsPanel.Show();
+		optionsPanel.Show();
 	}
 
 	public void OnExitButtonPress()
