@@ -18,6 +18,8 @@ public class GameController : NetworkBehaviour
 	[Space]
 	public bool Debug_Use_Debug = false;
 	public GameObject Debug_devPlayer;
+	public List<AudioClip> littleGuysAudioClips = new List<AudioClip>();
+	public float minAudioDelay = 4, maxAudioDelay = 10;
 
 	private void Awake()
 	{
@@ -43,7 +45,20 @@ public class GameController : NetworkBehaviour
         {
 			Destroy(Debug_devPlayer);
         }
+
+		StartCoroutine(AudioLittleGuys());
     }
+
+	IEnumerator AudioLittleGuys()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(UnityEngine.Random.Range(minAudioDelay, maxAudioDelay));
+			AudioManager.instance.PlaySFX(littleGuysAudioClips[UnityEngine.Random.Range(0, littleGuysAudioClips.Count)]);
+
+		}
+	}
+
 
 	private void ConnectNetwork()
     {

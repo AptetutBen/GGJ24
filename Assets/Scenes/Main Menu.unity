@@ -11931,13 +11931,47 @@ MonoBehaviour:
   joinLobbyPanel: {fileID: 1448387171}
   creditsPanel: {fileID: 2033186955}
   littleGuysAudioClips:
-  - {fileID: 8300000, guid: f97fa7541814d4eb6a52cf8c8e222c83, type: 3}
-  - {fileID: 8300000, guid: 87881909a01fe42459a818729117cc4c, type: 3}
-  - {fileID: 8300000, guid: c127388e576fe49398920fda87f2c74e, type: 3}
-  - {fileID: 8300000, guid: af0d246216ce74ec1804299d99b16e5a, type: 3}
-  - {fileID: 8300000, guid: e40319d63b6bf496fbd4f670a91864be, type: 3}
-  - {fileID: 8300000, guid: 5390fa77e03624609bbcebce81a4f24f, type: 3}
-  - {fileID: 8300000, guid: b9700aeac4a35417d848057f753c2ba4, type: 3}
+  - {fileID: 8300000, guid: c4cd8d5afcc7948499952938e1a79ae9, type: 3}
+  - {fileID: 8300000, guid: 9bf80a6d901214b14b74e54a9ae1ac63, type: 3}
+  - {fileID: 8300000, guid: 7075901be015b429982f65ece1a59327, type: 3}
+  - {fileID: 8300000, guid: 59b3bcd11a1b847238d4d2e3e22c95a3, type: 3}
+  - {fileID: 8300000, guid: 9311a1c568a634fe1b8eead7a71cdf54, type: 3}
+  - {fileID: 8300000, guid: 2ad17679a567045a680826cd8e6080a0, type: 3}
+  - {fileID: 8300000, guid: c6af863157f6943f6ab1394a7fc27073, type: 3}
+  - {fileID: 8300000, guid: 9359598183a9a4f61a53538e81c8819f, type: 3}
+  - {fileID: 8300000, guid: a99d9a3888e1d4a9e96ed443eec8a5de, type: 3}
+  - {fileID: 8300000, guid: 2b60310aa8fbc4dd69ddfe1ea53d92ce, type: 3}
+  - {fileID: 8300000, guid: a3ab507034c3a424f8e619f00d7e5f99, type: 3}
+  - {fileID: 8300000, guid: bee3f98b8fd0542fbb5167356b3a121f, type: 3}
+  - {fileID: 8300000, guid: 12bb1058e91c7439a8c7880326b274e0, type: 3}
+  - {fileID: 8300000, guid: e5dc6887eb4304f4082dff17ee2dfae9, type: 3}
+  - {fileID: 8300000, guid: 307001d867b9542fabcae239353bee0b, type: 3}
+  - {fileID: 8300000, guid: c50abf27194bf471ca63d951b925f66d, type: 3}
+  - {fileID: 8300000, guid: 9e68921d763e5477883cda05aaec41c1, type: 3}
+  - {fileID: 8300000, guid: 25bed396a8cd946f3bcc740d5cef9389, type: 3}
+  - {fileID: 8300000, guid: d712fa8a40c864e578c29fde816142ad, type: 3}
+  - {fileID: 8300000, guid: 504849c6ad3d04839b43e81cc3a0075d, type: 3}
+  - {fileID: 8300000, guid: e8b1bd52e16304dc7a96703cf2248190, type: 3}
+  - {fileID: 8300000, guid: 9d2506b6165fc4097b33aabc71186ac2, type: 3}
+  - {fileID: 8300000, guid: 511c751704c5040c4be0b691208a009c, type: 3}
+  - {fileID: 8300000, guid: 19f7956c16513467a91350093c1d2906, type: 3}
+  - {fileID: 8300000, guid: c7b7ed886028b4d4b93daa608ccf0373, type: 3}
+  - {fileID: 8300000, guid: c9b5a1e3b2c5442bcb6354bed14d3a4b, type: 3}
+  - {fileID: 8300000, guid: 7a10dada53d99441485266350c2b0fd7, type: 3}
+  - {fileID: 8300000, guid: 878e7ddcfddbd49bd935b346e49f3cf6, type: 3}
+  - {fileID: 8300000, guid: c02c64a2746c64f9da6af7290ad192f1, type: 3}
+  - {fileID: 8300000, guid: 42824e12011884f04a65a8a923614ab9, type: 3}
+  - {fileID: 8300000, guid: 3f80cffac58c64a108c9bea8a291a730, type: 3}
+  - {fileID: 8300000, guid: d66e6e52f1c274c7c8b4d7dce3528ee4, type: 3}
+  - {fileID: 8300000, guid: d2936a4685384451981a2956d1ea2d4d, type: 3}
+  - {fileID: 8300000, guid: ac4995470eafa4708a692e5f94005b7c, type: 3}
+  - {fileID: 8300000, guid: 98a6f618dca9543948ec64f9fc8b0f35, type: 3}
+  - {fileID: 8300000, guid: 0321ff63c08a44786ae52d85cfc9e710, type: 3}
+  - {fileID: 8300000, guid: 96225b9ffc1ea48ca9938c757be51a22, type: 3}
+  - {fileID: 8300000, guid: c9b745f579c264f0d8f4a71c43ddd347, type: 3}
+  - {fileID: 8300000, guid: d3e4c5de9ac47491790f33875a2fe863, type: 3}
+  - {fileID: 8300000, guid: ace3db23ef98c48d8bf9f0d64f6d58ad, type: 3}
+  - {fileID: 8300000, guid: 97df87ca1f9394ba4b2186779a0db9ea, type: 3}
   minAudioDelay: 4
   maxAudioDelay: 10
 --- !u!1 &1437731840
@@ -17389,7 +17423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2033186956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18260,7 +18294,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Audio wrangler Kirk Nicholls
+  m_text: Audio Wrangler Kirk Nicholls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1e4e4f1c90a5340e4ba3b690993dba15, type: 2}
   m_sharedMaterial: {fileID: 9121231257155017545, guid: 1e4e4f1c90a5340e4ba3b690993dba15, type: 2}
