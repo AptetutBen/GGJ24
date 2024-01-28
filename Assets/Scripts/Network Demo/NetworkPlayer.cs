@@ -88,9 +88,18 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 
+    private void SpawnPickUpParticles(float height)
+    {
+        GameObject particle = ParticleManager.instance.PickUpClothesSpawn();
+        particle.transform.SetParent(player);
+        particle.transform.localPosition = Vector3.up * height;
+    }
 
     private void ChangeHat(string id)
     {
+        SpawnPickUpParticles(2);
+
+
         foreach (var key in hatLookup.Keys)
         {
             foreach (var item in hatLookup[key])
@@ -103,6 +112,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void ChangeShirt(string id)
     {
+        SpawnPickUpParticles(1);
+
         foreach (var key in shirtLookup.Keys)
         {
             foreach (var item in shirtLookup[key])
@@ -153,6 +164,7 @@ public class NetworkPlayer : NetworkBehaviour
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
             CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
             player.tag = "OwnerPlayer";
+            player.transform.position = SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Player);
         }
         else
         {
@@ -322,15 +334,28 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickUpClothing(ClothingPickupNetworkObject pickedUpItem)
     {
+        if(pickedUpItem.clothing == null)
+            return;
+            
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:
+                if(hatSlotClothing != null){
+                    playerAffects.RemoveAffect(hatSlotClothing.id);
+                }
+
                 hatSlotClothing = pickedUpItem.clothing;
                 ChangeHatServerRPC(pickedUpItem.clothing.spriteName);
+                playerAffects.AddAffect(hatSlotClothing.id);
                 break;
             case Clothing.ClothingType.Top:
+                if(topSlotClothing != null){
+                    playerAffects.RemoveAffect(topSlotClothing.id);
+                }
+
                 topSlotClothing = pickedUpItem.clothing;
                 ChangeShirtServerRPC(pickedUpItem.clothing.spriteName);
+                playerAffects.AddAffect(topSlotClothing.id);
                 break;
             default:
                 break;

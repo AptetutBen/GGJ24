@@ -20,6 +20,7 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 	public Renderer rend;
 	public Rigidbody rb;
 	public Clothing clothing;
+	public SpriteRenderer spriteImage;
 
 	private void Awake()
 	{
@@ -30,6 +31,7 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 	private void OnIdChanged(FixedString128Bytes oldClothingId, FixedString128Bytes newClothingId )
 	{
 		clothing = ClothingManager.instance.GetItemByID(newClothingId.ToString());
+		spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
 	}
 
     private void OnTriggerEnter(Collider other)
@@ -49,6 +51,9 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 
     public override void OnNetworkSpawn()
 	{
+		if(clothing != null)
+			spriteImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
+
 		if (IsOwner)
 		{
 			//CommitNetworkClothingIdServerRPC(clothingId.Value);

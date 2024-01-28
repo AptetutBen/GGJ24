@@ -69,7 +69,9 @@ public class GameController : NetworkBehaviour
 			return;
         }
 
-		if (networkController.IsDefaultServer()){
+		if(DedicatedServer.isDedicatedServer){
+				networkController.StartServer();
+		}else if(networkController.IsDefaultServer()){
 			WeekendLogger.Log("StartHost");
 			networkController.StartHost();
 		}else{
@@ -88,25 +90,20 @@ public class GameController : NetworkBehaviour
 
     private IEnumerator SpawnClothesPickupCoroutine()
     {
-        while (true)
+        while (IsServer)
         {
-			SpawnNetworkObjectServerRPC((Random.insideUnitSphere * 10) + Vector3.up * 10, Color.blue);
+			ClothingPickupNetworkObject spawnObject = Instantiate(
+				clothingPickupPrefab,
+				SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing),
+				Quaternion.identity
+			);
+
+			spawnObject.GetComponent<NetworkObject>().Spawn();
+			spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
 
 			yield return new WaitForSeconds(5);
 		}
     }
-
-
-
-	[ServerRpc]
-	private void SpawnNetworkObjectServerRPC(Vector3 position, Color color)
-	{
-		ClothingPickupNetworkObject spawnObject = Instantiate(clothingPickupPrefab, position, Quaternion.identity);
-		spawnObject.GetComponent<NetworkObject>().Spawn();
-		spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
-	}
-
-
 
 	//public void PauseGame()
 	//{

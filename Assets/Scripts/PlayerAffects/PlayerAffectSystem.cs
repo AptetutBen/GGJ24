@@ -33,7 +33,7 @@ public class PlayerAffectSystem
 
     private Dictionary<AffectName, PlayerAffect> nameToAffect;
 
-    private Dictionary<string, PlayerAffect> IDToAffect;
+    private Dictionary<string, AffectName> IDToAffect;
 
     public PlayerAffectSystem(){
         nameToAffect = new Dictionary<AffectName, PlayerAffect>(){
@@ -58,26 +58,32 @@ public class PlayerAffectSystem
             [AffectName.Ice] = new PlayerAffectIce(affectNames),
         };
 
-        IDToAffect = new Dictionary<string, PlayerAffect>(){
-            ["default"] = nameToAffect[AffectName.Default],
+        IDToAffect = new Dictionary<string, AffectName>(){
+            ["default"]         = AffectName.Default,
 
             // Clothes
-            ["duck"] = nameToAffect[AffectName.Duck],
-            ["dog"] = nameToAffect[AffectName.Dog],
-            ["dino"] = nameToAffect[AffectName.Dino],
-            ["fox"] = nameToAffect[AffectName.Fox],
-            ["wombat"] = nameToAffect[AffectName.Wombat],
-            ["cat"] = nameToAffect[AffectName.Cat],
-            ["crab"] = nameToAffect[AffectName.Crab],
-            ["lilguy"] = nameToAffect[AffectName.LilGuy],
-            ["pidgeon"] = nameToAffect[AffectName.Pidgeon],
-            ["narwhal"] = nameToAffect[AffectName.Narwhal],
+            ["duck_hat"]        = AffectName.Duck,
+            ["duck_top"]        = AffectName.Duck,
+            ["dog_hat"]         = AffectName.Dog,
+            ["dog_top"]         = AffectName.Dog,
+            ["fox_hat"]         = AffectName.Fox,
+            ["fox_top"]         = AffectName.Fox,
+            ["wombat_hat"]      = AffectName.Wombat,
+            ["wombat_top"]      = AffectName.Wombat,
+            ["crab_hat"]        = AffectName.Crab,
+            ["crab_top"]        = AffectName.Crab,
+            ["lilguy_hat"]      = AffectName.LilGuy,
+            ["lilguy_top"]      = AffectName.LilGuy,
+            ["pidgeon_hat"]     = AffectName.Pidgeon,
+            ["pidgeon_top"]     = AffectName.Pidgeon,
+            ["narwhal_hat"]     = AffectName.Narwhal,
+            ["narwhal_top"]     = AffectName.Narwhal,
 
             // Environment
-            ["mud"] = nameToAffect[AffectName.Mud],
-            ["bushes"] = nameToAffect[AffectName.Bushes],
-            ["sticky"] = nameToAffect[AffectName.Sticky],
-            ["ice"] = nameToAffect[AffectName.Ice],
+            ["mud"]             = AffectName.Mud,
+            ["bushes"]          = AffectName.Bushes,
+            ["sticky"]          = AffectName.Sticky,
+            ["ice"]             = AffectName.Ice,
         };
 
         AddAffect(AffectName.Default);
@@ -180,14 +186,26 @@ public class PlayerAffectSystem
         return Mathf.Max((int)jumpCountCache, 0);
     }
 
+    public void AddAffect(string affectName){
+        if(IDToAffect.ContainsKey(affectName)){
+            AddAffect(IDToAffect[affectName]);
+        }
+    }
     public void AddAffect(AffectName affect){
+        WeekendLogger.Log($"AddAffect {affect.ToString()}");
         affects.Add(nameToAffect[affect]);
         affectNames.Add(affect);
 
         NullCaches();
     }
 
+    public void RemoveAffect(string affectName){
+        if(IDToAffect.ContainsKey(affectName)){
+            RemoveAffect(IDToAffect[affectName]);
+        }
+    }
     public void RemoveAffect(AffectName affect){
+        WeekendLogger.Log($"RemoveAffect {affect.ToString()}");
         if(affects.Contains(nameToAffect[affect])){
             affects.Remove(nameToAffect[affect]);
             affectNames.Remove(affect);
