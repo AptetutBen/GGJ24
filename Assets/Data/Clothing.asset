@@ -18,10 +18,13 @@ MonoBehaviour:
   - Set
   - Active
   - Category
+  - Item Name
   - Sprite Name
   - Art description
+  - Abilities
   - Audio ID
-  - Audio description
+  - Audio 1
+  - Audio 2
   - Item text
   DataSets:
   - Values:
@@ -29,10 +32,13 @@ MonoBehaviour:
     - duck
     - TRUE
     - hat
+    - Duck Hat
     - duck
-    - 
+    - 'duck on head, leg out '
+    - waterproof, shockproof, quackers
     - duck_hat
-    - Rubber duck quack
+    - "Duck, duck, snore\u2026"
+    - 
     - What's he doin' up there?
     Database: {fileID: 11400000}
   - Values:
@@ -40,10 +46,13 @@ MonoBehaviour:
     - duck
     - TRUE
     - top
+    - Duck Shirt
     - duck
-    - 
+    - duck shirt
+    - waterproof, shockproof, quackers
     - duck_top
     - Got any grapes?
+    - 
     - '-'
     Database: {fileID: 11400000}
   - Values:
@@ -51,10 +60,13 @@ MonoBehaviour:
     - dog
     - TRUE
     - hat
+    - Dog Hat
     - dog
-    - 
+    - whippet hat
+    - brushbreaker, speedy, smelly
     - dog_hat
-    - Mmm, woof
+    - Whippet, whippet good
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -62,10 +74,13 @@ MonoBehaviour:
     - dog
     - TRUE
     - top
+    - Dog Shirt
     - dog
-    - 
+    - 'matching shirt '
+    - brushbreaker, speedy, smelly
     - dog_top
-    - Good puppy
+    - Are you from Bluey?
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -73,53 +88,68 @@ MonoBehaviour:
     - dino
     - FALSE
     - hat
+    - 
     - dino
+    - 
     - 
     - dino_hat
     - RAWR
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - dino_top
     - dino
     - FALSE
     - top
+    - 
     - dino
+    - 
     - 
     - dino_top
     - Ready for stomping
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - fox_hat
     - fox
     - TRUE
     - hat
+    - Fox Hat
     - fox
-    - 
+    - red fox hat
+    - brushbreaker, high jump, sly
     - fox_hat
     - What does the fox say?
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - fox_top
     - fox
     - TRUE
     - top
+    - Fox Shirt
     - fox
-    - 
+    - 'shirt with tail '
+    - brushbreaker, high jump, sly
     - fox_top
     - Ring ding ding
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - wombat_hat
     - wombat
     - TRUE
     - hat
+    - Wombat Hat
     - wombat
-    - 
+    - splayed wombat
+    - brushbreaker, heavy, cube-shaped poops
     - wombat_hat
+    - I bet he eats, roots and leaves
     - 
     - 
     Database: {fileID: 11400000}
@@ -128,21 +158,27 @@ MonoBehaviour:
     - wombat
     - TRUE
     - top
+    - Wombat Shirt
     - wombat
-    - 
+    - cube poo shirt
+    - brushbreaker, heavy, cube-shaped poops
     - wombat_top
     - It's giving 'cubist'
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - crab_hat
     - crab
     - TRUE
     - hat
+    - Crab Hat
     - crab
-    - 
+    - crab on head
+    - waterproof, mean, sideye
     - crab_hat
-    - All become crab
+    - "Crabs\u2026there's a shampoo for that"
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -150,10 +186,13 @@ MonoBehaviour:
     - crab
     - TRUE
     - top
+    - Crab Shirt
     - crab
-    - 
+    - 'fishnet starfish '
+    - waterproof, mean, sideye
     - crab_top
-    - Zoidburg noise
+    - Free the nipple
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -161,10 +200,13 @@ MonoBehaviour:
     - lilguy
     - TRUE
     - hat
+    - Little Guy Hat
     - lilguy
     - Little hat
+    - steady, weirdo, just a little guy
     - lilguy_hat
-    - Such a fancy little guy
+    - You're *just* a little guy
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -172,10 +214,13 @@ MonoBehaviour:
     - lilguy
     - TRUE
     - top
+    - Little Guy Shirt
     - lilguy
     - Floral shirt
+    - steady, weirdo, just a little guy
     - lilguy_top
-    - Florals? Groundbreaking!
+    - "Little guys? Groundbreaking\u2026"
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -183,21 +228,27 @@ MonoBehaviour:
     - pidgeon
     - TRUE
     - hat
+    - Pigeon Hat
     - pidgeon
-    - 
+    - red beret pigeon
+    - glide, double jump, poopy
     - pidgeon_hat
     - Coo, coo cool
     - 
+    - 
     Database: {fileID: 11400000}
   - Values:
     - pidgeon_top
     - pidgeon
     - TRUE
     - top
+    - Pigeon Shirt
     - pidgeon
-    - 
+    - coloured plumage
+    - glide, double jump, poopy
     - pidgeon_top
     - That will ruffle some feathers
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -205,10 +256,13 @@ MonoBehaviour:
     - narwhal
     - TRUE
     - hat
+    - Narwhal Hat
     - narwhal
-    - 
+    - 'large tusk '
+    - waterproof, spiky, smooth
     - narwhal_hat
-    - Nice tusk!
+    - Oh look. A sea unicorn..
+    - 
     - 
     Database: {fileID: 11400000}
   - Values:
@@ -216,9 +270,12 @@ MonoBehaviour:
     - narwhal
     - TRUE
     - top
+    - Narwhal Shirt
     - narwhal
-    - 
+    - 'grey with tail '
+    - waterproof, spiky, smooth
     - narwhal_top
+    - A Niel the Seal cosplay!
     - 
     - 
     Database: {fileID: 11400000}

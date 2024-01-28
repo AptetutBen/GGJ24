@@ -43,7 +43,7 @@ public class NetworkPlayer : NetworkBehaviour
     private bool jumpPressed;
     private bool dashPressed;
     private bool isDashing;
-    private int jumpCount = 0;
+    public int jumpCount = 0;
     private bool facingLeft;
 
     private void Awake()
@@ -270,6 +270,11 @@ public class NetworkPlayer : NetworkBehaviour
             }
 
             bool isGrounded = IsGrounded();
+
+            if (isGrounded)
+            {
+                jumpCount = 1; // DOn't look at this
+            }
 
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetFloat("Speed", pInput.magnitude);
