@@ -12,7 +12,7 @@ public class GameController : NetworkBehaviour
 	public List<Color> playerColours = new List<Color>();
 	private NetworkController networkController;
 	public ClothingPickupNetworkObject clothingPickupPrefab;
-    public NetworkVariable<Vector3> currentObjective = new NetworkVariable<Vector3>(Vector3.zero,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> currentObjective = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
 	// Debug Options
 	[Space]
@@ -96,18 +96,18 @@ public class GameController : NetworkBehaviour
 		}
 	}
 
-	private void OnObjectiveChanged(Vector3 prev, Vector3 next)
+	private void OnObjectiveChanged(int prev, int next)
     {
         if (IsOwner)
         {
-			FindObjectOfType<Compass>().UpdateTarget(next);
+			FindObjectOfType<Compass>().UpdateTarget(ObjectiveManager.instance.UpdateObjective(next));
         }
     }
 
     public void SetNewObjective(){
 		// Servers only!
 		if(IsServer)
-        	currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
+        	currentObjective.Value = ObjectiveManager.instance.GetNewObjective();
     }
 
 
@@ -116,7 +116,9 @@ public class GameController : NetworkBehaviour
 		if (IsServer)
 		{
 			StartCoroutine(SpawnClothesPickupCoroutine());
-			currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
+			SetNewObjective();
+		}else{
+			FindObjectOfType<Compass>().UpdateTarget(ObjectiveManager.instance.UpdateObjective(currentObjective.Value));
 		}
 	}
 
