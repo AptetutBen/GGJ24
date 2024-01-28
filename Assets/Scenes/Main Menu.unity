@@ -11888,6 +11888,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1435427960}
   - component: {fileID: 1435427961}
+  - component: {fileID: 1435427962}
   m_Layer: 0
   m_Name: Main Menu Controller
   m_TagString: Untagged
@@ -11974,6 +11975,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 97df87ca1f9394ba4b2186779a0db9ea, type: 3}
   minAudioDelay: 4
   maxAudioDelay: 10
+--- !u!81 &1435427962
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435427959}
+  m_Enabled: 1
 --- !u!1 &1437731840
 GameObject:
   m_ObjectHideFlags: 0
@@ -14104,19 +14113,6 @@ MonoBehaviour:
         easeType: 27
         fromPosition: {x: 80, y: 0, z: 0}
         toPosition: {x: 0, y: 0, z: 0}
---- !u!1 &1642301019 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8128411407707134383, guid: 1ef7fe763c7dd4233891c0599e444853, type: 3}
-  m_PrefabInstance: {fileID: 6042539560745251354}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &1642301022
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642301019}
-  m_Enabled: 1
 --- !u!1001 &1655270751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19268,10 +19264,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8128411407707134383, guid: 1ef7fe763c7dd4233891c0599e444853, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1642301022}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ef7fe763c7dd4233891c0599e444853, type: 3}
 --- !u!1001 &8094881659692814429
 PrefabInstance:
