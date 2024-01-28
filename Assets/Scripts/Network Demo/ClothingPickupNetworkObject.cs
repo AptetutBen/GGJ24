@@ -21,11 +21,13 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 	public Rigidbody rb;
 	public Clothing clothing;
 	public SpriteRenderer spriteImage;
+	public static int clothingCount = 0;
 
 	private void Awake()
 	{
 		clothingId.OnValueChanged += OnIdChanged;
 		networkObject = GetComponent<NetworkObject>();
+		clothingCount++;
 	}
 
 	private void OnIdChanged(FixedString128Bytes oldClothingId, FixedString128Bytes newClothingId )
@@ -122,6 +124,7 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 	public void DestoryServerRPC()
 	{
 		networkObject.Despawn();
+		clothingCount--;
 	}
 
 	//[ClientRpc]
@@ -129,7 +132,7 @@ public class ClothingPickupNetworkObject : NetworkBehaviour
 	//{
 	//	clothing = ClothingManager.instance.GetItemByID(newClothingId);
 	//}
-
+	
 	struct ClothingNetworkData : INetworkSerializable
 	{
 		private float xPos, yPos, zPos;

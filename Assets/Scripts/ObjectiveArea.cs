@@ -46,8 +46,8 @@ public class ObjectiveArea : MonoBehaviour
         if (other.CompareTag("OwnerPlayer") || other.CompareTag("PlayerCharacter"))
         {
             WeekendLogger.Log("Doing the thing!");
-
             GameController.instince.SetNewObjective();
 		}
     }
+    
 }

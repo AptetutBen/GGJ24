@@ -20,6 +20,8 @@ public class GameController : NetworkBehaviour
 	public GameObject Debug_devPlayer;
 	public List<AudioClip> littleGuysAudioClips = new List<AudioClip>();
 	public float minAudioDelay = 4, maxAudioDelay = 10;
+	
+	private bool compassWasNull = false;
 
 	private void Awake()
 	{
@@ -98,16 +100,23 @@ public class GameController : NetworkBehaviour
 
 	private void OnObjectiveChanged(int prev, int next)
     {
-        if (IsOwner)
-        {
+		if(DedicatedServer.isDedicatedServer){
+			
+		} else {
 			FindObjectOfType<Compass>().UpdateTarget(ObjectiveManager.instance.UpdateObjective(next));
         }
     }
 
     public void SetNewObjective(){
 		// Servers only!
-		if(IsServer)
-        	currentObjective.Value = ObjectiveManager.instance.GetNewObjective();
+		NewObjectiveServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void NewObjectiveServerRpc()
+    {
+		currentObjective.Value = ObjectiveManager.instance.GetNewObjective();
+		Debug.Log($"newObjective: {currentObjective.Value}");
     }
 
 
@@ -118,7 +127,16 @@ public class GameController : NetworkBehaviour
 			StartCoroutine(SpawnClothesPickupCoroutine());
 			SetNewObjective();
 		}else{
-			FindObjectOfType<Compass>().UpdateTarget(ObjectiveManager.instance.UpdateObjective(currentObjective.Value));
+			Compass compass = FindObjectOfType<Compass>();
+			if(compass == null){
+				compassWasNull = true;
+			}else{
+				compass.UpdateTarget(
+					ObjectiveManager.instance.UpdateObjective(
+						currentObjective.Value
+					)
+				);
+			}
 		}
 	}
 
@@ -126,14 +144,17 @@ public class GameController : NetworkBehaviour
     {
         while (IsServer)
         {
-			ClothingPickupNetworkObject spawnObject = Instantiate(
-				clothingPickupPrefab,
-				SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing),
-				Quaternion.identity
-			);
+			if(ClothingPickupNetworkObject.clothingCount < 10){
+				ClothingPickupNetworkObject spawnObject = Instantiate(
+					clothingPickupPrefab,
+					SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Clothing),
+					Quaternion.identity
+				);
 
-			spawnObject.GetComponent<NetworkObject>().Spawn();
-			spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
+				spawnObject.GetComponent<NetworkObject>().Spawn();
+				spawnObject.clothingId.Value = ClothingManager.instance.GetRandomItem().id;
+
+			}
 
 			yield return new WaitForSeconds(5);
 		}
@@ -154,6 +175,20 @@ public class GameController : NetworkBehaviour
 
 			}
         }
+
+		if(compassWasNull){
+			Compass compass = FindObjectOfType<Compass>();
+			if(compass == null){
+				// Still null :/
+			}else{
+				compassWasNull = false;
+				compass.UpdateTarget(
+					ObjectiveManager.instance.UpdateObjective(
+						currentObjective.Value
+					)
+				);
+			}
+		}
     }
 
     public void PauseGame()

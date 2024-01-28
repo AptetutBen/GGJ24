@@ -29,6 +29,12 @@ public class ObjectiveManager : MonoBehaviour
 
 	private void Awake()
 	{
+        if(_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
 		_instance = this;
     }
 
@@ -39,7 +45,7 @@ public class ObjectiveManager : MonoBehaviour
     public void UnRegisterObjectiveArea(ObjectiveArea objective){
         objectiveAreas.Remove(objective);
     }
-    
+
     public int GetNewObjective(){
         if(objectiveAreas.Count > 1){
             int newObjective = Random.Range(0, objectiveAreas.Count);

@@ -84,7 +84,7 @@ public class DedicatedServer : MonoBehaviour
 
         if(lastServerInfoLog + 5 < Time.time){
             lastServerInfoLog = Time.time;
-            WeekendLogger.Log($"[{Mathf.Round(Time.time)}] Players: {serverInfo.numberOfPlayers}");
+            WeekendLogger.Log($"[{Mathf.Round(Time.time)}] Players: {serverInfo.numberOfPlayers} Clothes: {ClothingPickupNetworkObject.clothingCount}");
         }
 
         if(newGameMode != null){
