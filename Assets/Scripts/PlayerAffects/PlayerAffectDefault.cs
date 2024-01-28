@@ -8,9 +8,9 @@ public class PlayerAffectDefault : PlayerAffect
         moveSpeed       = 9.5f;
         jumpForce       = 14;
         gravity         = 0.4f;
-        dashTime        = 1f;
-        dashSpeed       = 24f;
-        dashCooldown    = 3f;
+        dashTime        = 0.2f;
+        dashSpeed       = 32f;
+        dashCooldown    = 0.5f;
         airMoveSpeed    = 9.5f;
         jumpCount       = 1;
         jumpPadForce    = 30;

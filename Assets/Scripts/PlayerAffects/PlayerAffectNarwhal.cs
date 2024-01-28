@@ -16,7 +16,7 @@ public class PlayerAffectNarwhal : PlayerAffect
     }
 
     public PlayerAffectNarwhal(List<PlayerAffectSystem.AffectName> affects): base(affects){
-        // dash speed up a lot
-        // dash duration down
+        dashSpeed = 18f;
+        dashTime = -0.05f;
     }
 }

@@ -17,7 +17,6 @@ public class PlayerAffectDuck : PlayerAffect
     public PlayerAffectDuck(List<PlayerAffectSystem.AffectName> affects): base(affects){
         airMoveSpeed = 2f;
         gravityMultiplier = -0.2f;
-        // dash duration down
     }
 
 }
