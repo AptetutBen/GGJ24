@@ -184,8 +184,15 @@ public class NetworkPlayer : NetworkBehaviour
 
             playerNameText.color = playerColour.Value;
 
-            ChangeShirt(shirtID.Value.ToString());
-            ChangeHat(hatID.Value.ToString());
+            if(!string.IsNullOrEmpty(shirtID.ToString()))
+            {
+                ChangeShirt(shirtID.Value.ToString());
+            }
+
+            if(!string.IsNullOrEmpty(hatID.ToString()))
+            {
+                ChangeHat(hatID.Value.ToString());
+            }
 
             Destroy(rb);
             Destroy(ownerOnlyObject);
