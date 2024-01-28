@@ -16,7 +16,7 @@ public class PlayerAffectWombat : PlayerAffect
     }
 
     public PlayerAffectWombat(List<PlayerAffectSystem.AffectName> affects): base(affects){
-        jumpPadForce = -3f;
+        jumpPadForce = -25f;
         jumpForce = -2;
     }
 }
