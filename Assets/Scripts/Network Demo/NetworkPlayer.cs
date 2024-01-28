@@ -17,7 +17,6 @@ public class NetworkPlayer : NetworkBehaviour
     public Transform player;
     public Rigidbody rb;
     public SpriteRenderer[] playerSkinSprites;
-    public Gradient skinColours;
     public TextMeshPro playerNameText;
     public GameObject ownerOnlyObject;
     public PlayerAffectSystem playerAffects = new PlayerAffectSystem();
@@ -166,7 +165,7 @@ public class NetworkPlayer : NetworkBehaviour
 			index = (int)OwnerClientId;
             CommitNetworkPlayerColourServerRPC(GameFlowController.playerColor);
             CommitNetworkPlayerNameServerRPC(GameFlowController.playerName);
-            CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
+            CommitNetworkSkinColourServerRPC(GameFlowController.playerColor);
             player.tag = "OwnerPlayer";
             player.transform.position = SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Player);
             player.gameObject.AddComponent<AudioListener>();
