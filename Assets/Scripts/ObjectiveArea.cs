@@ -4,6 +4,14 @@ public class ObjectiveArea : MonoBehaviour
 {
     Collider collider;
     public bool activeObjective = false;
+    public GameObject whenActive;
+
+    public void setObjective(bool active){
+        if(whenActive != null)
+            whenActive.SetActive(active);
+
+        activeObjective = active;
+    }
 
     private void Awake(){
         ObjectiveManager.instance.RegisterObjectiveArea(this);
@@ -31,18 +39,14 @@ public class ObjectiveArea : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        WeekendLogger.Log(other.name);
         if(activeObjective == false)
             return;
 
-        if (other.CompareTag("OwnerPlayer") || other.CompareTag("Player"))
+        if (other.CompareTag("OwnerPlayer") || other.CompareTag("PlayerCharacter"))
         {
-            // Thing!
-            NetworkPlayer player = other.GetComponent<NetworkPlayer>();
-            if(player == null || player.IsServer == false){
-                return;
-            }
+            WeekendLogger.Log("Doing the thing!");
 
-            //Servers only!
             GameController.instince.SetNewObjective();
 		}
     }

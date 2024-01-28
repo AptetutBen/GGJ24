@@ -39,16 +39,30 @@ public class ObjectiveManager : MonoBehaviour
     public void UnRegisterObjectiveArea(ObjectiveArea objective){
         objectiveAreas.Remove(objective);
     }
+    private void GetNewObjective(){
+        if(objectiveAreas.Count > 1){
+            int newObjective = Random.Range(0, objectiveAreas.Count);
+
+            while (currentObjectiveID == newObjective)
+            {
+                newObjective = Random.Range(0, objectiveAreas.Count);
+            }
+
+            currentObjectiveID = newObjective;
+        }
+    }
 
     public Vector3 GetRandomObjective(){
+        WeekendLogger.Log("GetRandomObjective");
+
         if(objectiveAreas.Count == 0){
             WeekendLogger.LogError("Scene requires an OBJECTIVE area please");
             return new Vector3(0,0,0);
         }
-        
-        objectiveAreas[currentObjectiveID].activeObjective = false;
-        currentObjectiveID = Random.Range(0, objectiveAreas.Count);
-        objectiveAreas[currentObjectiveID].activeObjective = true;
+
+        objectiveAreas[currentObjectiveID].setObjective(false);
+        GetNewObjective();
+        objectiveAreas[currentObjectiveID].setObjective(true);
 
         return objectiveAreas[currentObjectiveID].GetSpawnPoint();
     }
