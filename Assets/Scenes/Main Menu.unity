@@ -16041,7 +16041,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Art
+  m_text: 'UI Art
 
     Dark Parakeet'
   m_isRightToLeft: 0
