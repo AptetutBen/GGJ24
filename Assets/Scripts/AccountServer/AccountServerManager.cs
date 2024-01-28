@@ -33,8 +33,6 @@ public enum AccountServerState{
     WaitingToReconnect
 }
 
-public delegate void stateChangeCallback(AccountServerState newState);
-
 public class AccountServerManager : MonoBehaviour
 {
     public const string clientVersion = "latest";
@@ -62,8 +60,15 @@ public class AccountServerManager : MonoBehaviour
 
 	private void Awake()
 	{
+        if(_instance != null){
+            WeekendLogger.Log("DOUBLE ACCOUNT SERVER MANAGER");
+            Destroy(this.gameObject);
+            return;
+        }
+
 		_instance = this;
         currentState = AccountServerState.NotConnected;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void OnDestroy()
@@ -74,22 +79,22 @@ public class AccountServerManager : MonoBehaviour
         }
     }
 
-    private stateChangeCallback onStateChange = (AccountServerState newState)=>{};
+    private Action<AccountServerState> onStateChange;
     private void ChangeStateBackgroundThread(AccountServerState newState){
         currentStateFromBackgroundThread = newState;
     }
 
     private void ChangeState(AccountServerState newState){
         currentState = newState;
-        onStateChange(newState);
+        if(onStateChange == null){
+            Debug.Log($"onStateChange was null.");
+        }else{
+            onStateChange(newState);
+        }
     }
 
-    public void RegisterStateChangeCallback(stateChangeCallback newOnChange){
-        onStateChange += newOnChange;
-    }
-
-    public void UnregisterStateChangeCallback(stateChangeCallback newOnChange){
-        onStateChange -= newOnChange;
+    public void RegisterStateChangeCallback(Action<AccountServerState> newOnChange){
+        onStateChange = newOnChange;
     }
 
     // Register for callbacks when a message of a certian type gets recieved

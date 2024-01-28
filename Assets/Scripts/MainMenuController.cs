@@ -18,7 +18,8 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private LobbyPanel lobbyPanel;
 	[SerializeField] private JoinLobbyPanel joinLobbyPanel;
 	[SerializeField] private GameObject creditsPanel;
-
+	private bool enterCode;
+	
 	public List<AudioClip> littleGuysAudioClips = new List<AudioClip>();
 	public float minAudioDelay = 4, maxAudioDelay = 10;
 	public UserData UserData
@@ -81,6 +82,14 @@ public class MainMenuController : MonoBehaviour
 
 		if (newState == AccountServerState.Connected)
 		{
+			if (enterCode)
+			{
+				joinLobbyPanel.Show();
+			}
+			else
+			{
+				lobbyPanel.Show();
+			}
 			AccountServerManager.instance.StartSession(UserData);
 		}
 	}
@@ -96,7 +105,7 @@ public class MainMenuController : MonoBehaviour
     // Player Starts a game
     public void OnStartGameButtonPress(bool enterCode)
     {
-
+		this.enterCode = enterCode;
 		buttonsPanel.Hide();
 		playerPanel.Hide();
 
@@ -107,7 +116,6 @@ public class MainMenuController : MonoBehaviour
 		{
 			if (wasSucessful)
 			{
-				StartCoroutine(WaitForReady(enterCode));
 			}
 			else
 			{
@@ -117,25 +125,6 @@ public class MainMenuController : MonoBehaviour
 		});
 	}
 
-	IEnumerator WaitForReady(bool enterCode)
-    {
-        while (AccountServerManager.instance.currentState != AccountServerState.Connected)
-        {
-			yield return null;
-        }
-
-
-		yield return new WaitForSeconds(1);
-		WeekendLogger.LogNetworkServer("Connected to account server");
-		if (enterCode)
-		{
-			joinLobbyPanel.Show();
-		}
-		else
-		{
-			lobbyPanel.Show();
-		}
-	}
 
 	public void ReturnToStart()
 	{
