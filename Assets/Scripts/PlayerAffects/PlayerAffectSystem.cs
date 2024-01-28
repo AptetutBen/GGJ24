@@ -167,6 +167,63 @@ public class PlayerAffectSystem
 
         return (float) jumpPadForceCache;
     }
+    
+    // DashDuration
+    float? dashDurationCache = null;
+    public float GetDashDuration(){
+        if(dashDurationCache == null){
+            dashDurationCache = 0;
+            float dashDurationCacheMultiplier = 0;
+
+            for (int i = 0; i < affects.Count; i++)
+            {
+                dashDurationCache += affects[i]._dashTime;
+                dashDurationCacheMultiplier += affects[i]._dashTimeMultiplier;
+            }
+
+            dashDurationCache = dashDurationCache * dashDurationCacheMultiplier;
+        }
+
+        return (float) dashDurationCache;
+    }
+    
+    // DashSpped
+    float? dashSpeedCache = null;
+    public float GetDashSpeed(){
+        if(dashSpeedCache == null){
+            dashSpeedCache = 0;
+            float dashSpeedCacheMultiplier = 0;
+
+            for (int i = 0; i < affects.Count; i++)
+            {
+                dashSpeedCache += affects[i]._dashSpeed;
+                dashSpeedCacheMultiplier += affects[i]._dashSpeedMultiplier;
+            }
+
+            dashSpeedCache = dashSpeedCache * dashSpeedCacheMultiplier;
+        }
+
+        return (float) dashSpeedCache;
+    }
+
+    // DashCooldown
+    float? dashCooldownCache = null;
+    public float GetDashCooldown(){
+        if(dashCooldownCache == null){
+            dashCooldownCache = 0;
+            float dashCooldownCacheMultiplier = 0;
+
+            for (int i = 0; i < affects.Count; i++)
+            {
+                dashCooldownCache += affects[i]._dashCooldown;
+                dashCooldownCacheMultiplier += affects[i]._dashCooldownMultiplier;
+            }
+
+            dashCooldownCache = dashCooldownCache * dashCooldownCacheMultiplier;
+        }
+
+        return (float) dashCooldownCache;
+    }
 
     // AirControl
     float? airMoveSpeedCache = null;

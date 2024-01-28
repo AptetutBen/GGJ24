@@ -44,6 +44,9 @@ public class NetworkPlayer : NetworkBehaviour
     private bool isDashing;
     public int jumpCount = 0;
     private bool facingLeft;
+    private float nextDash = 0;
+    private float? dashUntil = 0;
+    private Vector3 dashDireection;
 
     private void Awake()
     {
@@ -257,6 +260,21 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (IsOwner)
         {
+            if(dashPressed){
+                dashPressed = false;
+                PlayerDashed();
+            }
+
+
+            if(dashUntil != null){
+                if(Time.time < dashUntil){
+                    rb.velocity = dashDireection * playerAffects.GetDashSpeed();
+                    return;
+                }else{
+                    dashUntil = null;
+                }
+            }
+            
             float speed = playerAffects.GetMoveSpeed();
             float jumpForce = playerAffects.GetJumpForce();
             float maxJumpCount = playerAffects.GetJumpCount();
@@ -314,6 +332,17 @@ public class NetworkPlayer : NetworkBehaviour
             littleGuy.transform.localScale = netState.Value.FacingLeft ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
         }
 	}
+
+    public void PlayerDashed(){
+        if(rb.velocity.x == 0 && rb.velocity.z == 0)
+            return; // Player is not moving
+        if(nextDash > Time.time)
+            return; // On cooldown
+
+        nextDash = Time.time + playerAffects.GetDashCooldown();
+        dashUntil = Time.time + playerAffects.GetDashDuration();
+        dashDireection = rb.velocity.normalized;
+    }
 
     public void SteppedOnJumpPad(){
         Vector3 temp = rb.velocity;
