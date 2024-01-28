@@ -85,6 +85,10 @@ public class MainMenuController : MonoBehaviour
 
 		buttonsPanel.Hide();
 		playerPanel.Hide();
+
+		GameFlowController.playerName = playerPanel.playerNameInputField.text;
+        GameFlowController.playerColor = playerPanel.colourPicker.color;
+
 		AttemptToConnectToAccountServer((bool wasSucessful, string message) =>
 		{
 			if (wasSucessful)
