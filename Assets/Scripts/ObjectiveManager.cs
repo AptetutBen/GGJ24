@@ -39,7 +39,8 @@ public class ObjectiveManager : MonoBehaviour
     public void UnRegisterObjectiveArea(ObjectiveArea objective){
         objectiveAreas.Remove(objective);
     }
-    private void GetNewObjective(){
+    
+    public int GetNewObjective(){
         if(objectiveAreas.Count > 1){
             int newObjective = Random.Range(0, objectiveAreas.Count);
 
@@ -48,11 +49,13 @@ public class ObjectiveManager : MonoBehaviour
                 newObjective = Random.Range(0, objectiveAreas.Count);
             }
 
-            currentObjectiveID = newObjective;
+            return newObjective;
         }
+
+        return 0;
     }
 
-    public Vector3 GetRandomObjective(){
+    public Vector3 UpdateObjective(int newObjectiveID){
         WeekendLogger.Log("GetRandomObjective");
 
         if(objectiveAreas.Count == 0){
@@ -61,7 +64,9 @@ public class ObjectiveManager : MonoBehaviour
         }
 
         objectiveAreas[currentObjectiveID].setObjective(false);
-        GetNewObjective();
+
+        currentObjectiveID = newObjectiveID;
+
         objectiveAreas[currentObjectiveID].setObjective(true);
 
         return objectiveAreas[currentObjectiveID].GetSpawnPoint();
