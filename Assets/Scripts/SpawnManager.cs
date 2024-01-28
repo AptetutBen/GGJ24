@@ -68,12 +68,12 @@ public class SpawnManager : MonoBehaviour
 
             return playerSpawnAreas[Random.Range(0, playerSpawnAreas.Count)].GetSpawnPoint();
         }else if(type == SpawnType.Clothing){
-            if(playerSpawnAreas.Count == 0){
+            if(clothingSpawnAreas.Count == 0){
                 WeekendLogger.LogError("Scene requires a CLOTHING spawn area please");
                 return new Vector3(0,0,0);
             }
 
-            return playerSpawnAreas[Random.Range(0, playerSpawnAreas.Count)].GetSpawnPoint();
+            return clothingSpawnAreas[Random.Range(0, clothingSpawnAreas.Count)].GetSpawnPoint();
         }else{
             WeekendLogger.Log("Unknown spawn type please extend me.");
             return new Vector3(0,0,0);
