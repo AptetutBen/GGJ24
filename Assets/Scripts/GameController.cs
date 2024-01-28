@@ -12,7 +12,7 @@ public class GameController : NetworkBehaviour
 	public List<Color> playerColours = new List<Color>();
 	private NetworkController networkController;
 	public ClothingPickupNetworkObject clothingPickupPrefab;
-
+    public NetworkVariable<Vector3> currentObjective = new NetworkVariable<Vector3>(Vector3.zero,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
 	// Debug Options
 	[Space]
@@ -21,6 +21,7 @@ public class GameController : NetworkBehaviour
 
 	private void Awake()
 	{
+		currentObjective.OnValueChanged += OnObjectiveChanged;
 		instince = this;
 
 #if !UNITY_EDITOR
@@ -78,7 +79,22 @@ public class GameController : NetworkBehaviour
 			WeekendLogger.Log("StartClient");
 			networkController.StartClient();
 		}
+
+		if(IsServer){
+			currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
+		}
 	}
+
+	private void OnObjectiveChanged(Vector3 prev, Vector3 next)
+    {
+        
+    }
+
+    public void SetNewObjective(){
+		if(IsServer)
+        	currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
+    }
+
 
     public override void OnNetworkSpawn()
     {
