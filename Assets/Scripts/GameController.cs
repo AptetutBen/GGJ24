@@ -7,8 +7,8 @@ public class GameController : NetworkBehaviour
 {
 	public static GameController instince; 
 	public AudioClip musicClip;
-	//public GameObject pausePanel;
-	//public OptionsPanel optionsPanel;
+	public GameObject pausePanel;
+	public OptionsPanel optionsPanel;
 	public List<Color> playerColours = new List<Color>();
 	private NetworkController networkController;
 	public ClothingPickupNetworkObject clothingPickupPrefab;
@@ -122,20 +122,37 @@ public class GameController : NetworkBehaviour
 		}
     }
 
-	//public void PauseGame()
-	//{
-	//	Time.timeScale = 0;
-	//	pausePanel.SetActive(true);
-	//}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (pausePanel.activeSelf)
+            {
+				UnPauseGame();
 
-	//public void UnPauseGame()
-	//{
-	//	Time.timeScale = 1;
-	//	pausePanel.SetActive(false);
-	//	optionsPanel.Hide(true);
-	//}
+			}
+            else
+            {
+				PauseGame();
 
-	public void OnResumeButtonPress()
+			}
+        }
+    }
+
+    public void PauseGame()
+    {
+        //Time.timeScale = 0;
+        pausePanel.SetActive(true);
+    }
+
+    public void UnPauseGame()
+    {
+        //Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        optionsPanel.Hide(true);
+    }
+
+    public void OnResumeButtonPress()
 	{
 		//UnPauseGame();
 	}

@@ -722,6 +722,7 @@ MonoBehaviour:
         byte0125: 0
   littleGuy: {fileID: 1065511447418063869}
   animator: {fileID: 4752490365077251033}
+  jumpCount: 0
 --- !u!95 &3465948040626448929
 Animator:
   serializedVersion: 5

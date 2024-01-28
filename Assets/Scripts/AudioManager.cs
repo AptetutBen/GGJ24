@@ -37,6 +37,9 @@ public class AudioManager : MonoBehaviour
 	//Master audio mixer
 	public AudioMixer masterMixer;
 
+	public List<AudioClip> sfxClips = new();
+	public Dictionary<string, AudioClip> clipLookup = new();
+
 
 	// Called when the object first gets initialise
 	void Awake()
@@ -47,6 +50,8 @@ public class AudioManager : MonoBehaviour
 			Destroy(gameObject);
 			return;
 		}
+
+		LoadAudio();
 
 		//Load this version of the Audio Manager into the static reference
 		instance = this;
@@ -83,6 +88,31 @@ public class AudioManager : MonoBehaviour
 			newAudioSource.outputAudioMixerGroup = masterMixer.FindMatchingGroups(mixerGroupName)[0];
 
 			return newAudioSource;
+		}
+
+	}
+
+	private void LoadAudio()
+    {
+		// Specify the folder path relative to the Resources folder
+		string folderPath = "SFX";
+
+		// Load all assets in the specified folder with the ".mp3" extension
+		Object[] mp3Files = Resources.LoadAll(folderPath, typeof(AudioClip));
+
+		// Filter only the AudioClips from the loaded assets
+		foreach (Object obj in mp3Files)
+		{
+			if (obj is AudioClip)
+			{
+				sfxClips.Add((AudioClip)obj);
+			}
+		}
+
+
+		foreach (AudioClip clip in sfxClips)
+		{
+			clipLookup[clip.name] = clip;
 		}
 
 	}
@@ -194,6 +224,16 @@ public class AudioManager : MonoBehaviour
 		selectedAudioSource.transform.position = position;
 
 		PlaySFX(clip, spatial);
+	}
+
+	public void PlaySFX(string clipID)
+    {
+		PlaySFX(clipLookup[clipID]);
+	}
+
+	public void PlaySFX(string clipID, Vector3 position)
+	{
+		PlaySFX(clipLookup[clipID], position);
 	}
 
 

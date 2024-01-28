@@ -200,10 +200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c844a7dac0406794dd17917024281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 8300000, guid: e2ff819f3890b463284d9e6baabb4dd7, type: 3}
+  musicClip: {fileID: 8300000, guid: 96543bc24c63b41bfa557224d91066c2, type: 3}
+  pausePanel: {fileID: 1976778111471119169}
+  optionsPanel: {fileID: 8205332910702297667}
   playerColours: []
-  clothingPickupPrefab: {fileID: 0}
+  clothingPickupPrefab: {fileID: -2798047425346571973, guid: ab9b8e1320fb841979113717dbdca8aa, type: 3}
+  currentObjective:
+    m_InternalValue: {x: 0, y: 0, z: 0}
   Debug_Use_Debug: 1
+  Debug_devPlayer: {fileID: 0}
 --- !u!1 &1976778111471119169
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2881239393497304023
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1082,6 +1087,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2634335896250824764, guid: 3395f188cfad846f0b9be0a87a552b07, type: 3}
   m_PrefabInstance: {fileID: 7477993229864516675}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8205332910702297667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1592051012844273152, guid: 3395f188cfad846f0b9be0a87a552b07, type: 3}
+  m_PrefabInstance: {fileID: 7477993229864516675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84722c05c27cc474ca1cc0a059e3b71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7695369546116840748
 PrefabInstance:
   m_ObjectHideFlags: 0

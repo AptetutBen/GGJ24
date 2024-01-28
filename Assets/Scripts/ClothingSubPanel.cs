@@ -22,11 +22,11 @@ public class ClothingSubPanel : MonoBehaviour
             canvasGroup.alpha = 0;
             return;
         }
+
         canvasGroup.alpha = 1;
         titleText.text = clothing.clothingName;
         abilitiesText.text = string.Join(",", clothing.abilities).Replace(",", System.Environment.NewLine);
         clothingImage.sprite = ClothingManager.instance.GetPickupSpriteFromId(clothing.spriteName, clothing.type);
-
     }
 }
 

@@ -947,22 +947,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 269724859764584764, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 81.2501
-      objectReference: {fileID: 0}
-    - target: {fileID: 269724859764584764, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 78.4487
-      objectReference: {fileID: 0}
-    - target: {fileID: 269724859764584764, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -645.28174
-      objectReference: {fileID: 0}
-    - target: {fileID: 269724859764584764, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -64.58998
-      objectReference: {fileID: 0}
     - target: {fileID: 855612201954716460, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.2412748
@@ -994,42 +978,6 @@ PrefabInstance:
     - target: {fileID: 5988944073662621236, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1735129525
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -31.219498
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -30.3666
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.92489624
-      objectReference: {fileID: 0}
-    - target: {fileID: 6453687440420940295, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -1.8498039
       objectReference: {fileID: 0}
     - target: {fileID: 7875398089463971879, guid: 5d683c1d83f98410fb06ed15e1fbac91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1261,17 +1209,9 @@ PrefabInstance:
       value: Game Controller
       objectReference: {fileID: 0}
     - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
-      propertyPath: musicClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 96543bc24c63b41bfa557224d91066c2, type: 3}
-    - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
       propertyPath: Debug_devPlayer
       value: 
       objectReference: {fileID: 79346037}
-    - target: {fileID: 2804662684307701051, guid: 6c7ff4050ee3b4b3a83bc623379afc4e, type: 3}
-      propertyPath: clothingPickupPrefab
-      value: 
-      objectReference: {fileID: -2798047425346571973, guid: ab9b8e1320fb841979113717dbdca8aa, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

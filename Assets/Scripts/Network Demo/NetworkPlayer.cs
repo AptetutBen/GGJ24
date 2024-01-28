@@ -99,6 +99,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         SpawnPickUpParticles(2);
 
+        AudioManager.instance.PlaySFX(id + "_hat", player.position);
 
         foreach (var key in hatLookup.Keys)
         {
@@ -113,6 +114,9 @@ public class NetworkPlayer : NetworkBehaviour
     private void ChangeShirt(string id)
     {
         SpawnPickUpParticles(1);
+
+        // AudioManager.instance.PlaySFX(id + "_top",player.position);
+        AudioManager.instance.PlaySFX(id + "_top");
 
         foreach (var key in shirtLookup.Keys)
         {
@@ -165,6 +169,7 @@ public class NetworkPlayer : NetworkBehaviour
             CommitNetworkSkinColourServerRPC(skinColours.Evaluate(Random.Range(0, 1f)));
             player.tag = "OwnerPlayer";
             player.transform.position = SpawnManager.instance.GetRandomSpawn(SpawnManager.SpawnType.Player);
+            player.gameObject.AddComponent<AudioListener>();
         }
         else
         {
