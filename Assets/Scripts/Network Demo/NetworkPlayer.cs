@@ -336,7 +336,10 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if(pickedUpItem.clothing == null)
             return;
-            
+
+        // This is bad
+        FindObjectOfType<ClothesPanel>().UpdateClothes(pickedUpItem.clothing);
+
         switch (pickedUpItem.clothing.type)
         {
             case Clothing.ClothingType.Hat:

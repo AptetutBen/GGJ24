@@ -87,7 +87,10 @@ public class GameController : NetworkBehaviour
 
 	private void OnObjectiveChanged(Vector3 prev, Vector3 next)
     {
-        
+        if (IsOwner)
+        {
+			FindObjectOfType<Compass>().UpdateTarget(next);
+        }
     }
 
     public void SetNewObjective(){

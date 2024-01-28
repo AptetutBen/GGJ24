@@ -92,6 +92,7 @@ public class Clothing
     public ClothingType type;
     public string clothingName;
     public string description;
+    public string[] abilities;
     public string spriteName;
 
     public Clothing(SpreadsheetDataSet data)
@@ -110,8 +111,9 @@ public class Clothing
                 break;
         }
 
-        clothingName = data.GetValueAsString("Name");
+        clothingName = data.GetValueAsString("Item Name");
         description = data.GetValueAsString("Description");
         spriteName = data.GetValueAsString("Sprite Name");
+        abilities = data.GetValueAsStringArray("Abilities");
     }
 }
