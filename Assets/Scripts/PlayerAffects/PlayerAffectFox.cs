@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class PlayerAffectFox : PlayerAffect
 {
-    public PlayerAffectFox(List<PlayerAffectSystem.AffectName> affects): base(affects){
-        jumpForce = 5;
+    override public float _moveSpeed
+    {
+        get
+        {
+            if (activeAffects.Contains(PlayerAffectSystem.AffectName.Bushes))
+                return 6f;
+            else
+                return 4f;
+        }
     }
+
+    public PlayerAffectFox(List<PlayerAffectSystem.AffectName> affects): base(affects){
+        jumpForce = 5f;
+        gravityMultiplier = 0.4f;
+    }
+
+
 
 }
