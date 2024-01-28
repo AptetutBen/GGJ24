@@ -79,10 +79,6 @@ public class GameController : NetworkBehaviour
 			WeekendLogger.Log("StartClient");
 			networkController.StartClient();
 		}
-
-		if(IsServer){
-			currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
-		}
 	}
 
 	private void OnObjectiveChanged(Vector3 prev, Vector3 next)
@@ -94,6 +90,7 @@ public class GameController : NetworkBehaviour
     }
 
     public void SetNewObjective(){
+		// Servers only!
 		if(IsServer)
         	currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
     }
@@ -104,6 +101,7 @@ public class GameController : NetworkBehaviour
 		if (IsServer)
 		{
 			StartCoroutine(SpawnClothesPickupCoroutine());
+			currentObjective.Value = ObjectiveManager.instance.GetRandomObjective();
 		}
 	}
 
