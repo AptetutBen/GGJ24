@@ -2,10 +2,12 @@ import config from "./config.json";
 import net from "node:net";
 import { ExpressManager } from "./express";
 import { TokenManager } from './token';
+import { Discord } from './discord';
 import { KubeTime, GameServerPodInfo } from './kubetime';
 
 let tokenManager = new TokenManager();
 let kubeTime = new KubeTime();
+let discord = new Discord();
 
 
 interface Lobby{
@@ -178,11 +180,16 @@ function SendServerStatus(user: LobbyUser, failed: boolean, message:string){
 }
 
 function SendStartGame(user: LobbyUser, port: Number){
+	let message:string = "";
+
 	for (let i = 0; i < user.lobby.users.length; i++) {
+		message += "["+user.lobby.users[i].userID+"] joining game server: " + port + "\n";
 		SendMessage(user.lobby.users[i], MessageType.StartGame, {
 			port: port
 		});
 	}
+
+	discord.Post(message);
 }
 
 // Make the kicked player join an empty lobby
@@ -258,6 +265,8 @@ function CleanupUser(user:LobbyUser | null){
 	} else {
 		console.log("Cleaning up user.");
 
+		discord.Post("["+user.userID+"] Player offline");
+
 		LeaveLobby(user);
 		user = null
 		console.log("LobbyList length: " + Object.keys(LobbyList).length);
@@ -325,6 +334,7 @@ async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:L
 		case MessageType.JoinLobby:
 			if(messageData.lobbyID){
 				JoinLobby(messageData.lobbyID.toString(), user);
+				discord.Post("["+user.userID+"] Player joined lobby: " + messageData.lobbyID);
 			}
 			break;
 		case MessageType.LeaveLobby:
@@ -446,6 +456,7 @@ async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:L
 
 			user.clientVersion = messageData.clientVersion;
 
+
 			if(messageData.userData){
 				user.userData = messageData.userData;
 			}else{
@@ -454,6 +465,8 @@ async function HandleAuthenticatedMessage(socket:net.Socket, data:string, user:L
 
 			SendUserInfo(user);
 			JoinEmptyLobby(user);
+
+			discord.Post("["+user.userID+"] Player connected to account server\nClient version #" + user.clientVersion+"\nLobby: "+user.lobby.id);
 			break;
 			
 		default:
@@ -532,3 +545,5 @@ kubeTime.ReadPods();
 setInterval(
 	function(){kubeTime.LookForServersToTerminate()}, 20 * 1000
 ); 
+
+discord.Post("NodeJS server started");

@@ -1,7 +1,9 @@
 import * as k8s from '@kubernetes/client-node';
-import { time } from 'console';
 import { randomUUID } from 'crypto';
 import needle from 'needle';
+import { Discord } from './discord';
+
+let discord = new Discord();
 
 enum MessageType{
     None = -1,
@@ -17,6 +19,7 @@ export interface GameServerPodInfo{
 export class KubeTime {
     public k8sApi: k8s.CoreV1Api;
     private maxServers = 10;
+    private podsBeingTerminated:{[id: string]:boolean} = {}
 
     constructor() {
         let kc = new k8s.KubeConfig();
@@ -85,7 +88,7 @@ export class KubeTime {
             };
             
             const gameServerRequest = await this.k8sApi.createNamespacedPod('ggj24', gameServerPod);
-
+            discord.Post("Creating pod: "+ container.name);
             console.log("Created pod: " + container.name);
             return {
                 name:container.name,
@@ -147,7 +150,7 @@ export class KubeTime {
         }
     }
 
-    public async WaitForPodToBeReady(podName:string, gameMode:number):Promise<boolean>{
+    public async WaitForPodToBeReady(podName:string, gameMode:number | null = null):Promise<boolean>{
         const timeoutDurationInSeconds = 20;
 
         let timeout = Date.now() + (timeoutDurationInSeconds * 1000);
@@ -223,6 +226,14 @@ export class KubeTime {
                 if(item.metadata.name == null){
                     break;
                 }
+                if(item.status == null || item.status.conditions == null){
+                    break;
+                }
+                if(this.podsBeingTerminated[item.metadata.name]){
+                    break;
+                }
+
+                let success = await this.WaitForPodToBeReady(item.metadata.name);
                 
                 if(gameModeToFind.toString() == gameMode){
                     return {
@@ -245,9 +256,11 @@ export class KubeTime {
                 return
             }
 
+            let podsAlive:string[] = [];
+
             for (let i = 0; i < items.length; i++) {
                 let item = items[i];
-
+                
                 if(item.metadata == undefined || item.metadata.labels == undefined){
                     break;   
                 }
@@ -256,20 +269,31 @@ export class KubeTime {
                 if(serviceNumber == null){
                     break;
                 }
+                if(item.metadata.name == undefined){
+                    break;
+                }
+                if(this.podsBeingTerminated[item.metadata.name] == true){
+                    break;
+                }
+
+                podsAlive.push(item.metadata.name);
 
                 const resp = await needle('get', "http://10.147.20.23:302" + ("00" + serviceNumber.toString()).slice(-2) + "/info");
                 
-                console.log("resp.body.shouldTerminate: " + resp.body.shouldTerminate);
-
                 if(resp.body.shouldTerminate === true){
-                    if(item.metadata.name == undefined){
-                        console.error("Can't find name to terminate pod!");
-                    }else{
-                        console.log("Terminating " + item.metadata.name);
-                        await this.k8sApi.deleteNamespacedPod(item.metadata.name, "ggj24");
-                    }
+                    discord.Post("Terminating pod: " + item.metadata.name);
+                    console.log("Terminating " + item.metadata.name);
+                    this.podsBeingTerminated[item.metadata.name] = true;
+                    await this.k8sApi.deleteNamespacedPod(item.metadata.name, "ggj24");
                 }
             }
+
+            for (const [key, value] of Object.entries(this.podsBeingTerminated)) {
+                if(podsAlive.includes(key) == false){
+                    delete this.podsBeingTerminated[key];
+                }
+            }
+
         } catch (err) {
             console.error("Error in LookForServersToTerminate", err);
         }
